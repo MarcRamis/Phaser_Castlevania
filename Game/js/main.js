@@ -1,11 +1,11 @@
 var gamePrefs=
 {
-    speedNave:2,
-    speedBullet:-100,
-    speedEnemy:20,
-    BULLET_ENEMY_SPEED:100,
-    POWER_UP_SPEED:20,
-    puntos:0
+}
+
+var mainCharacterPrefs=
+{
+    frameRate:5,
+    speed:1.2
 }
 
 var config=
@@ -25,7 +25,7 @@ var config=
     physics:{
         default:'arcade',
         arcade:{
-            //gravity:{y:0},
+            gravity:{y:10},
             debug:true
         }
     }
