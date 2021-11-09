@@ -14,7 +14,7 @@ var config=
     width:128,
     height:256,
     //scene:[menu,gameState], //array con los niveles
-    scene:[gameState],
+    scene:[sceneMarc],
     render:{
         pixelArt:true
     },
