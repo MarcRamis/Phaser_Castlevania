@@ -4,6 +4,10 @@ var gamePrefs=
 
 var mainCharacterPrefs=
 {
+    right:false,
+    left:false,
+    up:false,
+    down:false,
     frameRate:5,
     speed:1.2
 }
