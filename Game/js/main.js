@@ -8,6 +8,11 @@ var mainCharacterPrefs=
     left:false,
     up:false,
     down:false,
+    canJump:true,
+    isInAir:false,
+    isCrouching:false,
+    jumpForce:40,
+    rightSide: true,
     frameRate:5,
     speed:1.2
 }
@@ -29,7 +34,7 @@ var config=
     physics:{
         default:'arcade',
         arcade:{
-            gravity:{y:10},
+            gravity:{y:40},
             debug:true
         }
     }
