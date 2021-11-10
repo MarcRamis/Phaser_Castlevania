@@ -94,7 +94,7 @@ class sceneMarc extends Phaser.Scene {
                 this.jumpingTimer = this.time.addEvent
                     (
                         {
-                            delay: 2000, //ms
+                            delay: 1600, //ms
                             callback:
                                 function () {
                                     mainCharacterPrefs.canJump = true;
