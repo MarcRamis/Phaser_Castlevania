@@ -59,8 +59,8 @@ class gameState extends Phaser.Scene
         this.redEnemy.body.collideWorldBounds = true;
         
         /*var redEnemy = this.physics.add.image(20,20, 'RedEnemy');*/
-        this.redEnemy.DetectFloor(1);
-
+        //this.redEnemy.DetectFloor(1);
+        //this.redEnemy.Move(1);
     }
 
     loadSounds()
@@ -136,9 +136,9 @@ class gameState extends Phaser.Scene
             }*/
 
 
-        Phaser.Actions.Call(this.panthers.getChildren(), function(){
-            this.children.DetectFloor(1);
-        }, this);
+        /*Phaser.Actions.Call(this.panthers.getChildren(), function(){
+            //this.children.panthers.DetectFloor(1);
+        }, this);*/
         
     }
 

@@ -5,9 +5,10 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
         super(_scene,_positionX,_positionY,_spriteTag);
         _scene.add.existing(this);
         this.setOrigin(0.5,0.5);
-        //this.anims.play('idleEnemy');
+        this.anims.play('pantherIdle-Left');
         this.health = 1;
-        this.playerDirection;
+        this.playerDirection = 1;
+        this.animName = "Default";
         //this.body.collideWorldBounds = true;
     }
 
@@ -32,13 +33,15 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
 
     Jump(_playerDirection)
     {
-        if(_direction > 0)
+        if(_direction > 0 && this.animName !="pantherJump-Right")
         {
             this.anims.play('pantherJump-Right');
+            this.animName ="pantherJump-Right";
         }
-        else
+        else if(_direction < 0 && this.animName !="pantherJump-Left")
         {
             this.anims.play('pantherJump-Left');
+            this.animName ="pantherJump-Left";
         }
         this.body.setAcceleration(15 * _playerDirection, 15 * _playerDirection);
 
@@ -56,13 +59,15 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
 
     Move(_playerDirection)
     {
-        if(_playerDirection > 0)
+        if(_playerDirection > 0 && this.animName !="pantherWalk-Right")
         {
             this.anims.play('pantherWalk-Right');
+            this.animName ="pantherWalk-Right";
         }
-        else
+        else if (_playerDirection < 0 && this.animName !="pantherWalk-Left")
         {
-            this.anims.play('pantherWalk-Left');
+            this.anims.play('pantherWalk-Left') && this.animName !="pantherWalk-Left";
+            this.animName ="pantherWalk-Left";
         }
         this.body.setVelocityX(25 * _playerDirection);
     }
