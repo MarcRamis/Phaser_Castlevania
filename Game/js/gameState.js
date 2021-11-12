@@ -139,7 +139,23 @@ class gameState extends Phaser.Scene
         /*Phaser.Actions.Call(this.panthers.getChildren(), function(){
             //this.children.panthers.DetectFloor(1);
         }, this);*/
-        
+        /*for(var i = 0; i < this.panthers.children.length; i++)
+        {
+            this.panthers.children[i].SetPlayerDirection(-1);
+            this.panthers.children[i].Move(-1);
+            this.panthers[i].body.setVelocityX(25 * -1);
+        }*/
+
+        /*this.panthers.forEachAlive(function (enemy)
+        {
+            enemy.SetPlayerDirection(1);
+        }, this);*/
+
+        this.panthers.children.iterate((child) => 
+        {
+            child.SetPlayerDirection(-1);
+        })
+
     }
 
 
