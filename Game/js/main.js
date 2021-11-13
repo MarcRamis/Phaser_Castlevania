@@ -1,11 +1,20 @@
 var gamePrefs=
 {
-    speedNave:2,
-    speedBullet:-100,
-    speedEnemy:20,
-    BULLET_ENEMY_SPEED:100,
-    POWER_UP_SPEED:20,
-    puntos:0
+}
+
+var mainCharacterPrefs=
+{
+    right:false,
+    left:false,
+    up:false,
+    down:false,
+    canJump:true,
+    isInAir:false,
+    isCrouching:false,
+    jumpForce:80,
+    rightSide: true,
+    frameRate:5,
+    speed:1.2
 }
 
 var config=
@@ -14,7 +23,7 @@ var config=
     width:128,
     height:256,
     //scene:[menu,gameState], //array con los niveles
-    scene:[gameState],
+    scene:[sceneMarc],
     render:{
         pixelArt:true
     },
@@ -25,7 +34,7 @@ var config=
     physics:{
         default:'arcade',
         arcade:{
-            //gravity:{y:0},
+            gravity:{y:100},
             debug:true
         }
     }
