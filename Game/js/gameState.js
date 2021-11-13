@@ -35,12 +35,12 @@ class gameState extends Phaser.Scene
             this
         );
         
-        this.redEnemy = new enemyPrefab(this, 16, 32, 'enemyGhoul');
+        this.redEnemy = new ghoulPrefab(this, 16, 32, 'enemyGhoul', -1);
         this.enemies.add(this.redEnemy);
-        
+        this.redEnemy.body.collideWorldBounds = true;
         
         /*var redEnemy = this.physics.add.image(20,20, 'RedEnemy');*/
-        this.redEnemy.Move(1);
+        this.redEnemy.Move(-1);
     }
 
     loadSounds()
