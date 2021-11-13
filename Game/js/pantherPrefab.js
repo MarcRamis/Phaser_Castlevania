@@ -1,14 +1,19 @@
 class pantherPrefab extends Phaser.GameObjects.Sprite
 {
-    constructor(_scene,_positionX,_positionY,_spriteTag)
+    constructor(_scene,_positionX,_positionY,_spriteTag, _directionToStartIdle)
     {
         super(_scene,_positionX,_positionY,_spriteTag);
         _scene.add.existing(this);
         this.setOrigin(0.5,0.5);
-        this.anims.play('pantherIdle-Left');
+        if(_directionToStartIdle < 1)
+            this.anims.play('pantherIdle-Left');
+        else
+            this.anims.play('pantherIdle-Right');
         this.health = 1;
         this.playerDirection = 1;
-        this.animName = "Default";
+        this.animName = "Idle";
+        this.alreadyJumped = false;
+        this.canMove = false;
         //this.body.collideWorldBounds = true;
     }
 
@@ -22,7 +27,9 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
         }
         
         this.DetectFloor(this.playerDirection);
-
+        //console.log("detect floor " + this.body.onFloor());
+        //console.log("jump " + this.alreadyJumped);
+        //console.log("move " + this.canMove);
         super.preUpdate(time, delta);
     }
     
@@ -31,27 +38,62 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
         this.playerDirection = _playerDirection;
     }
 
+    GetPlayerPos(_playerPos)
+    {
+        //console.log(_playerPos);
+        if(_playerPos.x - this.x < 0)
+        {
+            this.SetPlayerDirection(-1);
+        }
+        else
+        {
+            this.SetPlayerDirection(1);
+        }
+
+        this.GetPlayerDistance(_playerPos);
+
+    }
+
+    GetPlayerDistance(_playerpos)
+    {
+        if(Phaser.Math.Distance.Between(_playerpos.x, _playerpos.y, this.x, this.y) < 10)
+        {
+            this.Jump(this.playerDirection);
+        }
+    }
+    
     Jump(_playerDirection)
     {
-        if(_direction > 0 && this.animName !="pantherJump-Right")
+        if(!this.alreadyJumped && this.body.onFloor())
         {
-            this.anims.play('pantherJump-Right');
-            this.animName ="pantherJump-Right";
+            if(_playerDirection > 0 && this.animName !="pantherJump-Right")
+            {
+                this.anims.play('pantherJump-Right');
+                this.animName ="pantherJump-Right";
+            }
+            else if(_playerDirection < 0 && this.animName !="pantherJump-Left")
+            {
+                this.anims.play('pantherJump-Left');
+                this.animName ="pantherJump-Left";
+            }
+            this.body.setVelocity(150 * _playerDirection, -250);
+            this.alreadyJumped = true;
+            
+            this.scene.time.delayedCall(500, this.changeBool, null, this);  // delay in ms
+            
+            
         }
-        else if(_direction < 0 && this.animName !="pantherJump-Left")
-        {
-            this.anims.play('pantherJump-Left');
-            this.animName ="pantherJump-Left";
-        }
-        this.body.setAcceleration(15 * _playerDirection, 15 * _playerDirection);
 
+    }
 
-
+    changeBool() 
+    {
+        this.canMove = true;
     }
 
     DetectFloor(_playerDirection)
     {
-        if(this.body.onFloor())
+        if(this.canMove && this.alreadyJumped && this.body.onFloor())
         {
             this.Move(_playerDirection);
         }

@@ -53,11 +53,16 @@ class gameState extends Phaser.Scene
         /*var redEnemy = this.physics.add.image(20,20, 'RedEnemy');*/
         this.redEnemy.Move(1);
 
-        this.redEnemy = new pantherPrefab(this, 32, 32, 'enemyPanther');
+        this.redEnemy = new pantherPrefab(this, 32, 32, 'enemyPanther', -1);
         
         this.panthers.add(this.redEnemy);
         this.redEnemy.body.collideWorldBounds = true;
         
+        this.redEnemy = new pantherPrefab(this, 82, 124, 'enemyPanther', 1);
+        
+        this.panthers.add(this.redEnemy);
+        this.redEnemy.body.collideWorldBounds = true;
+
         /*var redEnemy = this.physics.add.image(20,20, 'RedEnemy');*/
         //this.redEnemy.DetectFloor(1);
         //this.redEnemy.Move(1);
@@ -153,7 +158,9 @@ class gameState extends Phaser.Scene
 
         this.panthers.children.iterate((child) => 
         {
-            child.SetPlayerDirection(-1);
+            //child.SetPlayerDirection(1);
+            //child.Jump(1);
+            child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
         })
 
     }
