@@ -20,8 +20,8 @@ var mainCharacterPrefs=
 var config=
 {
     type: Phaser.AUTO,
-    width:128,
-    height:256,
+    width:256,
+    height:240,
     //scene:[menu,gameState], //array con los niveles
     scene:[sceneMarc],
     render:{
@@ -34,7 +34,7 @@ var config=
     physics:{
         default:'arcade',
         arcade:{
-            gravity:{y:100},
+            gravity:{y:1000},
             debug:true
         }
     }
