@@ -11,15 +11,15 @@ class sceneMarc extends Phaser.Scene {
         var rutaSnd = 'assets/snd/';
 
         this.load.spritesheet('mainCharacter', rutaImg + 'maincharacter_anim.png', { frameWidth: 104, frameHeight: 35 });
-
     }
     create() { //carga los assets en pantalla desde memoria
         this.mainCharacter = this.physics.add.sprite(config.width / 2, config.height, 'mainCharacter').setOrigin(0.5, 0.5).setBodySize(16, 31, true);
         this.mainCharacter.body.collideWorldBounds = true;
-
+        this.mainCharacter.body.setGravity(0,-900);
         this.loadAnimations();
 
         this.cursors = this.input.keyboard.createCursorKeys();
+        
     }
 
     loadSounds() {
@@ -51,6 +51,19 @@ class sceneMarc extends Phaser.Scene {
             frameRate: mainCharacterPrefs.frameRate,
             repeat: -1
         })
+
+        this.anims.create({
+            key: 'attack',
+            frames: this.anims.generateFrameNumbers('mainCharacter', { frames: [14, 13, 12] }),
+            frameRate: mainCharacterPrefs.frameRate,
+            repeat: 1
+        })
+        this.anims.create({
+            key: 'crouch_attack',
+            frames: this.anims.generateFrameNumbers('mainCharacter', { frames: [17, 16, 15] }),
+            frameRate: mainCharacterPrefs.frameRate,
+            repeat: -1
+        })
     }
 
     loadPulls() {
@@ -59,32 +72,19 @@ class sceneMarc extends Phaser.Scene {
 
     update() { //actualiza assets
         this.inputMainCharacterController();
+       
+        this.jump();        
+        this.move();
+    }
 
-        if (mainCharacterPrefs.right == true) {
-            this.mainCharacter.play('right', true);
-            this.mainCharacter.x += mainCharacterPrefs.speed;
-        }
-        else if (mainCharacterPrefs.left == true) {
-            this.mainCharacter.play('left', true);
-            this.mainCharacter.x -= mainCharacterPrefs.speed;
-        }
-        else if (mainCharacterPrefs.down == true) {
-            if (mainCharacterPrefs.rightSide == false) {
-                this.mainCharacter.play('crouch_left', true);
-            }
-            else {
-                this.mainCharacter.play('crouch_right', true);
-            }
-        }
-        else {
-            if (mainCharacterPrefs.rightSide == false) {
-                this.mainCharacter.setFrame(3);
-            }
-            else {
-                this.mainCharacter.setFrame(0);
-            }
-        }
+    attack() {
+        // if (this.cursors.space.isDown){
+        //     this.mainCharacter.play('attack', true);
+        // }
+    }
 
+    jump()
+    {
         if (mainCharacterPrefs.up == true) {
             if (mainCharacterPrefs.canJump) {
                 mainCharacterPrefs.canJump = false;
@@ -106,7 +106,18 @@ class sceneMarc extends Phaser.Scene {
                     );
             }
         }
-        if (mainCharacterPrefs.isCrouching) {
+    }
+
+    move() {
+        if (mainCharacterPrefs.right == true) {
+            this.mainCharacter.play('right', true);
+            this.mainCharacter.x += mainCharacterPrefs.speed;
+        }
+        else if (mainCharacterPrefs.left == true) {
+            this.mainCharacter.play('left', true);
+            this.mainCharacter.x -= mainCharacterPrefs.speed;
+        }
+        else if (mainCharacterPrefs.down == true) {
             if (mainCharacterPrefs.rightSide == false) {
                 this.mainCharacter.play('crouch_left', true);
             }
@@ -114,9 +125,25 @@ class sceneMarc extends Phaser.Scene {
                 this.mainCharacter.play('crouch_right', true);
             }
         }
+        else {
+           if (mainCharacterPrefs.rightSide == false) {
+                this.mainCharacter.setFrame(3);
+            }
+            else {
+               this.mainCharacter.setFrame(0);
+           }
+        }
+
+        if (mainCharacterPrefs.isCrouching) {
+            if (mainCharacterPrefs.rightSide == false) {
+                this.mainCharacter.play('crouch_left', true);
+            }
+            else {
+                this.mainCharacter.play('crouch_left', true);
+            }
+        }
 
     }
-
     inputMainCharacterController() {
         if (this.cursors.right.isDown) {
             mainCharacterPrefs.right = true;
@@ -145,6 +172,10 @@ class sceneMarc extends Phaser.Scene {
         }
         else {
             mainCharacterPrefs.up = false;
+        }
+        if (this.cursors.space.isDown)
+        {
+            mainCharacterPrefs.space = false;
         }
     }
 }
