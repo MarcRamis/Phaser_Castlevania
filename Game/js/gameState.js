@@ -203,8 +203,8 @@ class gameState extends Phaser.Scene
         this.panthers.children.iterate((child) => 
         {
             //child.SetPlayerDirection(1);
-            //child.Jump(1);
-            child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
+            child.Jump(1);
+            //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
         })
 
     }
