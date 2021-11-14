@@ -19,6 +19,10 @@ class gameState extends Phaser.Scene
         {frameWidth: 16, frameHeight: 32});
         this.load.spritesheet('enemyPanther',rutaImg+'Enemy-Panther.png',
         {frameWidth: 32, frameHeight: 16});
+        
+        //Bat
+        this.load.spritesheet('bat',rutaImg+'Enemy-Bat.png',
+        {frameWidth: 16, frameHeight: 14});
     }
     
     loadPools()
@@ -62,6 +66,13 @@ class gameState extends Phaser.Scene
         
         this.panthers.add(this.redEnemy);
         this.redEnemy.body.collideWorldBounds = true;
+        
+        //Bat
+        this.bat = new batPrefab(this,16,14, 'bat',-1);
+        this.enemies.add(this.bat);
+        this.bat.body.collideWorldBounds = true;
+        this.bat.Move(1);
+        this.bat.body.setGravity(0,-1000);
 
         /*var redEnemy = this.physics.add.image(20,20, 'RedEnemy');*/
         //this.redEnemy.DetectFloor(1);
@@ -124,6 +135,18 @@ class gameState extends Phaser.Scene
             frameRate: 5,
             repeat: -1
         });
+        this.anims.create({
+            key: 'batWalk-Right',
+            frames: this.anims.generateFrameNumbers('bat', { start: 3, end: 5 }),
+            frameRate: 7,
+            repeat: -1
+        });  
+        this.anims.create({
+            key: 'batWalk-Left',
+            frames: this.anims.generateFrameNumbers('bat', { start: 0, end: 2 }),
+            frameRate: 7,
+            repeat: -1
+        });
     }
 
     loadPulls()
@@ -155,7 +178,28 @@ class gameState extends Phaser.Scene
         {
             enemy.SetPlayerDirection(1);
         }, this);*/
+        
+        
+       //Bat
+        
+       if(!this.bat.active)
+            {
+                this.bat.active = true; 
+                this.bat.body.reset(this.redEnemy.width,this.redEnemy.height);
+                this.bat.Move(1);
+            }
+      
+        if(this.bat.body.position.y >= this.bat.posY+10){
+            this.bat.directionY = -1;
+            this.bat.Move(this.bat.dir);
+        }
+        else if(this.bat.body.position.y <= this.bat.posY-10){
+            this.bat.directionY = 1;
+            this.bat.Move(this.bat.dir);
 
+        }
+        
+        
         this.panthers.children.iterate((child) => 
         {
             //child.SetPlayerDirection(1);
