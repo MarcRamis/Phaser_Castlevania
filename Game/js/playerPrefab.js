@@ -27,7 +27,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.flipX = true;
             this.play('walk', true);
         }
-        else if (this.cursors.down.isDown){
+        else if (this.cursors.down.isDown) {
             this.body.velocity.x = 0;
             this.setFrame(7);
         }
@@ -41,6 +41,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         if (this.cursors.up.isDown &&
             this.body.onFloor() && Phaser.Input.Keyboard.DownDuration(this.cursors.up, 250)) {
             this.body.velocity.y = -mainCharacterPrefs.jumpForce;
+            //this.setFrame(7);
         }
     }
 
