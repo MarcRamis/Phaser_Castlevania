@@ -2,7 +2,7 @@ class playerScene extends Phaser.Scene {
     constructor() { //crea la escena
         super(
             {
-                key: "sceneMarc"
+                key: "playerScene"
             });
     }
     preload() { //carga los assets en memoria

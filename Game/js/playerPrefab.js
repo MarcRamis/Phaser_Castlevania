@@ -48,7 +48,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
 
     Attack() {
-
+        if (this.cursors.space.isDown)
+        {
+        }
     }
 
 }
