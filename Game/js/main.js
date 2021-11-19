@@ -11,10 +11,10 @@ var mainCharacterPrefs=
     canJump:true,
     isInAir:false,
     isCrouching:false,
-    jumpForce:80,
+    jumpForce:300,
     rightSide: true,
     frameRate:5,
-    speed:1.2
+    speed:100
 }
 
 var config=
@@ -23,7 +23,7 @@ var config=
     width:256,
     height:240,
     //scene:[menu,gameState], //array con los niveles
-    scene:[gameState],
+    scene:[playerScene],
     render:{
         pixelArt:true
     },
