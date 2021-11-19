@@ -1,4 +1,4 @@
-class sceneMarc extends Phaser.Scene {
+class playerScene extends Phaser.Scene {
     constructor() { //crea la escena
         super(
             {
@@ -11,6 +11,7 @@ class sceneMarc extends Phaser.Scene {
         var rutaSnd = 'assets/snd/';
 
         this.load.spritesheet('mainCharacter', rutaImg + 'maincharacter_anim.png', { frameWidth: 104, frameHeight: 35 });
+        this.load.spritesheet('player', rutaImg + 'maincharacter_anim.png', { frameWidth: 104, frameHeight: 35 });
     }
     create() { //carga los assets en pantalla desde memoria
         this.mainCharacter = this.physics.add.sprite(config.width / 2, config.height, 'mainCharacter').setOrigin(0.5, 0.5).setBodySize(16, 31, true);
@@ -19,7 +20,8 @@ class sceneMarc extends Phaser.Scene {
         this.loadAnimations();
 
         this.cursors = this.input.keyboard.createCursorKeys();
-        
+
+        this.player = new playerPrefab(this, config.width- 200, config.height - 200,'player');
     }
 
     loadSounds() {
@@ -68,13 +70,31 @@ class sceneMarc extends Phaser.Scene {
 
     loadPulls() {
     }
+    // MovePlayer()
+    // {
+    //     if (this.cursors.right.isDown)
+    //     {
+    //         this.player.body.velocity.x += mainCharacterPrefs.speed;
+    //     }
+    //     // else if (this.cursors.left.isDown)
+    //     // {
+    //     //     this.velocity.x -= mainCharacterPrefs.speed;
+    //     // }
+    //     // else{
+    //     //     this.velocity.x = 0;
+    //     // }
+    // }
 
 
     update() { //actualiza assets
         this.inputMainCharacterController();
        
-        this.jump();        
-        this.move();
+        //this.player.Move()
+        //this.jump();        
+        //this.move();
+        this.player.Update();
+        //this.player.Jump();
+        //this.MovePlayer();
     }
 
     attack() {
