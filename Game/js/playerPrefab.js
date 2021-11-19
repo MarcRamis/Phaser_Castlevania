@@ -10,23 +10,30 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.cursors = _scene.input.keyboard.createCursorKeys();
     }
 
-    Update()
-    {
+    Update() {
         this.Move();
         this.Jump();
+        this.Attack();
     }
 
     Move() {
         if (this.cursors.right.isDown) {
             this.body.velocity.x = mainCharacterPrefs.speed;
             this.flipX = false;
+            this.play('walk', true);
         }
         else if (this.cursors.left.isDown) {
             this.body.velocity.x = -mainCharacterPrefs.speed;
             this.flipX = true;
+            this.play('walk', true);
+        }
+        else if (this.cursors.down.isDown){
+            this.body.velocity.x = 0;
+            this.setFrame(7);
         }
         else {
             this.body.velocity.x = 0;
+            this.setFrame(0);
         }
     }
 
@@ -36,4 +43,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.body.velocity.y = -mainCharacterPrefs.jumpForce;
         }
     }
+
+    Attack() {
+
+    }
+
 }

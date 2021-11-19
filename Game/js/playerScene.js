@@ -42,6 +42,12 @@ class playerScene extends Phaser.Scene {
             repeat: -1
         })
         this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNumbers('player', { frames: [0, 1, 2] }),
+            frameRate: mainCharacterPrefs.frameRate,
+            repeat: -1
+        })
+        this.anims.create({
             key: 'crouch_left',
             frames: this.anims.generateFrameNumbers('mainCharacter', { frames: [6] }),
             frameRate: mainCharacterPrefs.frameRate,
@@ -50,6 +56,12 @@ class playerScene extends Phaser.Scene {
         this.anims.create({
             key: 'crouch_right',
             frames: this.anims.generateFrameNumbers('mainCharacter', { frames: [7] }),
+            frameRate: mainCharacterPrefs.frameRate,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'crouch',
+            frames: this.anims.generateFrameNumbers('player', { frames: [7] }),
             frameRate: mainCharacterPrefs.frameRate,
             repeat: -1
         })
