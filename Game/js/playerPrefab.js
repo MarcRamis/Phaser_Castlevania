@@ -39,9 +39,11 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
 
     Jump() {
         if (this.cursors.up.isDown &&
-            this.body.onFloor() && Phaser.Input.Keyboard.DownDuration(this.cursors.up, 250)) {
+            this.body.onFloor() && Phaser.Input.Keyboard.DownDuration(this.cursors.up, 100)) {
             this.body.velocity.y = -mainCharacterPrefs.jumpForce;
-            //this.setFrame(7);
+        }
+        if (!this.body.onFloor()) {
+            this.setFrame(7);
         }
     }
 
