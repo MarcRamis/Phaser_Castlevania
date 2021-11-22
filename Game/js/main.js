@@ -5,7 +5,10 @@ var gamePrefs=
 var mainCharacterPrefs=
 {
     jumpForce:300,
-    frameRate:5,
+    frameRate:6,
+    frameRateAttack:16,
+    isAttacking:false,
+    isLargeAttack:false,
     speed:100
 }
 
