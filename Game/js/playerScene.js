@@ -54,6 +54,12 @@ class playerScene extends Phaser.Scene {
             frameRate: mainCharacterPrefs.frameRateAttack,
             repeat: 0
         })
+        this.anims.create({
+            key: 'crouch_large_attack',
+            frames: this.anims.generateFrameNumbers('player', { frames: [18, 19, 20] }),
+            frameRate: mainCharacterPrefs.frameRateAttack,
+            repeat: 0
+        })
     }
 
     loadPulls() {
