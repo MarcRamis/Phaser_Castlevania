@@ -21,7 +21,6 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         // Init inputs
         this.cursors = _scene.input.keyboard.createCursorKeys();
         this._time = _scene.time;
-
     }
 
     Update() {
@@ -228,6 +227,12 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.chain.body.setSize(38, 6);
             this.chain.x = this.x - 32;
             this.chain.y = this.y + 17;
+        }
+        else
+        {
+            this.chain.body.setSize(0, 0);
+            this.chain.x =0;
+            this.chain.y =0;
         }
     }
 
