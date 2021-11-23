@@ -2,7 +2,7 @@ class playerScene extends Phaser.Scene {
     constructor() { //crea la escena
         super(
             {
-                key: "sceneMarc"
+                key: "playerScene"
             });
     }
     preload() { //carga los assets en memoria
@@ -31,16 +31,34 @@ class playerScene extends Phaser.Scene {
             repeat: -1
         })
         this.anims.create({
-            key: 'attack',
-            frames: this.anims.generateFrameNumbers('player', { frames: [14, 13, 12] }),
-            frameRate: mainCharacterPrefs.frameRate,
-            repeat: 1
+            key: 'normal_attack',
+            frames: this.anims.generateFrameNumbers('player', { frames: [12, 13, 14] }),
+            frameRate: mainCharacterPrefs.frameRateAttack,
+            repeat: 0
+        })
+        this.anims.create({
+            key: 'normal_large_attack',
+            frames: this.anims.generateFrameNumbers('player', { frames: [6, 7, 8] }),
+            frameRate: mainCharacterPrefs.frameRateAttack,
+            repeat: 0
+        })
+        this.anims.create({
+            key: 'special_attack',
+            frames: this.anims.generateFrameNumbers('player', { frames: [9, 10, 11] }),
+            frameRate: mainCharacterPrefs.frameRateAttack,
+            repeat: 0
         })
         this.anims.create({
             key: 'crouch_attack',
-            frames: this.anims.generateFrameNumbers('player', { frames: [17, 16, 15] }),
-            frameRate: mainCharacterPrefs.frameRate,
-            repeat: -1
+            frames: this.anims.generateFrameNumbers('player', { frames: [15, 16, 17] }),
+            frameRate: mainCharacterPrefs.frameRateAttack,
+            repeat: 0
+        })
+        this.anims.create({
+            key: 'crouch_large_attack',
+            frames: this.anims.generateFrameNumbers('player', { frames: [18, 19, 20] }),
+            frameRate: mainCharacterPrefs.frameRateAttack,
+            repeat: 0
         })
     }
 
