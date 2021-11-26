@@ -80,8 +80,17 @@
  "tileheight":16,
  "tilesets":[
         {
+         "columns":11,
          "firstgid":1,
-         "source":"Sprite-Sheets\/Level-1_TileSheet.tsx"
+         "image":"Sprite-Sheets\/Castelvania-Sheet.png",
+         "imageheight":176,
+         "imagewidth":176,
+         "margin":0,
+         "name":"Level-1_TileSheet",
+         "spacing":0,
+         "tilecount":121,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",

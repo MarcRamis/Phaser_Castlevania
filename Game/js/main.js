@@ -15,15 +15,17 @@ var mainCharacterPrefs=
 var config=
 {
     type: Phaser.AUTO,
-    width:256,
-    height:240,
+    width:2816,
+    height:176,
     //scene:[menu,gameState], //array con los niveles
-    scene:[playerScene],
+    scene:[level1],
     render:{
         pixelArt:true
     },
     scale:{
         mode:Phaser.Scale.FIT,
+        width:2816 / 16,
+        height:176,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     physics:{
