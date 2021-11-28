@@ -18,10 +18,8 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
             //this.active = false;
             this.body.setVelocityX(0);
         }
-        console.log(this.body.velocity.x);
         if(this.body.velocity.x == 0)
         {
-            console.log("Entro aqui");
             this.Move(this.direction * -1);
             this.direction *= -1;
         }

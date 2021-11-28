@@ -23,6 +23,9 @@ class gameState extends Phaser.Scene
         //Bat
         this.load.spritesheet('bat',rutaImg+'Enemy-Bat.png',
         {frameWidth: 16, frameHeight: 14});
+
+        //FishMan
+        this.load.spritesheet('fishMan',rutaImg+'Enemy-FishMan.png',{frameWidth:14, frameHeight:31});
     }
     
     loadPools()
@@ -73,6 +76,12 @@ class gameState extends Phaser.Scene
         this.bat.body.collideWorldBounds = true;
         this.bat.Move(1);
         this.bat.body.setGravity(0,-1000);
+
+        //FishMan
+        this.fishMan = new fishMan(this,50,191,'fishMan', -1);
+        this.enemies.add(this.fishMan);
+        this.fishMan.body.collideWorldBounds = false;
+        this.fishMan.body.setGravity(0,-1000);
 
         /*var redEnemy = this.physics.add.image(20,20, 'RedEnemy');*/
         //this.redEnemy.DetectFloor(1);
@@ -147,6 +156,13 @@ class gameState extends Phaser.Scene
             frameRate: 7,
             repeat: -1
         });
+        // this.anims.create({
+        //     key: 'fishmanIdle',
+        //     frames: this.anims.generateFrameNumbers('fishMan', { start: 0, end: 0 }),
+        //     frameRate: 7,
+        //     repeat: -1
+        // });
+
     }
 
     loadPulls()
@@ -199,13 +215,16 @@ class gameState extends Phaser.Scene
 
         }
         
-        
-        this.panthers.children.iterate((child) => 
-        {
-            //child.SetPlayerDirection(1);
-            child.Jump(1);
-            //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
-        })
+        //FishMan
+        this.fishMan.Jump();
+
+
+        // this.panthers.children.iterate((child) => 
+        // {
+        //     //child.SetPlayerDirection(1);
+        //     child.Jump(1);
+        //     //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
+        // })
 
     }
 
