@@ -216,7 +216,7 @@ class gameState extends Phaser.Scene
         }
         
         //FishMan
-        this.fishMan.Jump();
+        this.fishMan.Update();
 
 
         // this.panthers.children.iterate((child) => 

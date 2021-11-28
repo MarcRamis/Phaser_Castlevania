@@ -37,4 +37,3 @@ var config=
     }
 }
 var juego = new Phaser.Game(config);
-

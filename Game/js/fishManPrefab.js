@@ -10,6 +10,8 @@ class fishMan extends Phaser.GameObjects.Sprite
         this.health = 1;
         this.direction = _startDirection;
         this.fall = false;
+        this.walk = false;
+        this.walkVelocity = 30;
 
 
     }
@@ -21,24 +23,37 @@ class fishMan extends Phaser.GameObjects.Sprite
 
     }
     
-    Jump()
+    Update()
     {
-        console.log(this.y);
+        console.log(this.body.velocity.x);
 
         if(this.y > 100 && this.fall == false){
             this.body.setVelocity(0, -90);
-
         }
         else{
             this.fall = true;
         }
-        if(this.fall){
+        
+        if(this.fall && this.walk == false){
             this.body.collideWorldBounds = true;
             this.body.setVelocity(0, 90);
-
-
-
+            if(this.y >= 159)
+                this.walk = true;
         }
+
+        if(this.walk){
+            if(this.body.velocity.x == 0)
+            {
+                console.log("Choque");
+                this.Move(this.direction * -1);
+                this.direction *= -1;
+            }
+            
+            this.body.setVelocity(this.direction * this.walkVelocity,0 );
+        }
+
+        // If timer == 0 -> Disparar();
+
 
     }
 
@@ -49,6 +64,10 @@ class fishMan extends Phaser.GameObjects.Sprite
         this.body.setVelocity(25 * this.dir, 30 * this.directionY);
     }
     
+    Disparar(){
+        this.setVelocity(0,0);
+        
+    }
     
     
 }
