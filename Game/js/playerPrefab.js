@@ -161,9 +161,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             && this.flipX
             && mainCharacterPrefs.isAttacking
             && !mainCharacterPrefs.isLargeAttack) {
-            this.body.setSize(44, 23);
-            this.body.setOffset(16, 12);
-
+            
             this.chain.body.setSize(22, 6);
             this.chain.x = this.x - 24;
             this.chain.y = this.y + 22;
@@ -172,9 +170,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         else if (!this.flipX
             && mainCharacterPrefs.isAttacking
             && !mainCharacterPrefs.isLargeAttack) {
-            this.body.setSize(44, 30);
-            this.body.setOffset(44, 5);
-
+            
             this.chain.body.setSize(22, 6);
             this.chain.x = this.x + 24;
             this.chain.y = this.y + 15;
@@ -183,9 +179,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         else if (this.flipX
             && mainCharacterPrefs.isAttacking
             && !mainCharacterPrefs.isLargeAttack) {
-            this.body.setSize(44, 30);
-            this.body.setOffset(16, 5);
 
+            this.chain.body.setSize(22, 6);
             this.chain.x = this.x - 24;
             this.chain.y = this.y + 15;
         }
@@ -204,8 +199,6 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             && this.flipX
             && mainCharacterPrefs.isAttacking
             && mainCharacterPrefs.isLargeAttack) {
-            this.body.setSize(60, 23);
-            this.body.setOffset(0, 12);
 
             this.chain.body.setSize(38, 6);
             this.chain.x = this.x - 32;
@@ -224,6 +217,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         else if (this.flipX
             && mainCharacterPrefs.isAttacking
             && mainCharacterPrefs.isLargeAttack) {
+            
             this.chain.body.setSize(38, 6);
             this.chain.x = this.x - 32;
             this.chain.y = this.y + 17;
