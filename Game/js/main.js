@@ -8,6 +8,7 @@ var mainCharacterPrefs=
     frameRate:6,
     frameRateAttack:16,
     isAttacking:false,
+    isSpecialAttacking:false,
     isLargeAttack:true,
     speed:100
 }
@@ -18,7 +19,7 @@ var config=
     width:2816,
     height:176,
     //scene:[menu,gameState], //array con los niveles
-    scene:[gameState],
+    scene:[playerScene],
     render:{
         pixelArt:true
     },

@@ -35,7 +35,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
 
     Move() {
 
-        if (!mainCharacterPrefs.isAttacking) {
+        if (!mainCharacterPrefs.isAttacking && !mainCharacterPrefs.isSpecialAttacking) {
             if (this.cursors.right.isDown) {
                 this.body.velocity.x = mainCharacterPrefs.speed;
                 this.flipX = false;
@@ -123,7 +123,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         if (this.cursors.shift.isDown
             && !mainCharacterPrefs.isAttacking
             && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 100)) {
-            mainCharacterPrefs.isAttacking = true;
+            mainCharacterPrefs.isSpecialAttacking = true;
             this._time.delayedCall(300, this.AttackUp, null, this);
 
             this.body.velocity.x = 0;
@@ -132,6 +132,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
     AttackUp() {
         mainCharacterPrefs.isAttacking = false;
+        mainCharacterPrefs.isSpecialAttacking = false;
     }
     SetBoxColliders() {
 
