@@ -3,9 +3,11 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         super(_scene, _positionX, _positionY, _spriteTag);
 
         // Init Main character
+        this.scene = _scene;
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
         this.setOrigin(0.5, 0);
+        this.setScale(1);
         this.body.setSize(16, 30);
         this.body.setOffset(44, 5);
         this.body.collideWorldBounds = true;
@@ -28,6 +30,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.Move();
         this.Jump();
         this.Attack();
+        this.SpecialAttack();
 
         // Collisions
         this.SetBoxColliders();
@@ -119,19 +122,33 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.play('crouch_attack', true);
         }
 
-        // Special attack
+
+    }
+    SpecialAttack()
+    {
         if (this.cursors.shift.isDown
             && !mainCharacterPrefs.isAttacking
-            && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 100)) {
+            && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 10)) {
             mainCharacterPrefs.isSpecialAttacking = true;
-            this._time.delayedCall(300, this.AttackUp, null, this);
+            this._time.delayedCall(300, this.SpecialAttackUp, null, this);
 
             this.body.velocity.x = 0;
             this.play('special_attack', true);
+
+            if (this.flipX)
+            {
+                var axe = new axePrefab(this.scene,this.x, this.y,'axe', -1);
+            }
+            else{
+                var axe = new axePrefab(this.scene,this.x, this.y,'axe', 1);
+            }
         }
     }
+
     AttackUp() {
         mainCharacterPrefs.isAttacking = false;
+    }
+    SpecialAttackUp() {
         mainCharacterPrefs.isSpecialAttacking = false;
     }
     SetBoxColliders() {
