@@ -19,7 +19,7 @@ class firebombPrefab extends Phaser.GameObjects.Sprite
         
         // Impulse
         if (this.doOnce){
-            this.body.setVelocityX(150 * this.direction);
+            this.body.setVelocity(200 * this.direction, 0);
             this.doOnce = false;
         }
 
