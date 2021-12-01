@@ -1,3 +1,9 @@
+const WeaponType = {
+    AXE: "axe",
+    FIREBOMB: "firebomb",
+    NONE: "noweapon"
+};
+
 class playerPrefab extends Phaser.GameObjects.Sprite {
     constructor(_scene, _positionX, _positionY, _spriteTag) {
         super(_scene, _positionX, _positionY, _spriteTag);
@@ -11,6 +17,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.setSize(16, 30);
         this.body.setOffset(44, 5);
         this.body.collideWorldBounds = true;
+        this.direction = 1;
+        
+        this.currentWeapon = WeaponType.AXE;
 
         // Init chain
         this.chain = _scene.add.rectangle(this.x, this.y - 35, 22, 6);
@@ -38,15 +47,19 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
 
     Move() {
 
-        if (!mainCharacterPrefs.isAttacking && !mainCharacterPrefs.isSpecialAttacking) {
+        if (!mainCharacterPrefs.isAttacking
+            && !mainCharacterPrefs.isSpecialAttacking) {
+
             if (this.cursors.right.isDown) {
                 this.body.velocity.x = mainCharacterPrefs.speed;
                 this.flipX = false;
+                this.direction = 1;
                 this.play('walk', true);
             }
             else if (this.cursors.left.isDown) {
                 this.body.velocity.x = -mainCharacterPrefs.speed;
                 this.flipX = true;
+                this.direction = -1;
                 this.play('walk', true);
             }
             else if (this.cursors.down.isDown) {
@@ -61,7 +74,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
 
     Jump() {
-        if (!mainCharacterPrefs.isAttacking) {
+        if (!mainCharacterPrefs.isAttacking
+            && !mainCharacterPrefs.isSpecialAttacking) {
             if (this.cursors.up.isDown &&
                 this.body.onFloor() && Phaser.Input.Keyboard.DownDuration(this.cursors.up, 100)) {
                 this.body.velocity.y = -mainCharacterPrefs.jumpForce;
@@ -72,77 +86,83 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     Attack() {
 
         // Large attack
-        if (this.cursors.space.isDown
-            && !this.cursors.down.isDown
-            && !mainCharacterPrefs.isAttacking
-            && Phaser.Input.Keyboard.DownDuration(this.cursors.space, 100)
-            && mainCharacterPrefs.isLargeAttack) {
-            mainCharacterPrefs.isAttacking = true;
-            this._time.delayedCall(300, this.AttackUp, null, this);
+        if (!mainCharacterPrefs.isSpecialAttacking
+            && !mainCharacterPrefs.isAttacking) {
 
-            this.body.velocity.x = 0;
-            this.play('normal_large_attack', true);
+            if (this.cursors.space.isDown
+                && !this.cursors.down.isDown
+                && Phaser.Input.Keyboard.DownDuration(this.cursors.space, 100)
+                && mainCharacterPrefs.isLargeAttack) {
+                mainCharacterPrefs.isAttacking = true;
+                this._time.delayedCall(300, this.AttackUp, null, this);
+
+                this.body.velocity.x = 0;
+                this.play('normal_large_attack', true);
+
+            }
+            // Normal attack
+            else if (this.cursors.space.isDown
+                && !this.cursors.down.isDown
+                && Phaser.Input.Keyboard.DownDuration(this.cursors.space, 100)
+                && !mainCharacterPrefs.isLargeAttack) {
+                mainCharacterPrefs.isAttacking = true;
+                this._time.delayedCall(300, this.AttackUp, null, this);
+
+                this.body.velocity.x = 0;
+                this.play('normal_attack', true);
+            }
+            // Crouch Large Attack
+            else if (this.cursors.space.isDown
+                && this.cursors.down.isDown
+                && Phaser.Input.Keyboard.DownDuration(this.cursors.space, 100)
+                && mainCharacterPrefs.isLargeAttack) {
+                mainCharacterPrefs.isAttacking = true;
+                this._time.delayedCall(300, this.AttackUp, null, this);
+
+                this.body.velocity.x = 0;
+                this.play('crouch_large_attack', true);
+
+            }
+            // Crouch attack
+            else if (this.cursors.space.isDown
+                && this.cursors.down.isDown
+                && Phaser.Input.Keyboard.DownDuration(this.cursors.space, 100)
+                && !mainCharacterPrefs.isLargeAttack) {
+                mainCharacterPrefs.isAttacking = true;
+                this._time.delayedCall(300, this.AttackUp, null, this);
+
+                this.body.velocity.x = 0;
+                this.play('crouch_attack', true);
+            }
 
         }
-        // Normal attack
-        else if (this.cursors.space.isDown
-            && !this.cursors.down.isDown
-            && !mainCharacterPrefs.isAttacking
-            && Phaser.Input.Keyboard.DownDuration(this.cursors.space, 100)
-            && !mainCharacterPrefs.isLargeAttack) {
-            mainCharacterPrefs.isAttacking = true;
-            this._time.delayedCall(300, this.AttackUp, null, this);
-
-            this.body.velocity.x = 0;
-            this.play('normal_attack', true);
-        }
-        // Crouch Large Attack
-        else if (this.cursors.space.isDown
-            && this.cursors.down.isDown
-            && !mainCharacterPrefs.isAttacking
-            && Phaser.Input.Keyboard.DownDuration(this.cursors.space, 100)
-            && mainCharacterPrefs.isLargeAttack) {
-            mainCharacterPrefs.isAttacking = true;
-            this._time.delayedCall(300, this.AttackUp, null, this);
-
-            this.body.velocity.x = 0;
-            this.play('crouch_large_attack', true);
-
-        }
-        // Crouch attack
-        else if (this.cursors.space.isDown
-            && this.cursors.down.isDown
-            && !mainCharacterPrefs.isAttacking
-            && Phaser.Input.Keyboard.DownDuration(this.cursors.space, 100)
-            && !mainCharacterPrefs.isLargeAttack) {
-            mainCharacterPrefs.isAttacking = true;
-            this._time.delayedCall(300, this.AttackUp, null, this);
-
-            this.body.velocity.x = 0;
-            this.play('crouch_attack', true);
-        }
-
 
     }
-    SpecialAttack()
-    {
-        if (this.cursors.shift.isDown
-            && !mainCharacterPrefs.isAttacking
-            && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 10)) {
-            mainCharacterPrefs.isSpecialAttacking = true;
-            this._time.delayedCall(300, this.SpecialAttackUp, null, this);
+    SpecialAttack() {
 
-            this.body.velocity.x = 0;
-            this.play('special_attack', true);
+        if (!mainCharacterPrefs.isAttacking
+            && !mainCharacterPrefs.isSpecialAttacking
+            && this.currentWeapon != WeaponType.NONE) {
 
-            if (this.flipX)
-            {
-                var axe = new axePrefab(this.scene,this.x, this.y,'axe', -1);
-            }
-            else{
-                var axe = new axePrefab(this.scene,this.x, this.y,'axe', 1);
-            }
+                if (this.cursors.shift.isDown
+                    && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 12)) {
+                    mainCharacterPrefs.isSpecialAttacking = true;
+                    this._time.delayedCall(300, this.SpecialAttackUp, null, this);
+        
+                    this.body.velocity.x = 0;
+                    this.play('special_attack', true);
+        
+                    switch (this.currentWeapon)
+                    {
+                        case WeaponType.AXE:
+                            new axePrefab(this.scene, this.x, this.y, 'axe', this.direction);
+                            break;
+                        case WeaponType.FIREBOMB:
+                            break;
+                    }
+                }
         }
+        
     }
 
     AttackUp() {
@@ -179,7 +199,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             && this.flipX
             && mainCharacterPrefs.isAttacking
             && !mainCharacterPrefs.isLargeAttack) {
-            
+
             this.chain.body.setSize(22, 6);
             this.chain.x = this.x - 24;
             this.chain.y = this.y + 22;
@@ -188,7 +208,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         else if (!this.flipX
             && mainCharacterPrefs.isAttacking
             && !mainCharacterPrefs.isLargeAttack) {
-            
+
             this.chain.body.setSize(22, 6);
             this.chain.x = this.x + 24;
             this.chain.y = this.y + 15;
@@ -235,16 +255,15 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         else if (this.flipX
             && mainCharacterPrefs.isAttacking
             && mainCharacterPrefs.isLargeAttack) {
-            
+
             this.chain.body.setSize(38, 6);
             this.chain.x = this.x - 32;
             this.chain.y = this.y + 17;
         }
-        else
-        {
+        else {
             this.chain.body.setSize(0, 0);
-            this.chain.x =0;
-            this.chain.y =0;
+            this.chain.x = 0;
+            this.chain.y = 0;
         }
     }
 

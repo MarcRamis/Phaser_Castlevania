@@ -9,7 +9,7 @@ var mainCharacterPrefs=
     frameRateAttack:16,
     isAttacking:false,
     isSpecialAttacking:false,
-    isLargeAttack:true,
+    isLargeAttack:false,
     speed:100
 }
 

@@ -25,7 +25,6 @@ class playerScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.player = new playerPrefab(this, config.scale.width / 2, config.scale.height, 'player');
-        //this.axe = new axePrefab(this,this.player.x, this.player.y - 20,'axe', 1);
     }
 
     loadSounds() {

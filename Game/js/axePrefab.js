@@ -8,18 +8,30 @@ class axePrefab extends Phaser.GameObjects.Sprite
         this.setOrigin(0.5);
         this.setScale(1);
         //this.body.allowGravity = false;
+        //this.body.collideWorldBounds = true;
         this.direction = _direction;
         this.doOnce = true;
     }
 
     preUpdate(time, delta)
     {
+        super.preUpdate(time, delta);
+        
+        // Impulse
         if (this.doOnce){
-            this.body.setVelocity(70 * this.direction, -300);
+            this.body.setVelocity(90 * this.direction, -300);
             this.doOnce = false;
         }
         
-        super.preUpdate(time, delta);
+        // Rotate
+        if (this.direction < 0)
+        {
+            this.flipX = true;  
+        }
+        else{
+            this.flipX = false;
+        }
+        this.angle += 8 *this.direction;
+        
     }
-
 }
