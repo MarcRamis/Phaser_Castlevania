@@ -17,21 +17,20 @@ class playerScene extends Phaser.Scene {
         this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
         this.load.image('axe', rutaImgWeapons + 'Axe.png');
         this.load.image('firebomb', rutaImgWeapons + 'FireBomb.png');
+        this.load.spritesheet('firebomb_fire', rutaImg + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
 
         //---------AUDIO----------//
     }
     create() { //carga los assets en pantalla desde memoria
-        this.loadAnimations();
+        this.loadPlayerAnimations();
+        this.loadWeaponAnimations();
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.player = new playerPrefab(this, config.scale.width / 2, config.scale.height, 'player');
     }
-
-    loadSounds() {
-    }
-
-    loadAnimations() {
+    
+    loadPlayerAnimations() {
         this.anims.create({
             key: 'walk',
             frames: this.anims.generateFrameNumbers('player', { frames: [0, 1, 2] }),
@@ -69,8 +68,14 @@ class playerScene extends Phaser.Scene {
             repeat: 0
         })
     }
-
-    loadPulls() {
+    loadWeaponAnimations()
+    {
+        this.anims.create({
+            key: 'fire',
+            frames: this.anims.generateFrameNumbers('firebomb_fire', { frames: [0, 1, 2, 3, 4] }),
+            frameRate: mainCharacterPrefs.frameRateAttack,
+            repeat: 0
+        })
     }
 
     update() { //actualiza assets

@@ -43,6 +43,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
 
         // Collisions
         this.SetBoxColliders();
+
+        // Actives & Passives
+        this.GetItemsState();
     }
 
     Move() {
@@ -267,5 +270,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.chain.y = 0;
         }
     }
-
+    GetItemsState()
+    {
+        
+    }
 }

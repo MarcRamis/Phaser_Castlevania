@@ -8,7 +8,7 @@ class firebombPrefab extends Phaser.GameObjects.Sprite
         this.setOrigin(0.5);
         this.setScale(1);
         //this.body.allowGravity = false;
-        //this.body.collideWorldBounds = true;
+        this.body.collideWorldBounds = true;
         this.direction = _direction;
         this.doOnce = true;
     }
@@ -19,19 +19,17 @@ class firebombPrefab extends Phaser.GameObjects.Sprite
         
         // Impulse
         if (this.doOnce){
-            this.body.setVelocity(90 * this.direction, -300);
+            this.body.setVelocityX(150 * this.direction);
             this.doOnce = false;
         }
-        
-        // Rotate
+
+        // Flip
         if (this.direction < 0)
         {
             this.flipX = true;  
         }
         else{
             this.flipX = false;
-        }
-        this.angle += 8 *this.direction;
-        
+        }        
     }
 }
