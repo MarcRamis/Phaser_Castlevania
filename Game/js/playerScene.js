@@ -16,6 +16,7 @@ class playerScene extends Phaser.Scene {
         //---------WEAPONS----------//
         this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
         this.load.image('axe', rutaImgWeapons + 'Axe.png');
+        this.load.image('firebomb', rutaImgWeapons + 'FireBomb.png');
 
         //---------AUDIO----------//
     }
