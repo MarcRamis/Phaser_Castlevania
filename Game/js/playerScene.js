@@ -8,16 +8,23 @@ class playerScene extends Phaser.Scene {
     preload() { //carga los assets en memoria
         this.cameras.main.setBackgroundColor("#4488AA");
         var rutaImg = 'assets/img/';
+        var rutaImgWeapons = 'assets/img/weapons/';
         var rutaSnd = 'assets/snd/';
 
         this.load.spritesheet('player', rutaImg + 'maincharacter_anim.png', { frameWidth: 104, frameHeight: 35 });
+        
+        //---------WEAPONS----------//
+        this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
+        this.load.image('axe', rutaImgWeapons + 'Axe.png');
+
+        //---------AUDIO----------//
     }
     create() { //carga los assets en pantalla desde memoria
         this.loadAnimations();
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.player = new playerPrefab(this, config.width / 2, config.height, 'player');
+        this.player = new playerPrefab(this, config.scale.width / 2, config.scale.height, 'player');
     }
 
     loadSounds() {
