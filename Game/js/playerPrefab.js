@@ -19,7 +19,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.direction = 1;
         
-        this.currentWeapon = WeaponType.AXE;
+        this.currentWeapon = WeaponType.FIREBOMB;
 
         // Init chain
         this.chain = _scene.add.rectangle(this.x, this.y - 35, 22, 6);
@@ -43,6 +43,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
 
         // Collisions
         this.SetBoxColliders();
+
+        // Actives & Passives
+        this.GetItemsState();
     }
 
     Move() {
@@ -158,6 +161,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
                             new axePrefab(this.scene, this.x, this.y, 'axe', this.direction);
                             break;
                         case WeaponType.FIREBOMB:
+                            new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction);
                             break;
                     }
                 }
@@ -266,5 +270,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.chain.y = 0;
         }
     }
-
+    GetItemsState()
+    {
+        
+    }
 }
