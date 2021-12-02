@@ -24,7 +24,7 @@ class firebombPrefab extends Phaser.GameObjects.Sprite
         }
 
         // Flip
-        if (this.direction < 0)
+        if (this.direction > 0)
         {
             this.flipX = true;  
         }
