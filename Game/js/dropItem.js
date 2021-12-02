@@ -9,6 +9,7 @@ class dropItem extends Phaser.GameObjects.Sprite
         this.setOrigin(0.5,0.5);
         this.posX = _positionX;
         this.posY = _positionY;
+        this.tag = _spriteTag;
     }
 
 }
