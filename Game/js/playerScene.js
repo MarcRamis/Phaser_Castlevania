@@ -12,12 +12,14 @@ class playerScene extends Phaser.Scene {
         var rutaSnd = 'assets/snd/';
 
         this.load.spritesheet('player', rutaImg + 'maincharacter_anim.png', { frameWidth: 104, frameHeight: 35 });
-        
+
+        //---------ENEMIES----------//
+
         //---------WEAPONS----------//
         this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
         this.load.image('axe', rutaImgWeapons + 'Axe.png');
         this.load.image('firebomb', rutaImgWeapons + 'FireBomb.png');
-        this.load.spritesheet('firebomb_fire', rutaImg + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
+        this.load.spritesheet('firebomb_fire', rutaImgWeapons + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
 
         //---------AUDIO----------//
     }
@@ -29,7 +31,7 @@ class playerScene extends Phaser.Scene {
 
         this.player = new playerPrefab(this, config.scale.width / 2, config.scale.height, 'player');
     }
-    
+
     loadPlayerAnimations() {
         this.anims.create({
             key: 'walk',
@@ -68,16 +70,14 @@ class playerScene extends Phaser.Scene {
             repeat: 0
         })
     }
-    loadWeaponAnimations()
-    {
+    loadWeaponAnimations() {
         this.anims.create({
-            key: 'fire',
+            key: 'fireAnim',
             frames: this.anims.generateFrameNumbers('firebomb_fire', { frames: [0, 1, 2, 3, 4] }),
-            frameRate: mainCharacterPrefs.frameRateAttack,
+            frameRate: 4,
             repeat: 0
         })
     }
-
     update() { //actualiza assets
 
         this.player.Update();
