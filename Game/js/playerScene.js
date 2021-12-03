@@ -15,8 +15,11 @@ class playerScene extends Phaser.Scene {
 
         //---------ENEMIES----------//
 
+        //---------ITEMS----------//
+        this.load.spritesheet('items', rutaImg + 'Items.png', { frameWidth: 16, frameHeight: 16 });
+
         //---------WEAPONS----------//
-        this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
+        //this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
         this.load.image('axe', rutaImgWeapons + 'Axe.png');
         this.load.image('firebomb', rutaImgWeapons + 'FireBomb.png');
         this.load.spritesheet('firebomb_fire', rutaImgWeapons + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
@@ -26,10 +29,12 @@ class playerScene extends Phaser.Scene {
     create() { //carga los assets en pantalla desde memoria
         this.loadPlayerAnimations();
         this.loadWeaponAnimations();
-
-        this.cursors = this.input.keyboard.createCursorKeys();
-
+        this.loadItemsSheet();
+        
+        this.morningStar = new morningStarPrefab(this, 50, 100);
         this.player = new playerPrefab(this, config.scale.width / 2, config.scale.height, 'player');
+        
+        this.setCollisions();
     }
 
     loadPlayerAnimations() {
@@ -77,6 +82,36 @@ class playerScene extends Phaser.Scene {
             frameRate: 4,
             repeat: 0
         })
+    }
+    loadItemsSheet() {
+        this.anims.create({
+            key: 'Little-Heart',
+            frames: this.anims.generateFrameNumbers('items', { frames: [0] }),
+            frameRate: 0,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'Heart',
+            frames: this.anims.generateFrameNumbers('items', { frames: [1] }),
+            frameRate: 0,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'MorningStar',
+            frames: this.anims.generateFrameNumbers('items', { frames: [2] }),
+            frameRate: 0,
+            repeat: -1
+        })
+    }
+    setCollisions() {
+        this.physics.add.overlap
+            (
+                this.player,
+                this.morningStar,
+                this.morningStar.playerCollided,
+                null,
+                this
+            );
     }
     update() { //actualiza assets
 

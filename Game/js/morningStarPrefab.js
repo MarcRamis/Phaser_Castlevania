@@ -10,4 +10,18 @@ class morningStarPrefab extends dropItem
         this.body.setSize(17, 17);
         this.body.collideWorldBounds = true;
     }
+
+    preUpdate()
+    {
+        if (dropItem.taken)
+        {
+            this.destroy();
+        }
+    }
+
+    playerCollided()
+    {
+        mainCharacterPrefs.isLargeAttack = true;
+        dropItem.taken = true;
+    }
 }
