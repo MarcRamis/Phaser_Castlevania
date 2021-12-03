@@ -19,7 +19,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.direction = 1;
         
-        this.currentWeapon = WeaponType.FIREBOMB;
+        this.currentWeapon = WeaponType.NONE;
 
         // Init chain
         this.chain = _scene.add.rectangle(this.x, this.y - 35, 22, 6);
@@ -270,8 +270,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.chain.y = 0;
         }
     }
+    
     GetItemsState()
     {
-        
     }
 }
