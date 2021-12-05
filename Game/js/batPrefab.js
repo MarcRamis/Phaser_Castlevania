@@ -25,6 +25,27 @@ class batPrefab extends Phaser.GameObjects.Sprite
         super.preUpdate(time, delta);
 
     }
+
+    Update(){
+
+        if(!this.active)
+        {
+            this.active = true; 
+            this.body.reset(this.redEnemy.width,this.redEnemy.height);
+            this.Move(1);
+        }
+        if(this.y >= this.posY+10){
+            this.directionY = -1;
+            this.Move(this.dir);
+        }
+        if(this.y <= this.posY-10){
+
+             this.directionY = 1;
+             this.Move(this.dir);
+
+        }
+
+    }
     
     Move(_direction)
     {

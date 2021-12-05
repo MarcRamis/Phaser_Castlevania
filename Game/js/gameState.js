@@ -25,7 +25,7 @@ class gameState extends Phaser.Scene
         {frameWidth: 16, frameHeight: 14});
 
         //FishMan
-        this.load.spritesheet('fishMan',rutaImg+'Enemy-FishMan.png',{frameWidth:14, frameHeight:31});
+        this.load.spritesheet('fishMan',rutaImg+'Enemy-FishMan.png',{frameWidth:16, frameHeight:31});
     }
     
     loadPools()
@@ -71,7 +71,7 @@ class gameState extends Phaser.Scene
         this.redEnemy.body.collideWorldBounds = true;
         
         //Bat
-        this.bat = new batPrefab(this,16,14, 'bat',-1);
+        this.bat = new batPrefab(this,16,25, 'bat',-1);
         this.enemies.add(this.bat);
         this.bat.body.collideWorldBounds = true;
         this.bat.Move(1);
@@ -156,12 +156,33 @@ class gameState extends Phaser.Scene
             frameRate: 7,
             repeat: -1
         });
-        // this.anims.create({
-        //     key: 'fishmanIdle',
-        //     frames: this.anims.generateFrameNumbers('fishMan', { start: 0, end: 0 }),
-        //     frameRate: 7,
-        //     repeat: -1
-        // });
+        this.anims.create({
+            key: 'fishmanWalk-Right',
+            frames: this.anims.generateFrameNumbers('fishMan', { start: 3, end: 4 }),
+            frameRate: 3,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'fishmanWalk-Left',
+            frames: this.anims.generateFrameNumbers('fishMan', { start: 2, end: 1 }),
+            frameRate: 3,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'fishmanJump',
+            frames: this.anims.generateFrameNumbers('fishMan', { start: 3, end: 3 }),
+
+        });
+        this.anims.create({
+            key: 'fishmanShoot-Right',
+            frames: this.anims.generateFrameNumbers('fishMan', { start: 5, end: 5 }),
+
+        });
+        this.anims.create({
+            key: 'fishmanShoot-Left',
+            frames: this.anims.generateFrameNumbers('fishMan', { start: 0, end: 0 }),
+
+        });
 
     }
 
@@ -172,59 +193,43 @@ class gameState extends Phaser.Scene
 
     update()
     { //actualiza assets
-        /*if(!redEnemy.active)
-            {
-                this.redEnemy.active = true;
-                this.redEnemy.body.reset(this.redEnemy.width,this.redEnemy.height);
-                this.redEnemy.Move(1);
-            }*/
+        // if(!redEnemy.active)
+        //     {
+        //         this.redEnemy.active = true;
+        //         this.redEnemy.body.reset(this.redEnemy.width,this.redEnemy.height);
+        //         this.redEnemy.Move(1);
+        //     }
 
 
-        /*Phaser.Actions.Call(this.panthers.getChildren(), function(){
-            //this.children.panthers.DetectFloor(1);
-        }, this);*/
-        /*for(var i = 0; i < this.panthers.children.length; i++)
-        {
-            this.panthers.children[i].SetPlayerDirection(-1);
-            this.panthers.children[i].Move(-1);
-            this.panthers[i].body.setVelocityX(25 * -1);
-        }*/
+        // Phaser.Actions.Call(this.panthers.getChildren(), function(){
+        //     //this.children.panthers.DetectFloor(1);
+        // }, this);
+        // for(var i = 0; i < this.panthers.children.length; i++)
+        // {
+        //     this.panthers.children[i].SetPlayerDirection(-1);
+        //     this.panthers.children[i].Move(-1);
+        //     this.panthers[i].body.setVelocityX(25 * -1);
+        // }
 
-        /*this.panthers.forEachAlive(function (enemy)
-        {
-            enemy.SetPlayerDirection(1);
-        }, this);*/
+        // this.panthers.forEachAlive(function (enemy)
+        // {
+        //     enemy.SetPlayerDirection(1);
+        // }, this);
         
         
-       //Bat
-        
-       if(!this.bat.active)
-            {
-                this.bat.active = true; 
-                this.bat.body.reset(this.redEnemy.width,this.redEnemy.height);
-                this.bat.Move(1);
-            }
-      
-        if(this.bat.body.position.y >= this.bat.posY+10){
-            this.bat.directionY = -1;
-            this.bat.Move(this.bat.dir);
-        }
-        else if(this.bat.body.position.y <= this.bat.posY-10){
-            this.bat.directionY = 1;
-            this.bat.Move(this.bat.dir);
-
-        }
+        //Bat
+        this.bat.Update();
         
         //FishMan
         this.fishMan.Update();
 
 
-        // this.panthers.children.iterate((child) => 
-        // {
-        //     //child.SetPlayerDirection(1);
-        //     child.Jump(1);
-        //     //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
-        // })
+        this.panthers.children.iterate((child) => 
+        {
+            //child.SetPlayerDirection(1);
+            child.Jump(1);
+            //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
+        })
 
     }
 
