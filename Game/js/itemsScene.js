@@ -24,6 +24,7 @@ class itemsScene extends Phaser.Scene
         // this.item.body.setSize(13, 12);
         // this.item.body.setOffset(2, 3);
         // this.item.body.collideWorldBounds = true;
+        this.createRandomObject(100, 50, this.dropItems); //Position in X, Position in Y, Group of objects to add this new Prefab
         this.item = new littleHeartPrefab(this, 25, 25);
         this.dropItems.add(this.item);
         this.item.body.collideWorldBounds = true;
@@ -83,8 +84,54 @@ class itemsScene extends Phaser.Scene
         this.dropItems = this.physics.add.group();
     }
 
+    createRandomObject(_posX, _posY, _dropItemsGroup) //To add to the prefab
+    {
+        var randNum = Math.random() * 100;
 
-    update(){
+        if(randNum < 40)
+        {
+            this.createDropItem("LittleHeart", _posX, _posY, _dropItemsGroup);
+        }
+        else if(randNum < 80)
+        {
+            this.createDropItem("Heart", _posX, _posY, _dropItemsGroup);
+        }
+        else
+        {
+            this.createDropItem("MorningStar", _posX, _posY, _dropItemsGroup);
+        }
+
+    }
+
+    createDropItem(_typeItemTag, _posX, _posY, _dropItemsGroup) //To add to the prefab
+    {
+        switch(_typeItemTag)
+        {
+            case "LittleHeart":
+                this.item = new littleHeartPrefab(this, _posX, _posY);
+                _dropItemsGroup.add(this.item);
+                this.item.body.collideWorldBounds = true;
+            break;
+            case "Heart":
+                this.item = new heartPrefab(this, _posX, _posY);
+                _dropItemsGroup.add(this.item);
+                this.item.body.collideWorldBounds = true;
+            break;
+            case "MorningStar":
+                this.item = new morningStarPrefab(this, _posX, _posY);
+                _dropItemsGroup.add(this.item);
+                this.item.body.collideWorldBounds = true;
+                break;
+            default:
+                this.item = new littleHeartPrefab(this, _posX, _posY);
+                _dropItemsGroup.add(this.item);
+                this.item.body.collideWorldBounds = true;
+                break;
+        }
+    }
+
+    update()
+    {
         
         
     }
