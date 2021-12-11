@@ -9,8 +9,8 @@ class fishMan extends Phaser.GameObjects.Sprite
    
     constructor(_scene,_positionX,_positionY,_spriteTag, _startDirection)
     {
-        
         super(_scene,_positionX,_positionY,_spriteTag);
+        this.s = _scene;
         _scene.add.existing(this);
         this.setOrigin(0.5,0.5);
         this.health = 1;
@@ -23,6 +23,8 @@ class fishMan extends Phaser.GameObjects.Sprite
         this.probandoTimer = 0;
         this.probandoTimerQuieto = 0;
 
+        this.shoot = false;
+        this.offsetY = -10;
     }
 
     preUpdate(time,delta)
@@ -68,6 +70,7 @@ class fishMan extends Phaser.GameObjects.Sprite
             this.FishState = FishState.SHOOT;
             this.probandoTimer = 0;
         }
+
     }
 
     Move(_direction)
@@ -88,27 +91,38 @@ class fishMan extends Phaser.GameObjects.Sprite
 
     
     Shoot(){
+        
         this.anims.play('fishmanShoot');
 
         this.auxDir = this.direction;
         this.body.setVelocity(0,0);
-        this.probandoTimerQuieto++;
 
+        
+        this.probandoTimerQuieto++;
+        
         if(this.direction > 0)
         {
             this.anims.play('fishmanShoot-Right');
         }
         else
         {
-
+            
             this.anims.play('fishmanShoot-Left');
         }
+
+
+        if(!this.shoot){
+            this.fishManShoot = new fishManShoot(this.s,this.x,this.y + this.offsetY,'shoot',this.auxDir);
+            this.shoot = true;
+        }
+        
 
         if(this.probandoTimerQuieto>= 60){
 
             this.FishState = FishState.WALK;
             this.Move(this.auxDir);
             this.probandoTimerQuieto=0;
+            this.shoot = false;
 
         }
         

@@ -26,6 +26,7 @@ class gameState extends Phaser.Scene
 
         //FishMan
         this.load.spritesheet('fishMan',rutaImg+'Enemy-FishMan.png',{frameWidth:16, frameHeight:31});
+        this.load.image('shoot', rutaImg+'Shoot.png');
     }
     
     loadPools()
