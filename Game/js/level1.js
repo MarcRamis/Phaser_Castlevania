@@ -7,6 +7,7 @@ class level1 extends Phaser.Scene{
 
         this.load.setPath("assets/map/Sprite-Sheets/");
         this.load.image('Level-1_TileSheet','Castelvania-Sheet.png');
+        this.load.image('Lamp','Lamp.png');
 
         this.load.setPath("assets/map/");
         this.load.tilemapTiledJSON('level_1','Cstelvania_NES_Level-1.json');
@@ -17,6 +18,7 @@ class level1 extends Phaser.Scene{
         //Cargo el JSON
         this.map = this.add.tilemap('level_1');
         //Cargo los Tilesets
+        this.map.addTilesetImage('Lamp');
         this.map.addTilesetImage('Level-1_TileSheet');
         //Pintamos las capas/layers
         this.walls = this.map.createLayer('Ground','Level-1_TileSheet');
@@ -24,6 +26,8 @@ class level1 extends Phaser.Scene{
         this.stairs = this.map.createLayer('Stairs','Level-1_TileSheet');
         this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene','Level-1_TileSheet');
         this.doors = this.map.createLayer('Door','Level-1_TileSheet');
+        this.map.createLayer('Lamps','Lamp');
+        //this.map.createFromObjects('Lamps', null, 'Lamp')
         //this.map.createLayer('moss_left_layer','tileset_moss');
         //this.map.createLayer('moss_right_layer','tileset_moss');
         //this.map.createLayer('moss_bottom_layer','tileset_moss');
