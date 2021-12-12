@@ -10,5 +10,7 @@ class littleHeartPrefab extends dropItem
         this.body.setSize(9, 9);
         this.body.setOffset(4, 4);
         this.body.collideWorldBounds = true;
+        
+        
     }
 }

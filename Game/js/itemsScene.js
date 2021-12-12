@@ -25,15 +25,16 @@ class itemsScene extends Phaser.Scene
         // this.item.body.setOffset(2, 3);
         // this.item.body.collideWorldBounds = true;
         this.createRandomObject(100, 50, this.dropItems); //Position in X, Position in Y, Group of objects to add this new Prefab
-        this.item = new littleHeartPrefab(this, 25, 25);
-        this.dropItems.add(this.item);
-        this.item.body.collideWorldBounds = true;
-        this.item = new heartPrefab(this, 200, 10);
-        this.dropItems.add(this.item);
-        this.item.body.collideWorldBounds = true;
-        this.item = new morningStarPrefab(this, 50, 100);
-        this.dropItems.add(this.item);
-        this.item.body.collideWorldBounds = true;
+        // this.item = new littleHeartPrefab(this, 25, 25);
+        // this.dropItems.add(this.item);
+        // this.item.body.collideWorldBounds = true;
+        // this.item = new heartPrefab(this, 200, 10);
+        // this.dropItems.add(this.item);
+        // this.item.body.collideWorldBounds = true;
+        // this.item = new morningStarPrefab(this, 50, 100);
+        // this.dropItems.add(this.item);
+        // this.item.body.collideWorldBounds = true;
+        
         this.physics.add.overlap
         (
             this.dropItems,

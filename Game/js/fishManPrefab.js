@@ -6,7 +6,7 @@ const FishState = {
 };
 class fishMan extends Phaser.GameObjects.Sprite
 {
-   
+
     constructor(_scene,_positionX,_positionY,_spriteTag, _startDirection)
     {
         super(_scene,_positionX,_positionY,_spriteTag);
@@ -36,7 +36,7 @@ class fishMan extends Phaser.GameObjects.Sprite
         super.preUpdate(time, delta);
 
     }
-    
+
     Update()
     {
         if(this.FishState == FishState.JUMP){
@@ -93,23 +93,23 @@ class fishMan extends Phaser.GameObjects.Sprite
     }
 
 
-    
+
     Shoot(){
-        
+
 
         this.auxDir = this.direction;
         this.body.setVelocity(0,0);
 
-        
+
         this.framesShoot++;
-        
+
         if(this.direction > 0)
         {
             this.anims.play('fishmanShoot-Right');
         }
         else
         {
-            
+
             this.anims.play('fishmanShoot-Left');
         }
 
@@ -128,8 +128,7 @@ class fishMan extends Phaser.GameObjects.Sprite
             this.shoot = false;
 
         }
-        
+
     }
-    
-    
+
 }
