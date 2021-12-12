@@ -10,8 +10,10 @@ class dropItem extends Phaser.GameObjects.Sprite
         this.posX = _positionX;
         this.posY = _positionY;
         this.tag = _spriteTag;
-
         this.taken = false;
+
+
+
     }
     DestroyItem()
     {

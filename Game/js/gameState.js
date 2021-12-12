@@ -8,7 +8,8 @@ class gameState extends Phaser.Scene
         });
     }
     preload()
-    { //carga los assets en memoria
+    { 
+        //carga los assets en memoria
         this.cameras.main.setBackgroundColor("#4488AA");
         var rutaImg = 'assets/img/';
         var rutaSnd = 'assets/snd/';
@@ -26,7 +27,20 @@ class gameState extends Phaser.Scene
 
         //FishMan
         this.load.spritesheet('fishMan',rutaImg+'Enemy-FishMan.png',{frameWidth:16, frameHeight:31});
+
         this.load.image('shoot', rutaImg+'Shoot.png');
+
+        //TestLamp
+        this.load.spritesheet('lamp',rutaImg+'lamp.png',{frameWidth:10, frameHeight:16});
+
+         //Items
+        this.load.setPath("assets/img/");
+        this.load.spritesheet('items','Items.png', { frameWidth: 16, frameHeight: 16 });
+
+
+
+
+
     }
     
     loadPools()
@@ -83,6 +97,9 @@ class gameState extends Phaser.Scene
         this.enemies.add(this.fishMan);
         this.fishMan.body.collideWorldBounds = false;
         this.fishMan.body.setGravity(0,-1000);
+
+        //Lamp
+        this.lamp = new lampPrefab(this,50,50,'lamp');
 
         /*var redEnemy = this.physics.add.image(20,20, 'RedEnemy');*/
         //this.redEnemy.DetectFloor(1);
@@ -183,7 +200,39 @@ class gameState extends Phaser.Scene
             key: 'fishmanShoot-Left',
             frames: this.anims.generateFrameNumbers('fishMan', { start: 0, end: 0 }),
 
+        });   
+        this.anims.create({
+            key: 'lampIdle',
+            frames: this.anims.generateFrameNumbers('lamp', { start: 0, end: 1 }),
+            frameRate: 10,
+            repeat: -1
+
         });
+        this.anims.create({
+            key: 'lampDestroy',
+            frames: this.anims.generateFrameNumbers('lamp', { start: 2, end: 5 }),
+            frameRate: 8,
+            repeat: 0
+
+        });
+        this.anims.create({
+            key: 'Little-Heart',
+            frames: this.anims.generateFrameNumbers('items', { frames: [0] }),
+            frameRate: 0,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'Heart',
+            frames: this.anims.generateFrameNumbers('items', { frames: [1] }),
+            frameRate: 0,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'MorningStar',
+            frames: this.anims.generateFrameNumbers('items', { frames: [2] }),
+            frameRate: 0,
+            repeat: -1
+        })
 
     }
 
@@ -193,7 +242,8 @@ class gameState extends Phaser.Scene
 
 
     update()
-    { //actualiza assets
+    { 
+        //actualiza assets
         // if(!redEnemy.active)
         //     {
         //         this.redEnemy.active = true;
@@ -224,6 +274,8 @@ class gameState extends Phaser.Scene
         //FishMan
         this.fishMan.Update();
 
+        //Testing Lamp
+        this.lamp.Test();
 
         this.panthers.children.iterate((child) => 
         {
