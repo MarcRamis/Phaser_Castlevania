@@ -27,10 +27,4 @@ class fishManShoot extends Phaser.GameObjects.Sprite
 
     }
     
-    Update()
-    {
-        
-    }
-    
-    
 }

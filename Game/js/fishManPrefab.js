@@ -20,8 +20,11 @@ class fishMan extends Phaser.GameObjects.Sprite
         this.walkVelocity = 30;
         this.FishState = FishState.JUMP;
 
-        this.probandoTimer = 0;
-        this.probandoTimerQuieto = 0;
+        this.framesWalk = 0;
+        this.framesWalkLimit = 200;
+
+        this.framesShoot = 0;
+        this.framesShootLimit = 50;
 
         this.shoot = false;
         this.offsetY = -10;
@@ -38,7 +41,7 @@ class fishMan extends Phaser.GameObjects.Sprite
     {
         if(this.FishState == FishState.JUMP){
             this.anims.play("fishmanJump");
-            this.body.setVelocity(0, -90);
+            this.body.setVelocity(0, -200);
             if(this.y <= 100)
                  this.FishState = FishState.FALL;
         }
@@ -46,14 +49,15 @@ class fishMan extends Phaser.GameObjects.Sprite
             this.anims.play("fishmanJump");
 
             this.body.collideWorldBounds = true;
-            this.body.setVelocity(0, 90);
+            this.body.setGravity(0,200);
+
             if(this.y >= 159){
                 this.FishState = FishState.WALK;
 
             }
         }
         else if(this.FishState == FishState.WALK){
-            this.probandoTimer++;
+            this.framesWalk++;
 
 
             if(this.body.velocity.x == 0)
@@ -66,9 +70,9 @@ class fishMan extends Phaser.GameObjects.Sprite
             this.Shoot();
         }
 
-        if(this.probandoTimer >= 100){
+        if(this.framesWalk >= this.framesWalkLimit){
             this.FishState = FishState.SHOOT;
-            this.probandoTimer = 0;
+            this.framesWalk = 0;
         }
 
     }
@@ -92,13 +96,12 @@ class fishMan extends Phaser.GameObjects.Sprite
     
     Shoot(){
         
-        this.anims.play('fishmanShoot');
 
         this.auxDir = this.direction;
         this.body.setVelocity(0,0);
 
         
-        this.probandoTimerQuieto++;
+        this.framesShoot++;
         
         if(this.direction > 0)
         {
@@ -115,13 +118,13 @@ class fishMan extends Phaser.GameObjects.Sprite
             this.fishManShoot = new fishManShoot(this.s,this.x,this.y + this.offsetY,'shoot',this.auxDir);
             this.shoot = true;
         }
-        
 
-        if(this.probandoTimerQuieto>= 60){
+
+        if (this.framesShoot >= this.framesShootLimit) {
 
             this.FishState = FishState.WALK;
             this.Move(this.auxDir);
-            this.probandoTimerQuieto=0;
+            this.framesShoot = 0;
             this.shoot = false;
 
         }
