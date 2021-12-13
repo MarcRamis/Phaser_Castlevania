@@ -22,6 +22,7 @@ class playerScene extends Phaser.Scene {
         //this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
         this.load.image('axe', rutaImgWeapons + 'Axe.png');
         this.load.image('firebomb', rutaImgWeapons + 'FireBomb.png');
+        this.load.image('dagger', rutaImgWeapons + 'Dagger.png');
         this.load.spritesheet('firebomb_fire', rutaImgWeapons + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
 
         //---------AUDIO----------//

@@ -1,6 +1,7 @@
 const WeaponType = {
     AXE: "axe",
     FIREBOMB: "firebomb",
+    DAGGER: "dagger",
     NONE: "noweapon"
 };
 
@@ -19,7 +20,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.direction = 1;
         
-        this.currentWeapon = WeaponType.NONE;
+        this.currentWeapon = WeaponType.DAGGER;
 
         // Init chain
         this.chain = _scene.add.rectangle(this.x, this.y - 35, 22, 6);
@@ -162,6 +163,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
                             break;
                         case WeaponType.FIREBOMB:
                             new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction);
+                            break;
+                        case WeaponType.DAGGER:
+                            new daggerPrefab(this.scene, this.x, this.y, 'dagger', this.direction);
                             break;
                     }
                 }
