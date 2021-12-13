@@ -19,7 +19,7 @@ var config=
     width:2816,
     height:176,
     //Scenes --> 'playerScene' 'level1', & 'gameState' 
-    scene:[playerScene],
+    scene:[level1],
     render:{
         pixelArt:true
     },
