@@ -3,67 +3,54 @@ class level1 extends Phaser.Scene{
         super({key:"level1"});
     }
     preload(){
-        //this.load.setPath("assets/sprites/");
-        //---------MAP----------//
-        var rutaMapSheet = "assets/map/Sprite-Sheets/";
-        this.load.image('Level-1_TileSheet', rutaMapSheet + 'Castelvania-Sheet.png');
-        this.load.image('Lamp', rutaMapSheet + 'Lamp.png');
-
+        //---------PATHS----------//
         var rutaMap = "assets/map/";
-        this.load.tilemapTiledJSON('level_1', rutaMap + 'Cstelvania_NES_Level-1.json');
-
-        //---------BACKGROUND----------//
-        this.cameras.main.setBackgroundColor("#4488AA");
         var rutaImg = 'assets/img/';
         var rutaImgWeapons = 'assets/img/weapons/';
         var rutaSnd = 'assets/snd/';
 
+        //---------MAP----------//
+        var rutaMapSheet = "assets/map/Sprite-Sheets/";
+        this.load.image('Level-1_TileSheet', rutaMapSheet + 'Castelvania-Sheet.png');
+        this.load.tilemapTiledJSON('level_1', rutaMap + 'Cstelvania_NES_Level-1.json');
+        
+        //---------BACKGROUND----------//
+        this.cameras.main.setBackgroundColor("#4488AA");
+        
+        //---------PLAYER----------//
         this.load.spritesheet('player', rutaImg + 'maincharacter_anim.png', { frameWidth: 104, frameHeight: 35 });
 
         //---------ENEMIES----------//
 
         //---------ITEMS----------//
+        this.load.image('Lamp', rutaMapSheet + 'Lamp.png');
         this.load.spritesheet('items', rutaImg + 'Items.png', { frameWidth: 16, frameHeight: 16 });
 
         //---------WEAPONS----------//
         //this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
+        this.load.image('dagger', rutaImgWeapons + 'Dagger.png');
         this.load.image('axe', rutaImgWeapons + 'Axe.png');
         this.load.image('firebomb', rutaImgWeapons + 'FireBomb.png');
         this.load.spritesheet('firebomb_fire', rutaImgWeapons + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
 
         //---------AUDIO----------//
-
     }
     create(){
-        //Pintamos el nivel
-        //Cargo el JSON
-        this.map = this.add.tilemap('level_1');
-        //Cargo los Tilesets
-        this.map.addTilesetImage('Lamp');
-        this.map.addTilesetImage('Level-1_TileSheet');
-        //Pintamos las capas/layers
-        this.walls = this.map.createLayer('Ground','Level-1_TileSheet');
-        this.map.createLayer('BackGround','Level-1_TileSheet');
-        this.stairs = this.map.createLayer('Stairs','Level-1_TileSheet');
-        this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene','Level-1_TileSheet');
-        this.doors = this.map.createLayer('Door','Level-1_TileSheet');
-        this.map.createLayer('Lamps','Lamp');
+        // Map
+        this.loadMap();
 
-        //Indicamos las colisiones con paredes/suelo/techo
-        this.map.setCollisionBetween(1,11,true,true,'Ground');
-
-        //Player
+        // Animations
         this.loadPlayerAnimations();
         this.loadWeaponAnimations();
         this.loadItemsSheet();
         
-        this.morningStar = new morningStarPrefab(this, 50, 100);
+        // Prefabs
+        //this.morningStar = new morningStarPrefab(this, 50, 100);
         this.player = new playerPrefab(this, 50, 100, 'player');
         
+        // Utility
+        this.setCamera();
         this.setCollisions();
-        
-        
-    
     }
 
     loadPlayerAnimations() {
@@ -132,15 +119,39 @@ class level1 extends Phaser.Scene{
             repeat: -1
         })
     }
+    
     setCollisions() {
-        this.physics.add.overlap
-            (
-                this.player,
-                this.morningStar,
-                this.morningStar.playerCollided,
-                null,
-                this
-            );
+        this.map.setCollisionBetween(1,77,true,true,'Ground'); //Indicamos las colisiones con paredes/suelo/techo
+        this.physics.add.collider(this.player, this.walls); // Ahora con el player
+        // this.physics.add.overlap
+        //     (
+        //         this.player,
+        //         this.morningStar,
+        //         this.morningStar.playerCollided,
+        //         null,
+        //         this
+        //     );
+    }
+    loadMap()
+    {
+        //Pintamos el nivel
+        //Cargo el JSON
+        this.map = this.add.tilemap('level_1');
+        //Cargo los Tilesets
+        this.map.addTilesetImage('Lamp');
+        this.map.addTilesetImage('Level-1_TileSheet');
+        //Pintamos las capas/layers
+        this.walls = this.map.createLayer('Ground','Level-1_TileSheet');
+        this.map.createLayer('BackGround','Level-1_TileSheet');
+        this.stairs = this.map.createLayer('Stairs','Level-1_TileSheet');
+        this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene','Level-1_TileSheet');
+        this.doors = this.map.createLayer('Door','Level-1_TileSheet');
+        this.map.createLayer('Lamps','Lamp');
+    }
+    setCamera()
+    {
+        this.cameras.main.startFollow(this.player);
+        this.cameras.main.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
     }
 
     update(){
