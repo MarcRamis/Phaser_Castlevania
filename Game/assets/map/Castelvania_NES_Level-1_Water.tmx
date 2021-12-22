@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="11" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="11" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="3">
  <tileset firstgid="1" source="Sprite-Sheets/Castelvania-Sheet-Water.tsx"/>
+ <tileset firstgid="65" source="Sprite-Sheets/Player-Sheet.tsx"/>
  <layer id="1" name="BackGround" width="32" height="11">
   <data encoding="csv">
 7,8,25,0,18,5,7,8,5,5,5,5,7,8,5,5,7,8,5,5,15,16,25,0,18,5,5,5,15,16,31,0,
@@ -61,7 +62,11 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <imagelayer id="2" name="BackGround-Image" opacity="0.5">
+ <objectgroup id="6" name="PlayerSpawns">
+  <object id="1" gid="65" x="64" y="32" width="16" height="32"/>
+  <object id="2" gid="65" x="384" y="32" width="16" height="32"/>
+ </objectgroup>
+ <imagelayer id="2" name="BackGround-Image" visible="0" opacity="0.5">
   <image source="../img/Castelvania-Level-1_Water.png" width="512" height="176"/>
  </imagelayer>
 </map>
