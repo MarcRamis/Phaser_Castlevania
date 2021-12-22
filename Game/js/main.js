@@ -25,7 +25,7 @@ var config=
     },
     scale:{
         mode:Phaser.Scale.FIT,
-        width:2816 / 16,
+        width:2816 /1.5,
         height:176,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
