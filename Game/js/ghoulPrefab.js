@@ -8,16 +8,11 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
         //this.anims.play('idleEnemy');
         this.health = 1;
         this.direction = _startDirection;
+        
     }
 
     preUpdate(time,delta)
     {
-        if((this.x >= 256/*+this.body.weight*/) || (this.x <= 0/*-this.body.weight*/))
-        {
-            //console.log('i fucking died');
-            //this.active = false;
-            this.body.setVelocityX(0);
-        }
         if(this.body.velocity.x == 0)
         {
             this.Move(this.direction * -1);
