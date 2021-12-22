@@ -17,7 +17,7 @@ var config=
 {
     type: Phaser.AUTO,
     width:2816,
-    height:176,
+    height:208,
     //Scenes --> 'playerScene' 'level1', & 'gameState' 
     scene:[level1],
     render:{
@@ -26,7 +26,7 @@ var config=
     scale:{
         mode:Phaser.Scale.FIT,
         width:2816 /1.5,
-        height:176,
+        height:208,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     physics:{
