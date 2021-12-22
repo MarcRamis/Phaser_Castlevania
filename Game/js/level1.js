@@ -67,6 +67,7 @@ class level1 extends Phaser.Scene{
         this.map.addTilesetImage('Lamp');
         this.map.addTilesetImage('Level-1_TileSheet');
         //Pintamos las capas/layers
+        this.hud = this.map.createLayer('HUD','Level-1_TileSheet');
         this.walls = this.map.createLayer('Ground','Level-1_TileSheet');
         this.map.createLayer('BackGround','Level-1_TileSheet');
         this.stairs = this.map.createLayer('Stairs','Level-1_TileSheet');
