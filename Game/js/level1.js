@@ -135,8 +135,13 @@ class level1 extends Phaser.Scene{
         this.player = new playerPrefab(this, 50, 100, 'player');
         
         this.setCollisions();
-        
-        
+        this.ui = new uiPrefab();
+
+        this.ui.create(this);
+
+
+
+
     
     }
 

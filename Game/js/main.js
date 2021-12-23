@@ -16,8 +16,8 @@ var mainCharacterPrefs=
 var config=
 {
     type: Phaser.AUTO,
-    width:2816,
-    height:208,
+    width:2816, //2816  256
+    height:208, // 208  240
     //Scenes --> 'playerScene' 'level1', & 'gameState' 
     scene:[level1],
     render:{
@@ -25,7 +25,9 @@ var config=
     },
     scale:{
         mode:Phaser.Scale.FIT,
-        width:2816 /1.5,
+        // width:2816 /1.5,
+        // height:208,
+        width:256,
         height:208,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
