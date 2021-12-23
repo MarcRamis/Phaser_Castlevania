@@ -3,21 +3,21 @@ class level1 extends Phaser.Scene{
         super({key:"level1"});
     }
     preload(){
-        //this.load.setPath("assets/sprites/");
-        //---------MAP----------//
-        var rutaMapSheet = "assets/map/Sprite-Sheets/";
-        this.load.image('Level-1_TileSheet', rutaMapSheet + 'Castelvania-Sheet.png');
-        this.load.image('Lamp', rutaMapSheet + 'Lamp.png');
-
+        //---------PATHS----------//
         var rutaMap = "assets/map/";
-        this.load.tilemapTiledJSON('level_1', rutaMap + 'Cstelvania_NES_Level-1.json');
-
-        //---------BACKGROUND----------//
-        this.cameras.main.setBackgroundColor("#4488AA");
         var rutaImg = 'assets/img/';
         var rutaImgWeapons = 'assets/img/weapons/';
         var rutaSnd = 'assets/snd/';
 
+        //---------MAP----------//
+        var rutaMapSheet = "assets/map/Sprite-Sheets/";
+        this.load.image('Level-1_TileSheet', rutaMapSheet + 'Castelvania-Sheet.png');
+        this.load.tilemapTiledJSON('level_1', rutaMap + 'Cstelvania_NES_Level-1.json');
+        
+        //---------BACKGROUND----------//
+        this.cameras.main.setBackgroundColor("#4488AA");
+        
+        //---------PLAYER----------//
         this.load.spritesheet('player', rutaImg + 'maincharacter_anim.png', { frameWidth: 104, frameHeight: 35 });
 
         //---------ENEMIES----------//
@@ -36,108 +36,37 @@ class level1 extends Phaser.Scene{
         this.load.image('shoot', rutaImg+'Shoot.png');
 
         //---------ITEMS----------//
+        this.load.image('Lamp', rutaMapSheet + 'Lamp.png');
         this.load.spritesheet('items', rutaImg + 'Items.png', { frameWidth: 16, frameHeight: 16 });
         this.load.spritesheet('lamp',rutaImg+'lamp.png',{frameWidth:10, frameHeight:16});
         
         //---------WEAPONS----------//
-        //this.load.image('morningStar', rutaImgWeapons + 'MorningStar.png');
+        this.load.image('dagger', rutaImgWeapons + 'Dagger.png');
         this.load.image('axe', rutaImgWeapons + 'Axe.png');
         this.load.image('firebomb', rutaImgWeapons + 'FireBomb.png');
         this.load.spritesheet('firebomb_fire', rutaImgWeapons + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
 
         //---------AUDIO----------//
-
     }
     create(){
-        //Pintamos el nivel
-        //Parse the file
-        this.levelData = this.cache.json.get('lamps');
-        //console.log(this.levelData);
-        //console.log(this.levelData.layers[0]);
-        /*this.levelData.layers.forEach(layerData => {
-            if(layerData.name == "Lamps-Obj")
-            {
-                console.log("Entro");
-            }
-        });*/
-        //Cargo el JSON
-        this.map = this.add.tilemap('level_1');
         
-        //Cargo los Tilesets
-        this.map.addTilesetImage('Lamp');
-        this.map.addTilesetImage('Level-1_TileSheet');
-        //Pintamos las capas/layers
-        this.hud = this.map.createLayer('HUD','Level-1_TileSheet');
-        this.walls = this.map.createLayer('Ground','Level-1_TileSheet');
-        this.map.createLayer('BackGround','Level-1_TileSheet');
-        this.stairs = this.map.createLayer('Stairs','Level-1_TileSheet');
-        this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene','Level-1_TileSheet');
-        this.doors = this.map.createLayer('Door','Level-1_TileSheet');
-        this.map.createLayer('Lamps','Lamp');
-
-        //Indicamos las colisiones con paredes/suelo/techo
-        this.map.setCollisionBetween(1,11,true,true,'Ground');
-
-        //Player
+        // Animations
         this.loadPlayerAnimations();
         this.loadWeaponAnimations();
-
-        //Items
         this.loadItemsSheet();
-
-        //Enemies
         this.loadEnemyAnimations();
+
+        // Pools
         this.loadPools();
-        
-        //Creamos todas las lamparas y enemigos del nivel
-        this.map.objects.forEach(layerData => {
-            //console.log(layerData.name);
-            switch(layerData.name)
-            {
-                case('Lamps-Obj'):
-                //console.log(layerData.objects);
-                layerData.objects.forEach(lamp => {
-                    this.lamp = new lampPrefab(this,lamp.x + 8,lamp.y - 8,'lamp'); //Aqui se suman valores cambiarlo en el prefab directamente
-                });
-                break;
-                case('Enemies'):
-                //console.log(layerData.objects);
-                layerData.objects.forEach(enemy => {
-                    //console.log(enemy.properties[0].value)
-                    switch(enemy.properties[0].value)
-                    {
-                        case('Ghoul'):
-                        this.ghoul = new ghoulPrefab(this, enemy.x, enemy.y-64, 'enemyGhoul', 1);
-                        this.enemies.add(this.ghoul);
-                        this.ghoul.body.collideWorldBounds = true;
-                        break;
+        // Map
+        this.loadMap();       
 
-                        case('Panther'):
-                        this.panther = new pantherPrefab(this, enemy.x, enemy.y-64, 'enemyPanther', -1);
-                        this.panthers.add(this.panther);
-                        this.panther.body.collideWorldBounds = true;
-                        break;
-
-                        case('Bat'):
-                        this.bat = new batPrefab(this, enemy.x, enemy.y, 'bat', -1);
-                        this.bats.add(this.bat);
-                        this.bat.body.collideWorldBounds = true;
-                        this.bat.Move(-1);
-                        this.bat.body.setGravity(0,-1000);
-                        break;
-                    }
-                });
-                break; 
-            }
-        });
-
-        this.morningStar = new morningStarPrefab(this, 50, 100);
+        // Player
         this.player = new playerPrefab(this, 50, 100, 'player');
         
+        // Utility
+        this.setCamera();
         this.setCollisions();
-        
-        
-    
     }
 
     loadPlayerAnimations() {
@@ -313,20 +242,85 @@ class level1 extends Phaser.Scene{
         });   
     }
     setCollisions() {
-        this.physics.add.overlap
-            (
-                this.player,
-                this.morningStar,
-                this.morningStar.playerCollided,
-                null,
-                this
-            );
+        this.map.setCollisionBetween(1,77,true,true,'Ground'); //Indicamos las colisiones con paredes/suelo/techo
+        this.physics.add.collider(this.player, this.walls); // Ahora con el player
+        // this.physics.add.overlap
+        //     (
+        //         this.player,
+        //         this.morningStar,
+        //         this.morningStar.playerCollided,
+        //         null,
+        //         this
+        //     );
     }
+    loadMap()
+    {
+        //Pintamos el nivel
+        //Cargo el JSON
+        this.map = this.add.tilemap('level_1');
+        //Cargo los Tilesets
+        this.map.addTilesetImage('Lamp');
+        this.map.addTilesetImage('Level-1_TileSheet');
+        //Pintamos las capas/layers
+        this.hud = this.map.createLayer('HUD','Level-1_TileSheet');
+        this.walls = this.map.createLayer('Ground','Level-1_TileSheet');
+        this.map.createLayer('BackGround','Level-1_TileSheet');
+        this.stairs = this.map.createLayer('Stairs','Level-1_TileSheet');
+        this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene','Level-1_TileSheet');
+        this.doors = this.map.createLayer('Door','Level-1_TileSheet');
+
+        // Leemos toda la información de las lámparas y enemigos en el mapa
+        this.map.objects.forEach(layerData => {
+            switch(layerData.name)
+            {
+                case('Lamps-Obj'):
+                layerData.objects.forEach(lamp => {
+                    this.lamp = new lampPrefab(this,lamp.x + 8,lamp.y - 8,'lamp'); //Aqui se suman valores cambiarlo en el prefab directamente
+                    this.lamps.add(this.lamp);  
+                    this.lamp.body.allowGravity = false;
+                });
+                break;
+                case('Enemies'):
+                layerData.objects.forEach(enemy => {
+                    switch(enemy.properties[0].value)
+                    {
+                        case('Ghoul'):
+                        this.ghoul = new ghoulPrefab(this, enemy.x, enemy.y-64, 'enemyGhoul', 1);
+                        this.enemies.add(this.ghoul);
+                        this.ghoul.body.collideWorldBounds = true;
+                        break;
+
+                        case('Panther'):
+                        this.panther = new pantherPrefab(this, enemy.x, enemy.y-64, 'enemyPanther', -1);
+                        this.panthers.add(this.panther);
+                        this.panther.body.collideWorldBounds = true;
+                        break;
+
+                        case('Bat'):
+                        this.bat = new batPrefab(this, enemy.x, enemy.y, 'bat', -1);
+                        this.bats.add(this.bat);
+                        this.bat.body.collideWorldBounds = true;
+                        this.bat.Move(-1);
+                        this.bat.body.setGravity(0,-1000);
+                        break;
+                    }
+                });
+                break; 
+            }
+        });
+    }
+    setCamera()
+    {
+        this.cameras.main.startFollow(this.player);
+        this.cameras.main.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
+    }
+
     loadPools()
     {
         this.enemies = this.physics.add.group();
         this.panthers = this.physics.add.group();
         this.bats = this.physics.add.group();
+        this.lamps = this.physics.add.group();
     }
     update(){
         this.player.Update();
