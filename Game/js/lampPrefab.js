@@ -11,8 +11,7 @@ class lampPrefab extends Phaser.GameObjects.Sprite
         this.anims.play("lampIdle");
         this.testTimer = 0;
         this.alive = true;
-         this.dropItems = this.s.physics.add.group();
-
+        this.dropItems = this.s.physics.add.group();
     }
 
     preUpdate(time,delta)

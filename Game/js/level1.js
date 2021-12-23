@@ -63,6 +63,7 @@ class level1 extends Phaser.Scene{
 
         // Player
         this.player = new playerPrefab(this, 50, 100, 'player');
+        this.physics.add.collider(this.player, this.walls);
         
         // Utility
         this.setCamera();
@@ -241,18 +242,6 @@ class level1 extends Phaser.Scene{
 
         });   
     }
-    setCollisions() {
-        this.map.setCollisionBetween(1,77,true,true,'Ground'); //Indicamos las colisiones con paredes/suelo/techo
-        this.physics.add.collider(this.player, this.walls); // Ahora con el player
-        // this.physics.add.overlap
-        //     (
-        //         this.player,
-        //         this.morningStar,
-        //         this.morningStar.playerCollided,
-        //         null,
-        //         this
-        //     );
-    }
     loadMap()
     {
         //Pintamos el nivel
@@ -268,6 +257,8 @@ class level1 extends Phaser.Scene{
         this.stairs = this.map.createLayer('Stairs','Level-1_TileSheet');
         this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene','Level-1_TileSheet');
         this.doors = this.map.createLayer('Door','Level-1_TileSheet');
+
+        this.map.setCollisionBetween(1,77,true,true,'Ground'); //Indicamos las colisiones con paredes/suelo/techo
 
         // Leemos toda la información de las lámparas y enemigos en el mapa
         this.map.objects.forEach(layerData => {
@@ -287,21 +278,18 @@ class level1 extends Phaser.Scene{
                         case('Ghoul'):
                         this.ghoul = new ghoulPrefab(this, enemy.x, enemy.y-64, 'enemyGhoul', 1);
                         this.enemies.add(this.ghoul);
-                        this.ghoul.body.collideWorldBounds = true;
                         break;
 
                         case('Panther'):
                         this.panther = new pantherPrefab(this, enemy.x, enemy.y-64, 'enemyPanther', -1);
                         this.panthers.add(this.panther);
-                        this.panther.body.collideWorldBounds = true;
                         break;
 
                         case('Bat'):
                         this.bat = new batPrefab(this, enemy.x, enemy.y, 'bat', -1);
                         this.bats.add(this.bat);
-                        this.bat.body.collideWorldBounds = true;
                         this.bat.Move(-1);
-                        this.bat.body.setGravity(0,-1000);
+                        this.bat.body.allowGravity = false;
                         break;
                     }
                 });
@@ -314,7 +302,21 @@ class level1 extends Phaser.Scene{
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
     }
-
+    setCollisions()
+    {
+        this.enemies.children.iterate(ghoul =>{
+            this.physics.add.collider(ghoul, this.walls);
+        });
+        this.panthers.children.iterate(panther =>{
+            this.physics.add.collider(panther, this.walls);
+        });
+        this.bats.children.iterate(bat =>{
+            //bat.Update();
+        });
+        // this.lamps.children.iterate(lamp =>{
+        //     this.physics.add.overlap(this,this.player,lamp.Destroy,null,this);
+        // });
+    }
     loadPools()
     {
         this.enemies = this.physics.add.group();
@@ -324,5 +326,16 @@ class level1 extends Phaser.Scene{
     }
     update(){
         this.player.Update();
+
+        this.bats.children.iterate(bat =>{
+            bat.Update();
+        });
+        
+        // this.panthers.children.iterate((child) => 
+        // {
+        //     //child.SetPlayerDirection(1);
+        //     child.Jump(1);
+        //     //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
+        // })
     }
 }
