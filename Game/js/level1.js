@@ -340,7 +340,7 @@ class level1 extends Phaser.Scene{
         this.bats.children.iterate(bat =>{
             bat.Update();
         });
-        
+            
         // this.panthers.children.iterate((child) => 
         // {
         //     //child.SetPlayerDirection(1);

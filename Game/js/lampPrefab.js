@@ -73,6 +73,7 @@ class lampPrefab extends Phaser.GameObjects.Sprite
             default:
                 this.item = new littleHeartPrefab(this.s, _posX, _posY);
                 _dropItemsGroup.add(this.item);
+                //this.item.body.collideWorldBounds = true;
                 this.s.physics.add.collider(this.item, this.s.walls);
                 break;
         }
