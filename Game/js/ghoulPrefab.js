@@ -36,5 +36,8 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
         //this.direction = _direction;
     }
     
-    
+    TakeDamage()
+    {
+        console.log("Ghoul taking damage");
+    }
 }

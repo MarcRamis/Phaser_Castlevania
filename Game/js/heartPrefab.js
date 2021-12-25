@@ -11,4 +11,17 @@ class heartPrefab extends dropItem
         this.body.setOffset(2, 3);
         this.body.collideWorldBounds = true;
     }
+    
+    preUpdate()
+    {
+        if (dropItem.taken)
+        {
+            this.destroy();
+        }
+    }
+
+    playerCollided()
+    {
+        dropItem.taken = true;
+    }
 }

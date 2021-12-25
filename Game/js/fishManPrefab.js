@@ -131,4 +131,8 @@ class fishMan extends Phaser.GameObjects.Sprite
 
     }
 
+    TakeDamage()
+    {
+        console.log("FishMan taking damage");
+    }
 }

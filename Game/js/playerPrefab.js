@@ -20,7 +20,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = false;
         this.direction = 1;
         
-        this.currentWeapon = WeaponType.DAGGER;
+        this.currentWeapon = WeaponType.FIREBOMB;
 
         // Init chain
         this.chain = _scene.add.rectangle(this.x, this.y - 35, 22, 6);
@@ -28,7 +28,6 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         _scene.add.existing(this.chain);
         _scene.physics.world.enable(this.chain);
         this.chain.body.allowGravity = false;
-        //_scene.physics.add.overlap(this, this.chain);
 
         // Init inputs
         this.cursors = _scene.input.keyboard.createCursorKeys();
@@ -159,13 +158,16 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
                     switch (this.currentWeapon)
                     {
                         case WeaponType.AXE:
-                            new axePrefab(this.scene, this.x, this.y, 'axe', this.direction);
+                            this.weapon = new axePrefab(this.scene, this.x, this.y, 'axe', this.direction);
+                            this.scene.physics.add.collider(this.weapon, this.scene.walls);
                             break;
                         case WeaponType.FIREBOMB:
-                            new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction);
+                            this.weapon = new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction);
+                            this.scene.physics.add.collider(this.weapon, this.scene.walls);
                             break;
                         case WeaponType.DAGGER:
-                            new daggerPrefab(this.scene, this.x, this.y, 'dagger', this.direction);
+                            this.weapon = new daggerPrefab(this.scene, this.x, this.y, 'dagger', this.direction);
+                            this.scene.physics.add.collider(this.weapon, this.scene.walls);
                             break;
                     }
                 }
@@ -277,5 +279,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     
     GetItemsState()
     {
+    }
+    TakeDamage()
+    {
+        console.log("Player taking damage");
     }
 }

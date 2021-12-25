@@ -13,4 +13,17 @@ class littleHeartPrefab extends dropItem
         
         
     }
+
+    preUpdate()
+    {
+        if (dropItem.taken)
+        {
+            this.destroy();
+        }
+    }
+
+    playerCollided()
+    {
+        dropItem.taken = true;
+    }
 }
