@@ -2,8 +2,6 @@ var gamePrefs=
 {
     gameWidth:2816,
     gameHeight:208,
-    // level1Width:,
-    // level1Height,
 }
 
 var mainCharacterPrefs=

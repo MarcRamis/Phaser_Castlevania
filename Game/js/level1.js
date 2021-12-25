@@ -304,18 +304,26 @@ class level1 extends Phaser.Scene{
     }
     setCollisions()
     {
-        this.enemies.children.iterate(ghoul =>{
-            this.physics.add.collider(ghoul, this.walls);
+        this.enemies.children.iterate(enemy =>{
+            this.physics.add.collider(enemy, this.walls);
+            
+            this.physics.add.overlap(enemy, this.player, this.player.TakeDamage, null, this);
+            this.physics.add.overlap(enemy, this.player.chain, enemy.TakeDamage, mainCharacterPrefs.isAttacking, this);
         });
         this.panthers.children.iterate(panther =>{
             this.physics.add.collider(panther, this.walls);
+
+            this.physics.add.overlap(panther, this.player, this.player.TakeDamage, null, this);
+            this.physics.add.overlap(panther, this.player.chain, panther.TakeDamage, mainCharacterPrefs.isAttacking, this);
         });
         this.bats.children.iterate(bat =>{
-            //bat.Update();
+            
+            this.physics.add.overlap(bat, this.player, this.player.TakeDamage, null, this);
+            this.physics.add.overlap(bat, this.player.chain, bat.TakeDamage, mainCharacterPrefs.isAttacking, this);
         });
-        // this.lamps.children.iterate(lamp =>{
-        //     this.physics.add.overlap(this,this.player,lamp.Destroy,null,this);
-        // });
+        this.lamps.children.iterate(lamp =>{
+             //this.physics.add.overlap(this,this.player,lamp.Destroy,null,this);
+        });
     }
     loadPools()
     {
@@ -331,6 +339,9 @@ class level1 extends Phaser.Scene{
             bat.Update();
         });
         
+        // this.enemies.children.iterate(enemy => {
+            
+        // });
         // this.panthers.children.iterate((child) => 
         // {
         //     //child.SetPlayerDirection(1);

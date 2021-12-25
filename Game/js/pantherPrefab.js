@@ -114,5 +114,8 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
         this.body.setVelocityX(25 * _playerDirection);
     }
     
-    
+    TakeDamage()
+    {
+        console.log("Phanter taking damage");
+    }
 }

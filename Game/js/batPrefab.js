@@ -61,7 +61,8 @@ class batPrefab extends Phaser.GameObjects.Sprite
         }
         this.body.setVelocity(25 * this.dir, 30 * this.directionY);
     }
-    
-    
-    
+    TakeDamage()
+    {
+        console.log("Bat taking damage");
+    }
 }

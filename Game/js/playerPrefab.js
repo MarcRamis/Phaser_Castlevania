@@ -278,4 +278,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     GetItemsState()
     {
     }
+    TakeDamage()
+    {
+        console.log("Player taking damage");
+    }
 }
