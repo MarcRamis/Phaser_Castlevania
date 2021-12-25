@@ -58,12 +58,12 @@ class level1 extends Phaser.Scene{
 
         // Pools
         this.loadPools();
+        
         // Map
         this.loadMap();       
 
         // Player
         this.player = new playerPrefab(this, 50, 100, 'player');
-        this.physics.add.collider(this.player, this.walls);
         
         // Utility
         this.setCamera();
@@ -304,6 +304,8 @@ class level1 extends Phaser.Scene{
     }
     setCollisions()
     {
+        this.physics.add.collider(this.player, this.walls);
+
         this.enemies.children.iterate(enemy =>{
             this.physics.add.collider(enemy, this.walls);
             
@@ -321,8 +323,8 @@ class level1 extends Phaser.Scene{
             this.physics.add.overlap(bat, this.player, this.player.TakeDamage, null, this);
             this.physics.add.overlap(bat, this.player.chain, bat.TakeDamage, mainCharacterPrefs.isAttacking, this);
         });
-        this.lamps.children.iterate(lamp =>{
-             //this.physics.add.overlap(this,this.player,lamp.Destroy,null,this);
+        this.lamps.children.iterate(lamp => {
+            this.physics.add.overlap(lamp, this.player.chain, this.destroyLamp, mainCharacterPrefs.isAttacking, this);
         });
     }
     loadPools()
@@ -348,5 +350,14 @@ class level1 extends Phaser.Scene{
         //     child.Jump(1);
         //     //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
         // })
+    }
+    
+    changeScene()
+    {
+        this.scene.start('level2');
+    }
+    destroyLamp(_lamp, _chain)
+    {
+        _lamp.Destroy();
     }
 }

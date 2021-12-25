@@ -12,6 +12,8 @@ class lampPrefab extends Phaser.GameObjects.Sprite
         this.testTimer = 0;
         this.alive = true;
         this.dropItems = this.s.physics.add.group();
+
+        this.destroyOnce = true;
     }
 
     preUpdate(time,delta)
@@ -29,9 +31,13 @@ class lampPrefab extends Phaser.GameObjects.Sprite
     }
 
     Destroy(){
-        this.anims.play('lampDestroy');
-        this.SpawnItem();
-        this.on('animationcomplete', this.SetUnactive);
+        if (this.destroyOnce){
+            this.anims.play('lampDestroy');
+            this.SpawnItem();
+            this.on('animationcomplete', this.SetUnactive);
+
+            this.destroyOnce = false;
+        }
     }
     SetUnactive(){ 
         this.setActive(false).setVisible(false);
@@ -39,7 +45,6 @@ class lampPrefab extends Phaser.GameObjects.Sprite
 
     SpawnItem(){
         this.createRandomObject(this.x, this.y, this.dropItems); 
-        
     }
 
 
@@ -50,22 +55,22 @@ class lampPrefab extends Phaser.GameObjects.Sprite
             case "LittleHeart":
                 this.item = new littleHeartPrefab(this.s, _posX, _posY);
                 _dropItemsGroup.add(this.item);
-                this.item.body.collideWorldBounds = true;
+                this.s.physics.add.collider(this.item, this.s.walls);
             break;
             case "Heart":
                 this.item = new heartPrefab(this.s, _posX, _posY);
                 _dropItemsGroup.add(this.item);
-                this.item.body.collideWorldBounds = true;
+                this.s.physics.add.collider(this.item, this.s.walls);
             break;
             case "MorningStar":
                 this.item = new morningStarPrefab(this.s, _posX, _posY);
                 _dropItemsGroup.add(this.item);
-                this.item.body.collideWorldBounds = true;
+                this.s.physics.add.collider(this.item, this.s.walls);
                 break;
             default:
                 this.item = new littleHeartPrefab(this.s, _posX, _posY);
                 _dropItemsGroup.add(this.item);
-                this.item.body.collideWorldBounds = true;
+                this.s.physics.add.collider(this.item, this.s.walls);
                 break;
         }
     }
