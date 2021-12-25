@@ -56,16 +56,19 @@ class lampPrefab extends Phaser.GameObjects.Sprite
                 this.item = new littleHeartPrefab(this.s, _posX, _posY);
                 _dropItemsGroup.add(this.item);
                 this.s.physics.add.collider(this.item, this.s.walls);
+                //this.s.physics.add.overlap(this.item, this.s.player, this.item.playerCollided, null, this);
             break;
             case "Heart":
                 this.item = new heartPrefab(this.s, _posX, _posY);
                 _dropItemsGroup.add(this.item);
                 this.s.physics.add.collider(this.item, this.s.walls);
+                //this.s.physics.add.overlap(this.item, this.s.player, this.item.playerCollided, null, this);
             break;
             case "MorningStar":
                 this.item = new morningStarPrefab(this.s, _posX, _posY);
                 _dropItemsGroup.add(this.item);
                 this.s.physics.add.collider(this.item, this.s.walls);
+                //this.s.physics.add.overlap(this.item, this.s.player, this.item.playerCollided, null, this);
                 break;
             default:
                 this.item = new littleHeartPrefab(this.s, _posX, _posY);
@@ -93,5 +96,4 @@ class lampPrefab extends Phaser.GameObjects.Sprite
         }
 
     }
-
 }

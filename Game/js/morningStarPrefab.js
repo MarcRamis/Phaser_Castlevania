@@ -13,15 +13,11 @@ class morningStarPrefab extends dropItem
 
     preUpdate()
     {
-        if (dropItem.taken)
-        {
-            this.destroy();
-        }
     }
 
     playerCollided()
     {
         mainCharacterPrefs.isLargeAttack = true;
-        dropItem.taken = true;
+        //this.setActive(false).setVisible(false);
     }
 }
