@@ -9,6 +9,14 @@ class level1 extends Phaser.Scene{
         var rutaImgWeapons = 'assets/img/weapons/';
         var rutaSnd = 'assets/snd/';
 
+        //---------HUD----------//
+        this.load.image('FilledHealth','assets/img/FilledHealth.png');
+        this.load.image('EmptyHealth','assets/img/EmptyHealth.png');
+        this.load.image('FilledEnemyHealth','assets/img/FilledEnemyHealth.png');
+        this.load.image('uiHeart','assets/img/uiHeart.png');
+        this.load.image('uiP','assets/img/uiP.png');
+        this.load.image('weaponUi','assets/img/weaponUi.png');
+
         //---------MAP----------//
         var rutaMapSheet = "assets/map/Sprite-Sheets/";
         this.load.image('Level-1_TileSheet', rutaMapSheet + 'Castelvania-Sheet.png');
@@ -49,6 +57,19 @@ class level1 extends Phaser.Scene{
         //---------AUDIO----------//
     }
     create(){
+        //Pintamos el nivel
+        //Parse the file
+        this.levelData = this.cache.json.get('lamps');
+        //console.log(this.levelData);
+        //console.log(this.levelData.layers[0]);
+        /*this.levelData.layers.forEach(layerData => {
+            if(layerData.name == "Lamps-Obj")
+            {
+                console.log("Entro");
+            }
+        });*/
+        //Cargo el JSON
+        this.map = this.add.tilemap('level_1');
         
         // Animations
         this.loadPlayerAnimations();
@@ -68,6 +89,16 @@ class level1 extends Phaser.Scene{
         // Utility
         this.setCamera();
         this.setCollisions();
+
+        // Hud
+        this.ui = new uiPrefab();
+        this.ui.create(this);
+
+
+
+
+
+    
     }
 
     loadPlayerAnimations() {
