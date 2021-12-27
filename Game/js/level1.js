@@ -3,6 +3,19 @@ class level1 extends Phaser.Scene{
         super({key:"level1"});
     }
     preload(){
+
+        this.load.image('FilledHealth','assets/img/FilledHealth.png');
+        this.load.image('EmptyHealth','assets/img/EmptyHealth.png');
+
+        this.load.image('FilledEnemyHealth','assets/img/FilledEnemyHealth.png');
+
+        this.load.image('uiHeart','assets/img/uiHeart.png');
+
+        this.load.image('uiP','assets/img/uiP.png');
+
+        this.load.image('weaponUi','assets/img/weaponUi.png');
+
+
         //this.load.setPath("assets/sprites/");
         //---------MAP----------//
         var rutaMapSheet = "assets/map/Sprite-Sheets/";
@@ -49,6 +62,7 @@ class level1 extends Phaser.Scene{
 
     }
     create(){
+
         //Pintamos el nivel
         //Parse the file
         this.levelData = this.cache.json.get('lamps');
@@ -138,6 +152,7 @@ class level1 extends Phaser.Scene{
         this.ui = new uiPrefab();
 
         this.ui.create(this);
+
 
 
 
