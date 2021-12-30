@@ -10,6 +10,14 @@ class level1Water extends Phaser.Scene {
         var rutaSnd = 'assets/snd/';
         var rutaSndEffect = 'assets/snd/effects/';
 
+        //---------HUD----------//
+        this.load.image('FilledHealth', 'assets/img/FilledHealth.png');
+        this.load.image('EmptyHealth', 'assets/img/EmptyHealth.png');
+        this.load.image('FilledEnemyHealth', 'assets/img/FilledEnemyHealth.png');
+        this.load.image('uiHeart', 'assets/img/uiHeart.png');
+        this.load.image('uiP', 'assets/img/uiP.png');
+        this.load.image('weaponUi', 'assets/img/weaponUi.png');
+
         //---------MAP----------//
         var rutaMapSheet = "assets/map/Sprite-Sheets/";
         this.load.image('Castelvania-Sheet-Water', rutaMapSheet + 'Castelvania-Sheet-Water.png');
@@ -63,10 +71,15 @@ class level1Water extends Phaser.Scene {
 
         // Player
         this.player = new playerPrefab(this, 50, 50, 'player');
-        
+
         // Utility
         this.setCamera();
         this.setCollisions();
+
+        // Hud
+        this.ui = new uiPrefab();
+        this.ui.create(this);
+        this.ui.SetHealthUi(mainCharacterPrefs.health);
     }
 
     loadPlayerAnimations() {
@@ -179,22 +192,30 @@ class level1Water extends Phaser.Scene {
         });
     }
     setCollisions() {
-        this.physics.world.setBounds(0, 0, gamePrefs.gameWidth/5.5, gamePrefs.gameHeight);
-        
-        this.map.setCollisionBetween(1,77,true,true,'Ground'); //Indicamos las colisiones con paredes/suelo/techo
+        this.physics.world.setBounds(0, 0, gamePrefs.gameWidth / 5.5, gamePrefs.gameHeight);
+
+        this.map.setCollisionBetween(1, 77, true, true, 'Ground'); //Indicamos las colisiones con paredes/suelo/techo
         this.physics.add.collider(this.player, this.walls); // Ahora con el player
-        
-        this.map.setCollisionBetween(1,77,true,true,'Water'); //Indicamos las colisiones con el agua
+
+        this.map.setCollisionBetween(1, 77, true, true, 'Water'); //Indicamos las colisiones con el agua
         this.physics.add.collider(this.player, this.water, function () { mainCharacterPrefs.health = 0; });
 
         this.lamps.children.iterate(lamp => {
             this.physics.add.overlap(lamp, this.player.chain, this.destroyLamp, mainCharacterPrefs.isAttacking, this);
         });
 
-        this.enemies.children.iterate(enemy =>{            
+        this.enemies.children.iterate(enemy => {
             this.physics.add.overlap(enemy, this.player, this.playerTakeDamage, null, this);
             this.physics.add.overlap(enemy, this.player.chain, this.enemyTakeDamage, mainCharacterPrefs.isAttacking, this);
         });
+        this.physics.add.overlap
+        (
+            this.enemies,
+            this.weapons,
+            this.enemyTakeDamage,
+            null,
+            this
+        );
     }
     loadMap() {
         //Pintamos el nivel
@@ -204,11 +225,11 @@ class level1Water extends Phaser.Scene {
         this.map.addTilesetImage('Lamp');
         this.map.addTilesetImage('Castelvania-Sheet-Water');
         //Pintamos las capas/layers
-        this.hud = this.map.createLayer('HUD','Castelvania-Sheet-Water');
-        this.walls = this.map.createLayer('Ground','Castelvania-Sheet-Water');
-        this.map.createLayer('BackGround','Castelvania-Sheet-Water');
-        this.stairs = this.map.createLayer('Stairs','Castelvania-Sheet-Water');
-        this.stairsNextScene = this.map.createLayer('Stairs-ChangeLevel','Castelvania-Sheet-Water');
+        this.hud = this.map.createLayer('HUD', 'Castelvania-Sheet-Water');
+        this.walls = this.map.createLayer('Ground', 'Castelvania-Sheet-Water');
+        this.map.createLayer('BackGround', 'Castelvania-Sheet-Water');
+        this.stairs = this.map.createLayer('Stairs', 'Castelvania-Sheet-Water');
+        this.stairsNextScene = this.map.createLayer('Stairs-ChangeLevel', 'Castelvania-Sheet-Water');
 
         // Leemos toda la información de las lámparas y enemigos en el mapa
         this.map.objects.forEach(layerData => {
@@ -224,18 +245,18 @@ class level1Water extends Phaser.Scene {
                     layerData.objects.forEach(enemy => {
                         switch (enemy.properties[0].value) {
                             case ('Fishman'):
-                                this.fishMan = new fishMan(this,enemy.x,enemy.y,'fishMan', -1);
+                                this.fishMan = new fishMan(this, enemy.x, enemy.y, 'fishMan', -1);
                                 this.enemies.add(this.fishMan);
                                 this.fishMan.body.collideWorldBounds = true;
-                                this.fishMan.body.setGravity(0,-1000);
+                                this.fishMan.body.setGravity(0, -1000);
                                 break;
                         }
                     });
                     break;
             }
         });
-        
-        this.water = this.map.createLayer('Water','Castelvania-Sheet-Water');
+
+        this.water = this.map.createLayer('Water', 'Castelvania-Sheet-Water');
     }
     loadSounds() {
         this.ost = this.sound.add('ost');
@@ -248,7 +269,7 @@ class level1Water extends Phaser.Scene {
     }
     setCamera() {
         this.cameras.main.startFollow(this.player);
-        this.cameras.main.setBounds(0, 0, gamePrefs.gameWidth/5.5, gamePrefs.gameHeight);
+        this.cameras.main.setBounds(0, 0, gamePrefs.gameWidth / 5.5, gamePrefs.gameHeight);
     }
 
     loadPools() {
@@ -259,24 +280,23 @@ class level1Water extends Phaser.Scene {
     update() {
         this.player.Update();
 
-        this.enemies.children.iterate(enemy =>{
+        this.enemies.children.iterate(enemy => {
             enemy.Update(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
     }
-    destroyLamp(_lamp, _chain)
-    {
+    destroyLamp(_lamp, _chain) {
         _lamp.Destroy();
     }
-    killPlayer(_player,_water)
-    {
+    killPlayer(_player, _water) {
         mainCharacterPrefs.health = 0;
     }
-    changeScene()
-    {
+    changeScene() {
         this.scene.start('level1');
     }
-    enemyTakeDamage(_enemy, _chain)
-    {
+    enemyTakeDamage(_enemy, _chain) {
         _enemy.TakeDamage();
+    }
+    playerTakeDamage(_enemy, _player) {
+        _player.TakeDamage();
     }
 }
