@@ -32,6 +32,7 @@ class fishMan extends Phaser.GameObjects.Sprite
         this.offsetY = -10;
 
         this.takeDamageOnce = true;
+        this.doOnce = false;
     }
 
     preUpdate(time,delta)
@@ -43,6 +44,7 @@ class fishMan extends Phaser.GameObjects.Sprite
 
     Update(_playerpos)
     {
+        this.GetDirection(_playerpos);
         if(this.FishState == FishState.JUMP){
             this.anims.play("fishmanJump");
             this.body.setVelocity(0, -200);
@@ -89,14 +91,29 @@ class fishMan extends Phaser.GameObjects.Sprite
         }
         else
         {
-
             this.anims.play('fishmanWalk-Left');
         }
 
         this.body.setVelocity(25 * _direction, 0);
     }
 
-
+    GetDirection(_playerpos)
+    {
+        if(!this.doOnce)
+        {
+            if(this.x < _playerpos.x)
+            {
+                this.direction = -1;
+            }
+            else
+            {
+                this.direction = 1;
+            }
+            this.doOnce = true;
+        }
+        
+        
+    }
 
     Shoot(){
 
