@@ -208,6 +208,14 @@ class level1Water extends Phaser.Scene {
             this.physics.add.overlap(enemy, this.player, this.playerTakeDamage, null, this);
             this.physics.add.overlap(enemy, this.player.chain, this.enemyTakeDamage, mainCharacterPrefs.isAttacking, this);
         });
+        this.physics.add.overlap
+        (
+            this.enemies,
+            this.weapons,
+            this.enemyTakeDamage,
+            null,
+            this
+        );
     }
     loadMap() {
         //Pintamos el nivel

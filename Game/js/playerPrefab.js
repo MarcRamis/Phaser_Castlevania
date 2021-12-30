@@ -20,7 +20,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.direction = 1;
 
-        this.currentWeapon = WeaponType.NONE;
+        this.currentWeapon = WeaponType.DAGGER;
         this.takeDamageOnce = true;
 
         // Init chain
