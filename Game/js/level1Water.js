@@ -62,7 +62,7 @@ class level1Water extends Phaser.Scene{
         this.loadMap();       
 
         // Player
-        this.player = new playerPrefab(this, 50, 100, 'player');
+        this.player = new playerPrefab(this, 50, 50, 'player');
         
         // Utility
         this.setCamera();
@@ -242,6 +242,7 @@ class level1Water extends Phaser.Scene{
         });   
     }
     setCollisions() {
+        this.physics.world.setBounds(0, 0, gamePrefs.gameWidth/5.5, gamePrefs.gameHeight);
         this.map.setCollisionBetween(1,77,true,true,'Ground'); //Indicamos las colisiones con paredes/suelo/techo
         this.physics.add.collider(this.player, this.walls); // Ahora con el player
         // this.physics.add.overlap
@@ -264,6 +265,7 @@ class level1Water extends Phaser.Scene{
         //Pintamos las capas/layers
         this.hud = this.map.createLayer('HUD','Castelvania-Sheet-Water');
         this.walls = this.map.createLayer('Ground','Castelvania-Sheet-Water');
+        this.water = this.map.createLayer('Water','Castelvania-Sheet-Water');
         this.map.createLayer('BackGround','Castelvania-Sheet-Water');
         this.stairs = this.map.createLayer('Stairs','Castelvania-Sheet-Water');
         this.stairsNextScene = this.map.createLayer('Stairs-ChangeLevel','Castelvania-Sheet-Water');
@@ -311,7 +313,7 @@ class level1Water extends Phaser.Scene{
     setCamera()
     {
         this.cameras.main.startFollow(this.player);
-        this.cameras.main.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
+        this.cameras.main.setBounds(0, 0, gamePrefs.gameWidth/5.5, gamePrefs.gameHeight);
     }
 
     loadPools()
