@@ -2,6 +2,7 @@ var gamePrefs=
 {
     gameWidth:2816,
     gameHeight:208,
+    playerWidth:224
 }
 
 var mainCharacterPrefs=
@@ -27,7 +28,7 @@ var config=
     },
     scale:{
         mode:Phaser.Scale.FIT,
-        width: gamePrefs.gameWidth / 16,
+        width: gamePrefs.playerWidth,
         height: gamePrefs.gameHeight,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
