@@ -93,12 +93,6 @@ class level1 extends Phaser.Scene{
         // Hud
         this.ui = new uiPrefab();
         this.ui.create(this);
-
-
-
-
-
-    
     }
 
     loadPlayerAnimations() {

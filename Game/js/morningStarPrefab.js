@@ -1,4 +1,4 @@
-class morningStarPrefab extends dropItem
+class morningStarPrefab extends Phaser.GameObjects.Sprite
 {
     constructor(_scene,_positionX,_positionY)
     {
@@ -8,16 +8,11 @@ class morningStarPrefab extends dropItem
         this.setOrigin(0.51, 0);
         this.play('MorningStar', true);
         this.body.setSize(17, 17);
-        this.body.collideWorldBounds = true;
-    }
-
-    preUpdate()
-    {
     }
 
     playerCollided()
     {
         mainCharacterPrefs.isLargeAttack = true;
-        //this.setActive(false).setVisible(false);
-    }
+        this.destroy();
+    }   
 }

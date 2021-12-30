@@ -7,8 +7,6 @@ class axePrefab extends Phaser.GameObjects.Sprite
         _scene.physics.world.enable(this);
         this.setOrigin(0.5);
         this.setScale(1);
-        //this.body.allowGravity = false;
-        //this.body.collideWorldBounds = true;
         this.direction = _direction;
         this.doOnce = true;
     }

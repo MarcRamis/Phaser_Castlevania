@@ -11,7 +11,6 @@ class lampPrefab extends Phaser.GameObjects.Sprite
         this.anims.play("lampIdle");
         this.testTimer = 0;
         this.alive = true;
-        this.dropItems = this.s.physics.add.group();
 
         this.destroyOnce = true;
     }
@@ -44,57 +43,57 @@ class lampPrefab extends Phaser.GameObjects.Sprite
     }
 
     SpawnItem(){
-        this.createRandomObject(this.x, this.y, this.dropItems); 
+        this.createRandomObject(this.x, this.y); 
     }
 
 
-    createDropItem(_typeItemTag, _posX, _posY, _dropItemsGroup) //To add to the prefab
+    createDropItem(_typeItemTag, _posX, _posY) //To add to the prefab
     {
         switch(_typeItemTag)
         {
             case "LittleHeart":
                 this.item = new littleHeartPrefab(this.s, _posX, _posY);
-                _dropItemsGroup.add(this.item);
                 this.s.physics.add.collider(this.item, this.s.walls);
-                //this.s.physics.add.overlap(this.item, this.s.player, this.item.playerCollided, null, this);
+                this.s.physics.add.overlap(this.item, this.s.player, this.collideWithPlayer, null, this);
             break;
             case "Heart":
                 this.item = new heartPrefab(this.s, _posX, _posY);
-                _dropItemsGroup.add(this.item);
                 this.s.physics.add.collider(this.item, this.s.walls);
-                //this.s.physics.add.overlap(this.item, this.s.player, this.item.playerCollided, null, this);
+                this.s.physics.add.overlap(this.item, this.s.player, this.collideWithPlayer, null, this);
             break;
             case "MorningStar":
                 this.item = new morningStarPrefab(this.s, _posX, _posY);
-                _dropItemsGroup.add(this.item);
                 this.s.physics.add.collider(this.item, this.s.walls);
-                //this.s.physics.add.overlap(this.item, this.s.player, this.item.playerCollided, null, this);
+                this.s.physics.add.overlap(this.item, this.s.player, this.collideWithPlayer, null, this);
                 break;
             default:
                 this.item = new littleHeartPrefab(this.s, _posX, _posY);
-                _dropItemsGroup.add(this.item);
-                //this.item.body.collideWorldBounds = true;
                 this.s.physics.add.collider(this.item, this.s.walls);
                 break;
         }
     }
 
-    createRandomObject(_posX, _posY, _dropItemsGroup) //To add to the prefab
+    createRandomObject(_posX, _posY) //To add to the prefab
     {
         var randNum = Math.random() * 100;
 
         if(randNum < 40)
         {
-            this.createDropItem("LittleHeart", _posX, _posY, _dropItemsGroup);
+            this.createDropItem("LittleHeart", _posX, _posY);
         }
         else if(randNum < 80)
         {
-            this.createDropItem("Heart", _posX, _posY, _dropItemsGroup);
+            this.createDropItem("Heart", _posX, _posY);
         }
         else
         {
-            this.createDropItem("MorningStar", _posX, _posY, _dropItemsGroup);
+            this.createDropItem("MorningStar", _posX, _posY);
         }
 
+    }
+
+    collideWithPlayer(_item, _player)
+    {
+        _item.playerCollided();
     }
 }
