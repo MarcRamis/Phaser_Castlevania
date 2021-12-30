@@ -34,7 +34,7 @@ class lampPrefab extends Phaser.GameObjects.Sprite
             this.anims.play('lampDestroy');
             this.SpawnItem();
             this.on('animationcomplete', this.SetUnactive);
-
+            this.s.hit.play();
             this.destroyOnce = false;
         }
     }

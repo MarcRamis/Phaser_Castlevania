@@ -17,7 +17,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.setScale(1);
         this.body.setSize(16, 30);
         this.body.setOffset(44, 5);
-        this.body.collideWorldBounds = false;
+        this.body.collideWorldBounds = true;
         this.direction = 1;
         
         this.currentWeapon = WeaponType.FIREBOMB;

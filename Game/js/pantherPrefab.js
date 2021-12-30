@@ -4,6 +4,7 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
     {
         super(_scene,_positionX,_positionY,_spriteTag);
         _scene.add.existing(this);
+        this.s = _scene;
         this.setOrigin(0.5,0.5);
         if(_directionToStartIdle < 1)
             this.anims.play('pantherIdle-Left');
@@ -14,7 +15,7 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
         this.animName = "Idle";
         this.alreadyJumped = false;
         this.canMove = false;
-        //this.body.collideWorldBounds = true;
+        this.takeDamageOnce = true;
     }
 
     preUpdate(time,delta)
@@ -116,6 +117,16 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
     
     TakeDamage()
     {
-        console.log("Phanter taking damage");
+        if (this.takeDamageOnce){
+            
+            this.takeDamageOnce = false;
+            
+            this.s.hit.play();
+            this.destroy();
+
+            this.lamp = new lampPrefab(this.s, this.x, this.y, 'lamp');
+            this.lamp.createRandomObject(this.x,this.y);
+            this.lamp.destroy();
+        }
     }
 }

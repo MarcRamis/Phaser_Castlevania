@@ -6,14 +6,16 @@ class batPrefab extends Phaser.GameObjects.Sprite
         
         super(_scene,_positionX,_positionY,_spriteTag);
         _scene.add.existing(this);
+        this.s = _scene;
         this.setOrigin(0.5,0.5);
-        //this.anims.play('idleEnemy');
         this.health = 1;
         this.direction = _startDirection;
         this.posX = _positionX;
         this.posY = _positionY;
         this.directionY = 1;
         this.dir;
+
+        this.takeDamageOnce = true;
     }
 
     preUpdate(time,delta)
@@ -63,6 +65,16 @@ class batPrefab extends Phaser.GameObjects.Sprite
     }
     TakeDamage()
     {
-        console.log("Bat taking damage");
+        if (this.takeDamageOnce){
+            
+            this.takeDamageOnce = false;
+            
+            this.s.hit.play();
+            this.destroy();
+
+            this.lamp = new lampPrefab(this.s, this.x, this.y, 'lamp');
+            this.lamp.createRandomObject(this.x,this.y);
+            this.lamp.destroy();
+        }
     }
 }

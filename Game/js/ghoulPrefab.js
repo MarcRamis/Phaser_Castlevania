@@ -4,11 +4,12 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
     {
         super(_scene,_positionX,_positionY,_spriteTag);
         _scene.add.existing(this);
+        this.s = _scene;
         this.setOrigin(0.5,0.5);
         //this.anims.play('idleEnemy');
         this.health = 1;
         this.direction = _startDirection;
-        
+        this.takeDamageOnce = true;
     }
 
     preUpdate(time,delta)
@@ -38,6 +39,16 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
     
     TakeDamage()
     {
-        console.log("Ghoul taking damage");
+        if (this.takeDamageOnce){
+            
+            this.takeDamageOnce = false;
+            
+            this.s.hit.play();
+            this.destroy();
+
+            this.lamp = new lampPrefab(this.s, this.x, this.y, 'lamp');
+            this.lamp.createRandomObject(this.x,this.y);
+            this.lamp.destroy();
+        }
     }
 }

@@ -3,6 +3,7 @@ class heartPrefab extends Phaser.GameObjects.Sprite
     constructor(_scene,_positionX,_positionY)
     {
         super(_scene, _positionX, _positionY, "heart");
+        this.s = _scene;    
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
         this.setOrigin(0.51, 0);
@@ -14,5 +15,6 @@ class heartPrefab extends Phaser.GameObjects.Sprite
     playerCollided()
     {
         this.destroy();
+        this.s.takeItem.play();
     }
 }
