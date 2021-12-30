@@ -39,10 +39,6 @@ class level1 extends Phaser.Scene{
         //Bat
         this.load.spritesheet('bat',rutaImg+'Enemy-Bat.png',
         {frameWidth: 16, frameHeight: 14});
-        //FishMan
-        this.load.spritesheet('fishMan',rutaImg+'Enemy-FishMan.png',{frameWidth:16, frameHeight:31});
-
-        this.load.image('shoot', rutaImg+'Shoot.png');
 
         //---------ITEMS----------//
         this.load.image('Lamp', rutaMapSheet + 'Lamp.png');
@@ -77,10 +73,10 @@ class level1 extends Phaser.Scene{
         // Map
         this.loadMap();       
 
-        
         // Player
         this.player = new playerPrefab(this, 50, 100, 'player');
         this.player.body.setCollideWorldBounds(true);
+
         // Utility
         this.setCamera();
         this.setCollisions();
