@@ -219,6 +219,71 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
+         "id":10,
+         "name":"Enemies",
+         "objects":[
+                {
+                 "gid":69,
+                 "height":32,
+                 "id":12,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"EnemyType",
+                         "type":"string",
+                         "value":"Fishman"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":144,
+                 "y":208
+                }, 
+                {
+                 "gid":69,
+                 "height":32,
+                 "id":13,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"EnemyType",
+                         "type":"string",
+                         "value":"Fishman"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":16,
+                 "y":208
+                }, 
+                {
+                 "gid":69,
+                 "height":32,
+                 "id":14,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"EnemyType",
+                         "type":"string",
+                         "value":"Fishman"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":416,
+                 "y":208
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "id":2,
          "image":"..\/img\/Castelvania-Level-1_Water.png",
          "name":"BackGround-Image",
@@ -230,8 +295,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":10,
- "nextobjectid":12,
+ "nextlayerid":11,
+ "nextobjectid":15,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
@@ -275,6 +340,19 @@
          "tilecount":1,
          "tileheight":16,
          "tilewidth":16
+        }, 
+        {
+         "columns":2,
+         "firstgid":67,
+         "image":"Sprite-Sheets\/Enemies-Sheet.png",
+         "imageheight":64,
+         "imagewidth":64,
+         "margin":0,
+         "name":"Enemies",
+         "spacing":0,
+         "tilecount":4,
+         "tileheight":32,
+         "tilewidth":32
         }],
  "tilewidth":16,
  "type":"map",

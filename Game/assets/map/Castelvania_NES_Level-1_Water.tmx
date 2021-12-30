@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="12">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="15">
  <editorsettings>
   <export target="Castelvania_NES_Level-1_Water.json" format="json"/>
  </editorsettings>
@@ -11,6 +11,9 @@
  </tileset>
  <tileset firstgid="66" name="Lamp" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="Sprite-Sheets/Lamp.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="67" name="Enemies" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="Sprite-Sheets/Enemies-Sheet.png" width="64" height="64"/>
  </tileset>
  <layer id="7" name="HUD" width="32" height="13">
   <data encoding="csv">
@@ -127,6 +130,23 @@
   <object id="9" gid="66" x="336" y="64" width="16" height="16"/>
   <object id="10" gid="66" x="400" y="64" width="16" height="16"/>
   <object id="11" gid="66" x="480" y="64" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="10" name="Enemies">
+  <object id="12" gid="69" x="144" y="208" width="32" height="32">
+   <properties>
+    <property name="EnemyType" value="Fishman"/>
+   </properties>
+  </object>
+  <object id="13" gid="69" x="16" y="208" width="32" height="32">
+   <properties>
+    <property name="EnemyType" value="Fishman"/>
+   </properties>
+  </object>
+  <object id="14" gid="69" x="416" y="208" width="32" height="32">
+   <properties>
+    <property name="EnemyType" value="Fishman"/>
+   </properties>
+  </object>
  </objectgroup>
  <imagelayer id="2" name="BackGround-Image" opacity="0.5" offsetx="0" offsety="32">
   <image source="../img/Castelvania-Level-1_Water.png" width="512" height="176"/>
