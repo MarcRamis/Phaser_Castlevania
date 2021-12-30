@@ -9,7 +9,6 @@ class firebombPrefab extends Phaser.GameObjects.Sprite {
         this.direction = _direction;
         this.doOnce = true;
         this.isDropItem = _isDropItem;
-        this.getCollisions();
         this.s = _scene;
     }
 
@@ -36,6 +35,7 @@ class firebombPrefab extends Phaser.GameObjects.Sprite {
 
     makeFire() {
         new firePrefab(this.scene, this.x, this.y, 'firebomb_fire');
+        this.scene.crystalFire.play();
         this.destroy();
     }
     playerCollided() {

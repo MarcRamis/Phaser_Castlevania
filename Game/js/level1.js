@@ -59,6 +59,7 @@ class level1 extends Phaser.Scene{
         this.load.audio('ost', rutaSnd + 'ost.mp3');
         this.load.audio('hit', rutaSndEffect + 'hit.wav');
         this.load.audio('takeItem', rutaSndEffect + 'takeItem.wav');
+        this.load.audio('crystalFire', rutaSndEffect + 'crystal.wav');
     }   
     create(){        
         // Animations
@@ -327,6 +328,7 @@ class level1 extends Phaser.Scene{
         
         this.hit = this.sound.add('hit');
         this.takeItem = this.sound.add('takeItem');
+        this.crystalFire = this.sound.add('crystalFire');
     }
     setCamera()
     {
@@ -359,9 +361,36 @@ class level1 extends Phaser.Scene{
         });
 
         this.physics.world.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
+
+        // Collision with weapons group
+        this.physics.add.overlap
+        (
+            this.enemies,
+            this.weapons,
+            this.enemyTakeDamage,
+            null,
+            this
+        );
+        this.physics.add.overlap
+        (
+            this.bats,
+            this.weapons,
+            this.enemyTakeDamage,
+            null,
+            this
+        );
+        this.physics.add.overlap
+        (
+            this.panthers,
+            this.weapons,
+            this.enemyTakeDamage,
+            null,
+            this
+        );
     }
     loadPools()
     {
+        this.weapons = this.physics.add.group();
         this.enemies = this.physics.add.group();
         this.panthers = this.physics.add.group();
         this.bats = this.physics.add.group();

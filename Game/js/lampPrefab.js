@@ -109,7 +109,6 @@ class lampPrefab extends Phaser.GameObjects.Sprite {
         else {
             this.createDropItem("MorningStar", _posX, _posY);
         }
-
     }
 
     collideWithPlayer(_item, _player) {
