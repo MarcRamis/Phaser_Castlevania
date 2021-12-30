@@ -17,8 +17,6 @@ class fishManShoot extends Phaser.GameObjects.Sprite
             this.flipX = true;
 
         }
-        //  this.scene.time.delayedCall(20,this.Destroy, null, this.scene);
-
     }
 
     Destroy(){

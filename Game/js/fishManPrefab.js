@@ -120,6 +120,8 @@ class fishMan extends Phaser.GameObjects.Sprite
 
         if(!this.shoot){
             this.fishManShoot = new fishManShoot(this.s,this.x,this.y + this.offsetY,'shoot',this.auxDir);
+            this.s.physics.add.overlap(this.fishManShoot, this.s.player, this.playerTakeDamage, null, this);
+            this.s.physics.add.collider(this.fishManShoot, this.s.walls, this.destroyShootingOnWall);
             this.shoot = true;
         }
 
@@ -148,5 +150,14 @@ class fishMan extends Phaser.GameObjects.Sprite
             this.lamp.createRandomObject(this.x,this.y);
             this.lamp.destroy();
         }
+    }
+    playerTakeDamage(_enemyShooting, _player)
+    {
+        _player.TakeDamage();
+        _enemyShooting.destroy();
+    }
+    destroyShootingOnWall(_enemyShooting,_walls)
+    {
+        _enemyShooting.destroy();
     }
 }
