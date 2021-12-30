@@ -260,7 +260,7 @@ class level1Water extends Phaser.Scene {
         this.player.Update();
 
         this.enemies.children.iterate(enemy =>{
-            enemy.Update();
+            enemy.Update(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
     }
     destroyLamp(_lamp, _chain)

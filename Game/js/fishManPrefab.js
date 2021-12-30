@@ -41,7 +41,7 @@ class fishMan extends Phaser.GameObjects.Sprite
 
     }
 
-    Update()
+    Update(_playerpos)
     {
         if(this.FishState == FishState.JUMP){
             this.anims.play("fishmanJump");
