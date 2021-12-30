@@ -1,8 +1,6 @@
-class daggerPrefab extends Phaser.GameObjects.Sprite
-{
-    constructor(_scene,_positionX,_positionY,_spriteTag,_direction)
-    {
-        super(_scene,_positionX,_positionY + 10,_spriteTag);
+class daggerPrefab extends Phaser.GameObjects.Sprite {
+    constructor(_scene, _positionX, _positionY, _spriteTag, _direction, _isDropItem) {
+        super(_scene, _positionX, _positionY + 10, _spriteTag, _isDropItem);
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
         this.setOrigin(0.5);
@@ -11,25 +9,35 @@ class daggerPrefab extends Phaser.GameObjects.Sprite
         //this.body.collideWorldBounds = true;
         this.direction = _direction;
         this.doOnce = true;
+        this.isDropItem = _isDropItem;
+        this.s = _scene;
     }
 
-    preUpdate(time, delta)
-    {
+    preUpdate(time, delta) {
         super.preUpdate(time, delta);
-        
-        // Impulse
-        if (this.doOnce){
-            this.body.setVelocityX(90 * this.direction);
-            this.doOnce = false;
-        }    
 
-        // Flip
-        if (this.direction > 0)
-        {
-            this.flipX = false;  
+        if (!this.isDropItem) {
+            // Impulse
+            if (this.doOnce) {
+                this.body.setVelocityX(90 * this.direction);
+                this.doOnce = false;
+            }
+
+            // Flip
+            if (this.direction > 0) {
+                this.flipX = false;
+            }
+            else {
+                this.flipX = true;
+            }
         }
-        else{
-            this.flipX = true;
+    }
+    playerCollided() {
+        
+        if (this.isDropItem) {
+
+            this.destroy();
+            this.s.player.currentWeapon = WeaponType.DAGGER;
         }
     }
 }

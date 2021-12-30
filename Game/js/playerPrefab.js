@@ -161,15 +161,15 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
 
                 switch (this.currentWeapon) {
                     case WeaponType.AXE:
-                        this.weapon = new axePrefab(this.scene, this.x, this.y, 'axe', this.direction);
-                        this.scene.physics.add.collider(this.weapon, this.scene.walls);
+                        this.weapon = new axePrefab(this.scene, this.x, this.y, 'axe', this.direction, false);
+                        //this.scene.physics.add.collider(this.weapon, this.scene.walls);
                         break;
                     case WeaponType.FIREBOMB:
-                        this.weapon = new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction);
+                        this.weapon = new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction, false);
                         this.scene.physics.add.collider(this.weapon, this.scene.walls);
                         break;
                     case WeaponType.DAGGER:
-                        this.weapon = new daggerPrefab(this.scene, this.x, this.y, 'dagger', this.direction);
+                        this.weapon = new daggerPrefab(this.scene, this.x, this.y, 'dagger', this.direction, false);
                         this.scene.physics.add.collider(this.weapon, this.scene.walls);
                         break;
                 }
