@@ -10,11 +10,12 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
         this.health = 1;
         this.direction = _startDirection;
         this.takeDamageOnce = true;
+        this.startMoving = false;
     }
 
     preUpdate(time,delta)
     {
-        if(this.body.velocity.x == 0)
+        if(this.body.velocity.x == 0 && this.startMoving)
         {
             this.Move(this.direction * -1);
             this.direction *= -1;
@@ -22,9 +23,23 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
 
         super.preUpdate(time, delta);
     }
-    
+
+    GetPlayerDistance(_playerpos)
+    {
+        if(Phaser.Math.Distance.Between(_playerpos.x, _playerpos.y, this.x, this.y) < (230) / 1.2)
+        {
+            if(!this.startMoving)
+            {   
+                this.ChooseDirection(_playerpos)
+                this.Move(this.direction);
+                this.startMoving = true;
+            }
+        }
+    }
+
     Move(_direction)
     {
+        
         if(_direction > 0)
         {
             this.anims.play('ghoulWalk-Right');
@@ -34,7 +49,8 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
             this.anims.play('ghoulWalk-Left');
         }
         this.body.setVelocityX(25 * _direction);
-        //this.direction = _direction;
+        
+        
     }
     
     TakeDamage()
@@ -51,4 +67,17 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
             this.lamp.destroy();
         }
     }
+
+    ChooseDirection(_playerpos)
+    {
+        if(_playerpos.x < this.x)
+        {
+            this.direction = -1;
+        }
+        else
+        {
+            this.direction = 1;
+        }
+    }
+
 }

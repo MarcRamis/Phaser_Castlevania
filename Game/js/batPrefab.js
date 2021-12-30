@@ -16,11 +16,12 @@ class batPrefab extends Phaser.GameObjects.Sprite
         this.dir;
 
         this.takeDamageOnce = true;
+        this.active = false;
     }
 
     preUpdate(time,delta)
     {
-        if(this.body.velocity.x == 0)
+        if(this.body.velocity.x == 0 && this.active)
         {
             this.Move(this.dir * -1);
         }
@@ -28,24 +29,27 @@ class batPrefab extends Phaser.GameObjects.Sprite
 
     }
 
-    Update(){
-
-        if(!this.active)
+    Update(_playerpos){
+        if(Phaser.Math.Distance.Between(_playerpos.x, _playerpos.y, this.x, this.y) < (230) / 1.2 || this.active)
         {
-            this.active = true; 
-            this.body.reset(this.redEnemy.width,this.redEnemy.height);
-            this.Move(1);
+            if(!this.active)
+            {
+                this.active = true; 
+                this.body.reset(this.x,this.y);
+                this.Move(this.direction);
+            }
+            if(this.y >= this.posY+10){
+                this.directionY = -1;
+                this.Move(this.dir);
+            }
+            if(this.y <= this.posY-10){
+    
+                 this.directionY = 1;
+                 this.Move(this.dir);
+    
+            }
         }
-        if(this.y >= this.posY+10){
-            this.directionY = -1;
-            this.Move(this.dir);
-        }
-        if(this.y <= this.posY-10){
-
-             this.directionY = 1;
-             this.Move(this.dir);
-
-        }
+        
 
     }
     
