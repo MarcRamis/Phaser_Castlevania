@@ -56,6 +56,7 @@ class level1 extends Phaser.Scene{
         this.load.spritesheet('firebomb_fire', rutaImgWeapons + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
 
         //---------AUDIO----------//
+        this.load.audio('ost', rutaSnd + 'ost.mp3');
         this.load.audio('hit', rutaSndEffect + 'hit.wav');
         this.load.audio('takeItem', rutaSndEffect + 'takeItem.wav');
     }   
@@ -319,6 +320,10 @@ class level1 extends Phaser.Scene{
     }
     loadSounds()
     {
+        this.ost = this.sound.add('ost');
+        this.ost.loop = true;
+        this.ost.play();
+        
         this.hit = this.sound.add('hit');
         this.takeItem = this.sound.add('takeItem');
     }
