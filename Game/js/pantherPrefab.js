@@ -10,7 +10,7 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
         else
             this.anims.play('pantherIdle-Right');
         this.health = 1;
-        this.playerDirection = 1;
+        this.playerDirection = _directionToStartIdle;
         this.animName = "Idle";
         this.alreadyJumped = false;
         this.canMove = false;
@@ -19,17 +19,8 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
 
     preUpdate(time,delta)
     {
-        if((this.x >= 256/*+this.body.weight*/) || (this.x <= 0/*-this.body.weight*/))
-        {
-            //console.log('i fucking died');
-            //this.active = false;
-            this.body.setVelocityX(0);
-        }
-        
         this.DetectFloor(this.playerDirection);
-        //console.log("detect floor " + this.body.onFloor());
-        //console.log("jump " + this.alreadyJumped);
-        //console.log("move " + this.canMove);
+     
         super.preUpdate(time, delta);
     }
     
@@ -56,7 +47,7 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
 
     GetPlayerDistance(_playerpos)
     {
-        if(Phaser.Math.Distance.Between(_playerpos.x, _playerpos.y, this.x, this.y) < 10)
+        if(Phaser.Math.Distance.Between(_playerpos.x, _playerpos.y, this.x, this.y) < (230) / 3.5 && (_playerpos.y < this.y + 25 && _playerpos.y > this.y - 25) )
         {
             this.Jump(this.playerDirection);
         }

@@ -27,7 +27,7 @@ var config=
     },
     scale:{
         mode:Phaser.Scale.FIT,
-        width: gamePrefs.gameWidth / 16,
+        width: 2116,
         height: gamePrefs.gameHeight,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },

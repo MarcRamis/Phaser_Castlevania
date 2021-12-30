@@ -83,9 +83,10 @@ class level1 extends Phaser.Scene{
         // Map
         this.loadMap();       
 
+        
         // Player
         this.player = new playerPrefab(this, 50, 100, 'player');
-        
+        this.player.body.setCollideWorldBounds(true);
         // Utility
         this.setCamera();
         this.setCollisions();
@@ -307,19 +308,19 @@ class level1 extends Phaser.Scene{
                     switch(enemy.properties[0].value)
                     {
                         case('Ghoul'):
-                        this.ghoul = new ghoulPrefab(this, enemy.x, enemy.y-64, 'enemyGhoul', 1);
+                        this.ghoul = new ghoulPrefab(this, enemy.x, enemy.y-32, 'enemyGhoul', -1);
                         this.enemies.add(this.ghoul);
                         break;
 
                         case('Panther'):
-                        this.panther = new pantherPrefab(this, enemy.x, enemy.y-64, 'enemyPanther', -1);
+                        this.panther = new pantherPrefab(this, enemy.x, enemy.y-32, 'enemyPanther', -1);
                         this.panthers.add(this.panther);
                         break;
 
                         case('Bat'):
-                        this.bat = new batPrefab(this, enemy.x, enemy.y, 'bat', -1);
+                        this.bat = new batPrefab(this, enemy.x, enemy.y-32, 'bat', -1);
                         this.bats.add(this.bat);
-                        this.bat.Move(-1);
+                        
                         this.bat.body.allowGravity = false;
                         break;
                     }
@@ -335,6 +336,8 @@ class level1 extends Phaser.Scene{
     }
     setCollisions()
     {
+        this.physics.world.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
+
         this.physics.add.collider(this.player, this.walls);
 
         this.enemies.children.iterate(enemy =>{
@@ -369,9 +372,15 @@ class level1 extends Phaser.Scene{
         this.player.Update();
 
         this.bats.children.iterate(bat =>{
-            bat.Update();
+            bat.Update(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
-            
+
+        this.enemies.children.iterate(enemy =>{
+            enemy.GetPlayerDistance(new Phaser.Math.Vector2(this.player.x, this.player.y));
+        });
+        this.panthers.children.iterate(panther =>{
+            panther.GetPlayerDistance(new Phaser.Math.Vector2(this.player.x, this.player.y));
+        });
         // this.panthers.children.iterate((child) => 
         // {
         //     //child.SetPlayerDirection(1);
