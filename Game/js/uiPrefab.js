@@ -12,8 +12,6 @@ class uiPrefab{
 
     //     Llamar al create
 
-
-    //To Do: Make it fixed to camera
     create(scene){ 
         this.counter=0;  
         this.s = scene; 
@@ -28,13 +26,16 @@ class uiPrefab{
         this.totalScore =0;
         this.playerHealth = 0;
         this.enemyHealth = 0;
+
         //--SCORE
         this.scoreText = scene.add.text(2, 2, 'SCORE - 000000', 
         {fontFamily: 'Arial', 
          fontSize: '9px',   
          color:'#fff'
         })
-        this.scoreText.resolution = 0;
+        this.scoreText.fixedToCamera = true;
+        this.scoreText.setScrollFactor(0);
+
 
         //--PLAYER HEALTH
         this.playerHealth = scene.add.text(2, 11, 'PLAYER ', 
@@ -42,6 +43,8 @@ class uiPrefab{
          fontSize: '9px',   
          color:'#fff'
         })
+        this.playerHealth.fixedToCamera = true;
+        this.playerHealth.setScrollFactor(0);
         
         this.SetHealthUi(16);
 
@@ -52,6 +55,7 @@ class uiPrefab{
          color:'#fff'
         })
         this.SetEnemyHealthUi(16);
+        this.enemyHealth.setScrollFactor(0);
 
         //--TIME
         this.time = 300;    
@@ -61,6 +65,7 @@ class uiPrefab{
          color:'#fff'
         })
         this.timeUi.setText('TIME  '+ (this.time));
+        this.timeUi.setScrollFactor(0);
 
         scene.time.addEvent({
             delay:1000,
@@ -76,27 +81,36 @@ class uiPrefab{
          fontSize: '9px',   
          color:'#fff'
         }) 
+        this.stageUi.setScrollFactor(0);
 
         //--HEARTS
         this.hearts = 4;
-        this.s.add.sprite(174,17,'uiHeart');
+        var heartsImage = this.s.add.sprite(174,17,'uiHeart');
+        heartsImage.setScrollFactor(0);
+
         this.heartsText = scene.add.text(180, 12, '- ' +(this.hearts) , 
         {fontFamily: 'Arial', 
          fontSize: '9px',   
          color:'#fff'
         })
+        this.heartsText.setScrollFactor(0);
 
         //--P
         this.P = 2;
-        this.s.add.sprite(174,25,'uiP');
-        this.heartsText = scene.add.text(180, 20, '- ' +(this.P) , 
+        var pImage = this.s.add.sprite(174,25,'uiP');
+        pImage.setScrollFactor(0);
+        this.pText = scene.add.text(180, 20, '- ' +(this.P) , 
         {fontFamily: 'Arial', 
          fontSize: '9px',   
          color:'#fff'
         })
+        this.pText.fixedToCamera = true;
+        this.pText.setScrollFactor(0);
+
 
         //--WEAPON ->TESTING
-        this.s.add.sprite(128,22,'weaponUi');
+        var weaponImage = this.s.add.sprite(128,22,'weaponUi');
+        weaponImage.setScrollFactor(0);
 
         
         // this.SetHealthUi(5);
@@ -159,6 +173,7 @@ class uiPrefab{
         }
         this.scoreText.setText('SCORE-'+ (this.totalScore));
 
+
     }
 
     //Healths
@@ -167,11 +182,13 @@ class uiPrefab{
         this.auxPosX = this.startingPlayerX;
         for(this.i = 1; this.i<=16; this.i++){
             if(hp>=this.i){
-                this.s.add.sprite(this.auxPosX,this.startingPlayerY,'FilledHealth');
+                var image = this.s.add.sprite(this.auxPosX,this.startingPlayerY,'FilledHealth');
+                image.setScrollFactor(0);
                 this.auxPosX = this.auxPosX + this.xSeparation;
             }
             else{
-                this.s.add.sprite(this.auxPosX,this.startingPlayerY,'EmptyHealth');
+                var image = this.s.add.sprite(this.auxPosX,this.startingPlayerY,'EmptyHealth');
+                image.setScrollFactor(0);
                 this.auxPosX = this.auxPosX + this.xSeparation;
             }
         }
@@ -180,11 +197,13 @@ class uiPrefab{
         this.enemyAuxPosX = this.startingPlayerX;
         for(this.e = 1; this.e<=16; this.e++){
             if(ehp>=this.e){
-                this.s.add.sprite(this.enemyAuxPosX,this.startingEnemyY,'FilledEnemyHealth');
+                var image = this.s.add.sprite(this.enemyAuxPosX,this.startingEnemyY,'FilledEnemyHealth');
+                image.setScrollFactor(0);
                 this.enemyAuxPosX = this.enemyAuxPosX + this.xSeparation;
             }
             else{
-                this.s.add.sprite(this.enemyAuxPosX,this.startingEnemyY,'EmptyHealth');
+                var image = this.s.add.sprite(this.enemyAuxPosX,this.startingEnemyY,'EmptyHealth');
+                image.setScrollFactor(0);
                 this.enemyAuxPosX = this.enemyAuxPosX + this.xSeparation;
             }
         }
