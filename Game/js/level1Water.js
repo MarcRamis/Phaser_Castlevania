@@ -215,24 +215,11 @@ class level1Water extends Phaser.Scene {
                 case ('Enemies'):
                     layerData.objects.forEach(enemy => {
                         switch (enemy.properties[0].value) {
-                            case ('Ghoul'):
-                                this.ghoul = new ghoulPrefab(this, enemy.x, enemy.y - 64, 'enemyGhoul', 1);
-                                this.enemies.add(this.ghoul);
-                                this.ghoul.body.collideWorldBounds = true;
-                                break;
-
-                            case ('Panther'):
-                                this.panther = new pantherPrefab(this, enemy.x, enemy.y - 64, 'enemyPanther', -1);
-                                this.panthers.add(this.panther);
-                                this.panther.body.collideWorldBounds = true;
-                                break;
-
-                            case ('Bat'):
-                                this.bat = new batPrefab(this, enemy.x, enemy.y, 'bat', -1);
-                                this.bats.add(this.bat);
-                                this.bat.body.collideWorldBounds = true;
-                                this.bat.Move(-1);
-                                this.bat.body.setGravity(0, -1000);
+                            case ('Fishman'):
+                                this.fishMan = new fishMan(this,enemy.x,enemy.y,'fishMan', -1);
+                                this.enemies.add(this.fishMan);
+                                this.fishMan.body.collideWorldBounds = true;
+                                this.fishMan.body.setGravity(0,-1000);
                                 break;
                         }
                     });
