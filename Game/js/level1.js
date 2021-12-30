@@ -8,6 +8,7 @@ class level1 extends Phaser.Scene{
         var rutaImg = 'assets/img/';
         var rutaImgWeapons = 'assets/img/weapons/';
         var rutaSnd = 'assets/snd/';
+        var rutaSndEffect = 'assets/sns/effects/';
 
         //---------HUD----------//
         this.load.image('FilledHealth','assets/img/FilledHealth.png');
