@@ -30,28 +30,8 @@ class firebombPrefab extends Phaser.GameObjects.Sprite {
             else {
                 this.flipX = false;
             }
-
-            // Camera collisions -- NOT NECESSARY I WAS TESTING
-            // if (this.x < this.width 
-            //     || this.x > config.scale.width - this.width
-            //     || this.y < this.height 
-            //     || this.y > config.scale.height - this.height)
-            // {
-            //     this.makeFire();
-            // }
         }
 
-    }
-
-    getCollisions() {
-        // this.scene.physics.add.overlap
-        // (
-        //     this,
-        //     this.scene.ground,
-        //     this.makeFire,
-        //     null,
-        //     this
-        // );
     }
 
     makeFire() {

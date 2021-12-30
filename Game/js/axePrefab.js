@@ -29,6 +29,19 @@ class axePrefab extends Phaser.GameObjects.Sprite {
                 this.flipX = false;
             }
             this.angle += 8 * this.direction;
+
+
+            this.timer = this.s.time.addEvent
+            (
+                {
+                    delay: 5000, //ms
+                    callback: function () {
+                        this.destroy();
+                    },
+                    callbackScope: this,
+                    repeat: 0
+                }
+            );
         }
     }
     playerCollided() {

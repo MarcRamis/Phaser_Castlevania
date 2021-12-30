@@ -20,7 +20,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.direction = 1;
 
-        this.currentWeapon = WeaponType.NONE;
+        this.currentWeapon = WeaponType.DAGGER;
         this.takeDamageOnce = true;
 
         // Init chain
@@ -162,15 +162,14 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
                 switch (this.currentWeapon) {
                     case WeaponType.AXE:
                         this.weapon = new axePrefab(this.scene, this.x, this.y, 'axe', this.direction, false);
-                        //this.scene.physics.add.collider(this.weapon, this.scene.walls);
                         break;
                     case WeaponType.FIREBOMB:
                         this.weapon = new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction, false);
-                        this.scene.physics.add.collider(this.weapon, this.scene.walls);
+                        this.scene.physics.add.collider(this.weapon, this.scene.walls, this.bombGroundCollision);
                         break;
                     case WeaponType.DAGGER:
                         this.weapon = new daggerPrefab(this.scene, this.x, this.y, 'dagger', this.direction, false);
-                        this.scene.physics.add.collider(this.weapon, this.scene.walls);
+                        this.scene.physics.add.collider(this.weapon, this.scene.walls, this.daggerGroundCollision);
                         break;
                 }
             }
@@ -300,5 +299,14 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
                     }
                 );
         }
+    }
+    
+    bombGroundCollision(_weapon,_walls)
+    {
+        _weapon.makeFire();
+    }
+    daggerGroundCollision(_weapon,_walls)
+    {
+        _weapon.destroy();
     }
 }

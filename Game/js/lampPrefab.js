@@ -90,6 +90,8 @@ class lampPrefab extends Phaser.GameObjects.Sprite {
         var randNum = Math.random() * 100;
 
         if (randNum < 40) {
+        }
+        else if (randNum < 60) {
             this.createDropItem("LittleHeart", _posX, _posY);
         }
         else if (randNum < 80) {

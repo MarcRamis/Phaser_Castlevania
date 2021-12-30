@@ -5,7 +5,13 @@ class daggerPrefab extends Phaser.GameObjects.Sprite {
         _scene.physics.world.enable(this);
         this.setOrigin(0.5);
         this.setScale(0.8);
-        this.body.allowGravity = false;
+        if (_isDropItem) {
+            this.body.allowGravity = true;
+        }
+        else {
+
+            this.body.allowGravity = false;
+        }
         //this.body.collideWorldBounds = true;
         this.direction = _direction;
         this.doOnce = true;
@@ -30,10 +36,22 @@ class daggerPrefab extends Phaser.GameObjects.Sprite {
             else {
                 this.flipX = true;
             }
+
+            this.timer = this.s.time.addEvent
+            (
+                {
+                    delay: 5000, //ms
+                    callback: function () {
+                        this.destroy();
+                    },
+                    callbackScope: this,
+                    repeat: 0
+                }
+            );
         }
     }
     playerCollided() {
-        
+
         if (this.isDropItem) {
 
             this.destroy();
