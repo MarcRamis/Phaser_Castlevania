@@ -7,6 +7,7 @@ var gamePrefs=
 
 var mainCharacterPrefs=
 {
+    health:16,
     jumpForce:300,
     frameRate:6,
     frameRateAttack:16,
