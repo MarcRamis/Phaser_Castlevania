@@ -8,6 +8,7 @@ class level1 extends Phaser.Scene{
         var rutaImg = 'assets/img/';
         var rutaImgWeapons = 'assets/img/weapons/';
         var rutaSnd = 'assets/snd/';
+        var rutaSndEffect = 'assets/snd/effects/';
 
         //---------HUD----------//
         this.load.image('FilledHealth','assets/img/FilledHealth.png');
@@ -55,27 +56,19 @@ class level1 extends Phaser.Scene{
         this.load.spritesheet('firebomb_fire', rutaImgWeapons + 'FireBomb_fire.png', { frameWidth: 16, frameHeight: 15 });
 
         //---------AUDIO----------//
-    }
-    create(){
-        //Pintamos el nivel
-        //Parse the file
-        this.levelData = this.cache.json.get('lamps');
-        //console.log(this.levelData);
-        //console.log(this.levelData.layers[0]);
-        /*this.levelData.layers.forEach(layerData => {
-            if(layerData.name == "Lamps-Obj")
-            {
-                console.log("Entro");
-            }
-        });*/
-        //Cargo el JSON
-        this.map = this.add.tilemap('level_1');
-        
+        this.load.audio('ost', rutaSnd + 'ost.mp3');
+        this.load.audio('hit', rutaSndEffect + 'hit.wav');
+        this.load.audio('takeItem', rutaSndEffect + 'takeItem.wav');
+    }   
+    create(){        
         // Animations
         this.loadPlayerAnimations();
         this.loadWeaponAnimations();
         this.loadItemsSheet();
         this.loadEnemyAnimations();
+
+        // Sounds
+        this.loadSounds();
 
         // Pools
         this.loadPools();
@@ -303,11 +296,13 @@ class level1 extends Phaser.Scene{
                         case('Ghoul'):
                         this.ghoul = new ghoulPrefab(this, enemy.x, enemy.y-64, 'enemyGhoul', 1);
                         this.enemies.add(this.ghoul);
+                        this.ghoul.body.collideWorldBounds = true;
                         break;
 
                         case('Panther'):
                         this.panther = new pantherPrefab(this, enemy.x, enemy.y-64, 'enemyPanther', -1);
                         this.panthers.add(this.panther);
+                        this.panther.body.collideWorldBounds = true;
                         break;
 
                         case('Bat'):
@@ -315,12 +310,22 @@ class level1 extends Phaser.Scene{
                         this.bats.add(this.bat);
                         this.bat.Move(-1);
                         this.bat.body.allowGravity = false;
+                        this.bat.body.collideWorldBounds = true;
                         break;
                     }
                 });
                 break; 
             }
         });
+    }
+    loadSounds()
+    {
+        this.ost = this.sound.add('ost');
+        this.ost.loop = true;
+        this.ost.play();
+        
+        this.hit = this.sound.add('hit');
+        this.takeItem = this.sound.add('takeItem');
     }
     setCamera()
     {
@@ -335,22 +340,24 @@ class level1 extends Phaser.Scene{
             this.physics.add.collider(enemy, this.walls);
             
             this.physics.add.overlap(enemy, this.player, this.player.TakeDamage, null, this);
-            this.physics.add.overlap(enemy, this.player.chain, enemy.TakeDamage, mainCharacterPrefs.isAttacking, this);
+            this.physics.add.overlap(enemy, this.player.chain, this.enemyTakeDamage, mainCharacterPrefs.isAttacking, this);
         });
         this.panthers.children.iterate(panther =>{
             this.physics.add.collider(panther, this.walls);
 
             this.physics.add.overlap(panther, this.player, this.player.TakeDamage, null, this);
-            this.physics.add.overlap(panther, this.player.chain, panther.TakeDamage, mainCharacterPrefs.isAttacking, this);
+            this.physics.add.overlap(panther, this.player.chain, this.enemyTakeDamage, mainCharacterPrefs.isAttacking, this);
         });
         this.bats.children.iterate(bat =>{
             
             this.physics.add.overlap(bat, this.player, this.player.TakeDamage, null, this);
-            this.physics.add.overlap(bat, this.player.chain, bat.TakeDamage, mainCharacterPrefs.isAttacking, this);
+            this.physics.add.overlap(bat, this.player.chain, this.enemyTakeDamage, mainCharacterPrefs.isAttacking, this);
         });
         this.lamps.children.iterate(lamp => {
             this.physics.add.overlap(lamp, this.player.chain, this.destroyLamp, mainCharacterPrefs.isAttacking, this);
         });
+
+        this.physics.world.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
     }
     loadPools()
     {
@@ -381,5 +388,9 @@ class level1 extends Phaser.Scene{
     destroyLamp(_lamp, _chain)
     {
         _lamp.Destroy();
+    }
+    enemyTakeDamage(_enemy, _chain)
+    {
+        _enemy.TakeDamage();
     }
 }
