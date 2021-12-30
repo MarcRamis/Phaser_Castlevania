@@ -423,7 +423,7 @@ class level1 extends Phaser.Scene{
     
     changeScene()
     {
-        this.scene.start('level2');
+        this.scene.start('level1Water');
     }
     destroyLamp(_lamp, _chain)
     {
