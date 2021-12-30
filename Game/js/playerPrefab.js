@@ -318,6 +318,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     Reset()
     {
         mainCharacterPrefs.health = 16;
+        mainCharacterPrefs.isLargeAttack = false;
+        
         this.scene.ost.stop();
         this.scene.scene.restart();
     }

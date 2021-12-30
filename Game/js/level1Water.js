@@ -190,6 +190,11 @@ class level1Water extends Phaser.Scene {
         this.lamps.children.iterate(lamp => {
             this.physics.add.overlap(lamp, this.player.chain, this.destroyLamp, mainCharacterPrefs.isAttacking, this);
         });
+
+        this.enemies.children.iterate(enemy =>{            
+            this.physics.add.overlap(enemy, this.player, this.playerTakeDamage, null, this);
+            this.physics.add.overlap(enemy, this.player.chain, this.enemyTakeDamage, mainCharacterPrefs.isAttacking, this);
+        });
     }
     loadMap() {
         //Pintamos el nivel
@@ -201,7 +206,6 @@ class level1Water extends Phaser.Scene {
         //Pintamos las capas/layers
         this.hud = this.map.createLayer('HUD','Castelvania-Sheet-Water');
         this.walls = this.map.createLayer('Ground','Castelvania-Sheet-Water');
-        this.water = this.map.createLayer('Water','Castelvania-Sheet-Water');
         this.map.createLayer('BackGround','Castelvania-Sheet-Water');
         this.stairs = this.map.createLayer('Stairs','Castelvania-Sheet-Water');
         this.stairsNextScene = this.map.createLayer('Stairs-ChangeLevel','Castelvania-Sheet-Water');
@@ -230,6 +234,8 @@ class level1Water extends Phaser.Scene {
                     break;
             }
         });
+        
+        this.water = this.map.createLayer('Water','Castelvania-Sheet-Water');
     }
     loadSounds() {
         this.ost = this.sound.add('ost');
@@ -252,6 +258,10 @@ class level1Water extends Phaser.Scene {
     }
     update() {
         this.player.Update();
+
+        this.enemies.children.iterate(enemy =>{
+            enemy.Update();
+        });
     }
     destroyLamp(_lamp, _chain)
     {
@@ -264,5 +274,9 @@ class level1Water extends Phaser.Scene {
     changeScene()
     {
         this.scene.start('level1');
+    }
+    enemyTakeDamage(_enemy, _chain)
+    {
+        _enemy.TakeDamage();
     }
 }

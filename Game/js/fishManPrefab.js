@@ -20,6 +20,8 @@ class fishMan extends Phaser.GameObjects.Sprite
         this.walkVelocity = 30;
         this.FishState = FishState.JUMP;
 
+        this.initialY = _positionY;
+        
         this.framesWalk = 0;
         this.framesWalkLimit = 200;
 
@@ -28,6 +30,8 @@ class fishMan extends Phaser.GameObjects.Sprite
 
         this.shoot = false;
         this.offsetY = -10;
+
+        this.takeDamageOnce = true;
     }
 
     preUpdate(time,delta)
@@ -42,8 +46,11 @@ class fishMan extends Phaser.GameObjects.Sprite
         if(this.FishState == FishState.JUMP){
             this.anims.play("fishmanJump");
             this.body.setVelocity(0, -200);
-            if(this.y <= 100)
-                 this.FishState = FishState.FALL;
+            if(this.y <= this.initialY - 100)
+            {
+                this.FishState = FishState.FALL;
+                this.s.physics.add.collider(this, this.s.walls);
+            }
         }
         else if(this.FishState == FishState.FALL){
             this.anims.play("fishmanJump");
@@ -51,15 +58,12 @@ class fishMan extends Phaser.GameObjects.Sprite
             this.body.collideWorldBounds = true;
             this.body.setGravity(0,200);
 
-            if(this.y >= 159){
+            if(this.body.onFloor()){
                 this.FishState = FishState.WALK;
-
             }
         }
         else if(this.FishState == FishState.WALK){
             this.framesWalk++;
-
-
             if(this.body.velocity.x == 0)
             {
                 this.Move(this.direction * -1);
@@ -133,6 +137,16 @@ class fishMan extends Phaser.GameObjects.Sprite
 
     TakeDamage()
     {
-        console.log("FishMan taking damage");
+        if (this.takeDamageOnce){
+            
+            this.takeDamageOnce = false;
+            
+            this.s.hit.play();
+            this.destroy();
+
+            this.lamp = new lampPrefab(this.s, this.x, this.y, 'lamp');
+            this.lamp.createRandomObject(this.x,this.y);
+            this.lamp.destroy();
+        }
     }
 }

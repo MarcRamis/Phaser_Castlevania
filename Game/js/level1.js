@@ -402,19 +402,12 @@ class level1 extends Phaser.Scene{
         this.bats.children.iterate(bat =>{
             bat.Update(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
-
         this.enemies.children.iterate(enemy =>{
             enemy.GetPlayerDistance(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
         this.panthers.children.iterate(panther =>{
             panther.GetPlayerDistance(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
-        // this.panthers.children.iterate((child) => 
-        // {
-        //     //child.SetPlayerDirection(1);
-        //     child.Jump(1);
-        //     //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
-        // })
     }
     
     changeScene()

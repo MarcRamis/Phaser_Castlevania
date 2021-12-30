@@ -22,7 +22,7 @@ var config=
     type: Phaser.AUTO,
     width: gamePrefs.gameWidth,
     height: gamePrefs.gameHeight,
-    //Scenes --> 'playerScene' 'level1', & 'gameState' 
+    //Scenes --> 'level1' & 'level1Water' 
     scene:[level1Water],
     render:{
         pixelArt:true
