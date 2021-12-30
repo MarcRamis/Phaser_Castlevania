@@ -150,68 +150,6 @@ class level1Water extends Phaser.Scene {
         });
     }
     loadEnemyAnimations() {
-        //Ghoul-Anim
-        this.anims.create({
-            key: 'ghoulWalk-Left',
-            frames: this.anims.generateFrameNumbers('enemyGhoul', { start: 0, end: 1 }),
-            frameRate: 5,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'ghoulWalk-Right',
-            frames: this.anims.generateFrameNumbers('enemyGhoul', { start: 2, end: 3 }),
-            frameRate: 5,
-            repeat: -1
-        });
-        //Panther-Anim
-        this.anims.create({
-            key: 'pantherWalk-Left',
-            frames: this.anims.generateFrameNumbers('enemyPanther', { start: 0, end: 1 }),
-            frameRate: 5,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'pantherWalk-Right',
-            frames: this.anims.generateFrameNumbers('enemyPanther', { start: 6, end: 7 }),
-            frameRate: 5,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'pantherJump-Left',
-            frames: this.anims.generateFrameNumbers('enemyPanther', { start: 2, end: 2 }),
-            frameRate: 5,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'pantherJump-Right',
-            frames: this.anims.generateFrameNumbers('enemyPanther', { start: 5, end: 5 }),
-            frameRate: 5,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'pantherIdle-Left',
-            frames: this.anims.generateFrameNumbers('enemyPanther', { start: 3, end: 3 }),
-            frameRate: 5,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'pantherIdle-Right',
-            frames: this.anims.generateFrameNumbers('enemyPanther', { start: 4, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'batWalk-Right',
-            frames: this.anims.generateFrameNumbers('bat', { start: 3, end: 5 }),
-            frameRate: 7,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'batWalk-Left',
-            frames: this.anims.generateFrameNumbers('bat', { start: 0, end: 2 }),
-            frameRate: 7,
-            repeat: -1
-        });
         this.anims.create({
             key: 'fishmanWalk-Right',
             frames: this.anims.generateFrameNumbers('fishMan', { start: 3, end: 4 }),
@@ -244,6 +182,10 @@ class level1Water extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, gamePrefs.gameWidth/5.5, gamePrefs.gameHeight);
         this.map.setCollisionBetween(1,77,true,true,'Ground'); //Indicamos las colisiones con paredes/suelo/techo
         this.physics.add.collider(this.player, this.walls); // Ahora con el player
+
+        this.lamps.children.iterate(lamp => {
+            this.physics.add.overlap(lamp, this.player.chain, this.destroyLamp, mainCharacterPrefs.isAttacking, this);
+        });
     }
     loadMap() {
         //Pintamos el nivel
@@ -314,8 +256,6 @@ class level1Water extends Phaser.Scene {
 
     loadPools() {
         this.enemies = this.physics.add.group();
-        this.panthers = this.physics.add.group();
-        this.bats = this.physics.add.group();
         this.lamps = this.physics.add.group();
     }
     update() {
