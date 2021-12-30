@@ -1,4 +1,4 @@
-class heartPrefab extends dropItem
+class heartPrefab extends Phaser.GameObjects.Sprite
 {
     constructor(_scene,_positionX,_positionY)
     {
@@ -9,19 +9,10 @@ class heartPrefab extends dropItem
         this.play('Heart', true);
         this.body.setSize(13, 11);
         this.body.setOffset(2, 3);
-        this.body.collideWorldBounds = true;
-    }
-    
-    preUpdate()
-    {
-        if (dropItem.taken)
-        {
-            this.destroy();
-        }
     }
 
     playerCollided()
     {
-        dropItem.taken = true;
+        this.destroy();
     }
 }
