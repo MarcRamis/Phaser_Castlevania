@@ -39,10 +39,6 @@ class level1 extends Phaser.Scene{
         //Bat
         this.load.spritesheet('bat',rutaImg+'Enemy-Bat.png',
         {frameWidth: 16, frameHeight: 14});
-        //FishMan
-        this.load.spritesheet('fishMan',rutaImg+'Enemy-FishMan.png',{frameWidth:16, frameHeight:31});
-
-        this.load.image('shoot', rutaImg+'Shoot.png');
 
         //---------ITEMS----------//
         this.load.image('Lamp', rutaMapSheet + 'Lamp.png');
@@ -77,10 +73,10 @@ class level1 extends Phaser.Scene{
         // Map
         this.loadMap();       
 
-        
         // Player
         this.player = new playerPrefab(this, 50, 100, 'player');
         this.player.body.setCollideWorldBounds(true);
+
         // Utility
         this.setCamera();
         this.setCollisions();
@@ -406,24 +402,17 @@ class level1 extends Phaser.Scene{
         this.bats.children.iterate(bat =>{
             bat.Update(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
-
         this.enemies.children.iterate(enemy =>{
             enemy.GetPlayerDistance(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
         this.panthers.children.iterate(panther =>{
             panther.GetPlayerDistance(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
-        // this.panthers.children.iterate((child) => 
-        // {
-        //     //child.SetPlayerDirection(1);
-        //     child.Jump(1);
-        //     //child.GetPlayerPos(new Phaser.Math.Vector2(255, 255));
-        // })
     }
     
     changeScene()
     {
-        this.scene.start('level2');
+        this.scene.start('level1Water');
     }
     destroyLamp(_lamp, _chain)
     {

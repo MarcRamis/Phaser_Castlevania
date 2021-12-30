@@ -20,6 +20,8 @@ class fishMan extends Phaser.GameObjects.Sprite
         this.walkVelocity = 30;
         this.FishState = FishState.JUMP;
 
+        this.initialY = _positionY;
+        
         this.framesWalk = 0;
         this.framesWalkLimit = 200;
 
@@ -28,6 +30,9 @@ class fishMan extends Phaser.GameObjects.Sprite
 
         this.shoot = false;
         this.offsetY = -10;
+
+        this.takeDamageOnce = true;
+        this.doOnce = false;
     }
 
     preUpdate(time,delta)
@@ -37,13 +42,17 @@ class fishMan extends Phaser.GameObjects.Sprite
 
     }
 
-    Update()
+    Update(_playerpos)
     {
+        this.GetDirection(_playerpos);
         if(this.FishState == FishState.JUMP){
             this.anims.play("fishmanJump");
             this.body.setVelocity(0, -200);
-            if(this.y <= 100)
-                 this.FishState = FishState.FALL;
+            if(this.y <= this.initialY - 100)
+            {
+                this.FishState = FishState.FALL;
+                this.s.physics.add.collider(this, this.s.walls);
+            }
         }
         else if(this.FishState == FishState.FALL){
             this.anims.play("fishmanJump");
@@ -51,15 +60,12 @@ class fishMan extends Phaser.GameObjects.Sprite
             this.body.collideWorldBounds = true;
             this.body.setGravity(0,200);
 
-            if(this.y >= 159){
+            if(this.body.onFloor()){
                 this.FishState = FishState.WALK;
-
             }
         }
         else if(this.FishState == FishState.WALK){
             this.framesWalk++;
-
-
             if(this.body.velocity.x == 0)
             {
                 this.Move(this.direction * -1);
@@ -85,14 +91,29 @@ class fishMan extends Phaser.GameObjects.Sprite
         }
         else
         {
-
             this.anims.play('fishmanWalk-Left');
         }
 
         this.body.setVelocity(25 * _direction, 0);
     }
 
-
+    GetDirection(_playerpos)
+    {
+        if(!this.doOnce)
+        {
+            if(this.x < _playerpos.x)
+            {
+                this.direction = -1;
+            }
+            else
+            {
+                this.direction = 1;
+            }
+            this.doOnce = true;
+        }
+        
+        
+    }
 
     Shoot(){
 
@@ -116,6 +137,8 @@ class fishMan extends Phaser.GameObjects.Sprite
 
         if(!this.shoot){
             this.fishManShoot = new fishManShoot(this.s,this.x,this.y + this.offsetY,'shoot',this.auxDir);
+            this.s.physics.add.overlap(this.fishManShoot, this.s.player, this.playerTakeDamage, null, this);
+            this.s.physics.add.collider(this.fishManShoot, this.s.walls, this.destroyShootingOnWall);
             this.shoot = true;
         }
 
@@ -133,6 +156,25 @@ class fishMan extends Phaser.GameObjects.Sprite
 
     TakeDamage()
     {
-        console.log("FishMan taking damage");
+        if (this.takeDamageOnce){
+            
+            this.takeDamageOnce = false;
+            
+            this.s.hit.play();
+            this.destroy();
+
+            this.lamp = new lampPrefab(this.s, this.x, this.y, 'lamp');
+            this.lamp.createRandomObject(this.x,this.y);
+            this.lamp.destroy();
+        }
+    }
+    playerTakeDamage(_enemyShooting, _player)
+    {
+        _player.TakeDamage();
+        _enemyShooting.destroy();
+    }
+    destroyShootingOnWall(_enemyShooting,_walls)
+    {
+        _enemyShooting.destroy();
     }
 }

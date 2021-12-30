@@ -20,7 +20,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.direction = 1;
 
-        this.currentWeapon = WeaponType.FIREBOMB;
+        this.currentWeapon = WeaponType.DAGGER;
         this.takeDamageOnce = true;
 
         // Init chain
@@ -48,6 +48,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.SetBoxColliders();
         }
         else {
+            this.Reset();
         }
 
     }
@@ -313,5 +314,13 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
     enemyTakeDamage(_enemy, _weapon) {
         _enemy.children.TakeDamage();
+    }
+    Reset()
+    {
+        mainCharacterPrefs.health = 16;
+        mainCharacterPrefs.isLargeAttack = false;
+        
+        this.scene.ost.stop();
+        this.scene.scene.restart();
     }
 }

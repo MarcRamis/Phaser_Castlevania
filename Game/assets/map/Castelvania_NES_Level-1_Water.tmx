@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="4">
- <tileset firstgid="1" source="Sprite-Sheets/Castelvania-Sheet-Water.tsx"/>
- <tileset firstgid="65" source="Sprite-Sheets/Player-Sheet.tsx"/>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="15">
+ <editorsettings>
+  <export target="Castelvania_NES_Level-1_Water.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="Castelvania-Sheet-Water" tilewidth="16" tileheight="16" tilecount="64" columns="8">
+  <image source="Sprite-Sheets/Castelvania-Sheet-Water.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="65" name="Player-Sheet" tilewidth="16" tileheight="32" tilecount="1" columns="1">
+  <image source="Sprite-Sheets/Player-Sheet.png" width="16" height="32"/>
+ </tileset>
+ <tileset firstgid="66" name="Lamp" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="Sprite-Sheets/Lamp.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="67" name="Enemies" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="Sprite-Sheets/Enemies-Sheet.png" width="64" height="64"/>
+ </tileset>
  <layer id="7" name="HUD" width="32" height="13">
   <data encoding="csv">
 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
@@ -32,8 +45,25 @@
 7,8,21,22,21,22,7,8,11,12,21,22,7,8,5,5,7,8,5,5,7,8,21,22,21,22,21,22,7,8,31,0,
 15,16,5,5,5,5,15,16,19,20,4,4,15,16,5,6,15,16,5,6,15,16,4,4,5,6,5,5,15,16,0,0,
 23,24,5,5,5,5,23,24,5,5,4,4,15,16,13,14,15,16,13,14,15,16,4,4,13,14,5,5,15,16,21,21,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0
+</data>
+ </layer>
+ <layer id="8" name="Water" width="32" height="13">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,0,0,2,1,
-10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,7,8,10,9
+10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,0,0,10,9
 </data>
  </layer>
  <layer id="3" name="Ground" width="32" height="13">
@@ -91,7 +121,34 @@
   <object id="1" gid="65" x="64" y="64" width="16" height="32"/>
   <object id="2" gid="65" x="384" y="64" width="16" height="32"/>
  </objectgroup>
- <imagelayer id="2" name="BackGround-Image" visible="0" opacity="0.5" offsetx="0" offsety="32">
+ <objectgroup id="9" name="Lamps-Obj" offsetx="8" offsety="2">
+  <object id="4" gid="66" x="144" y="64" width="16" height="16"/>
+  <object id="5" gid="66" x="80" y="64" width="16" height="16"/>
+  <object id="6" gid="66" x="16" y="64" width="16" height="16"/>
+  <object id="7" gid="66" x="208" y="64" width="16" height="16"/>
+  <object id="8" gid="66" x="272" y="64" width="16" height="16"/>
+  <object id="9" gid="66" x="336" y="64" width="16" height="16"/>
+  <object id="10" gid="66" x="400" y="64" width="16" height="16"/>
+  <object id="11" gid="66" x="480" y="64" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="10" name="Enemies">
+  <object id="12" gid="69" x="144" y="208" width="32" height="32">
+   <properties>
+    <property name="EnemyType" value="Fishman"/>
+   </properties>
+  </object>
+  <object id="13" gid="69" x="16" y="208" width="32" height="32">
+   <properties>
+    <property name="EnemyType" value="Fishman"/>
+   </properties>
+  </object>
+  <object id="14" gid="69" x="416" y="208" width="32" height="32">
+   <properties>
+    <property name="EnemyType" value="Fishman"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <imagelayer id="2" name="BackGround-Image" opacity="0.5" offsetx="0" offsety="32">
   <image source="../img/Castelvania-Level-1_Water.png" width="512" height="176"/>
  </imagelayer>
 </map>
