@@ -19,8 +19,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.setOffset(44, 5);
         this.body.collideWorldBounds = true;
         this.direction = 1;
-        
-        this.currentWeapon = WeaponType.FIREBOMB;
+
+        this.currentWeapon = WeaponType.NONE;
+        this.takeDamageOnce = true;
 
         // Init chain
         this.chain = _scene.add.rectangle(this.x, this.y - 35, 22, 6);
@@ -35,17 +36,20 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
 
     Update() {
-        // Movement, inputs player
-        this.Move();
-        this.Jump();
-        this.Attack();
-        this.SpecialAttack();
 
-        // Collisions
-        this.SetBoxColliders();
+        if (mainCharacterPrefs.health > 0) {
+            // Movement, inputs player
+            this.Move();
+            this.Jump();
+            this.Attack();
+            this.SpecialAttack();
 
-        // Actives & Passives
-        this.GetItemsState();
+            // Collisions
+            this.SetBoxColliders();
+        }
+        else {
+        }
+
     }
 
     Move() {
@@ -147,32 +151,31 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             && !mainCharacterPrefs.isSpecialAttacking
             && this.currentWeapon != WeaponType.NONE) {
 
-                if (this.cursors.shift.isDown
-                    && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 12)) {
-                    mainCharacterPrefs.isSpecialAttacking = true;
-                    this._time.delayedCall(300, this.SpecialAttackUp, null, this);
-        
-                    this.body.velocity.x = 0;
-                    this.play('special_attack', true);
-        
-                    switch (this.currentWeapon)
-                    {
-                        case WeaponType.AXE:
-                            this.weapon = new axePrefab(this.scene, this.x, this.y, 'axe', this.direction);
-                            this.scene.physics.add.collider(this.weapon, this.scene.walls);
-                            break;
-                        case WeaponType.FIREBOMB:
-                            this.weapon = new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction);
-                            this.scene.physics.add.collider(this.weapon, this.scene.walls);
-                            break;
-                        case WeaponType.DAGGER:
-                            this.weapon = new daggerPrefab(this.scene, this.x, this.y, 'dagger', this.direction);
-                            this.scene.physics.add.collider(this.weapon, this.scene.walls);
-                            break;
-                    }
+            if (this.cursors.shift.isDown
+                && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 12)) {
+                mainCharacterPrefs.isSpecialAttacking = true;
+                this._time.delayedCall(300, this.SpecialAttackUp, null, this);
+
+                this.body.velocity.x = 0;
+                this.play('special_attack', true);
+
+                switch (this.currentWeapon) {
+                    case WeaponType.AXE:
+                        this.weapon = new axePrefab(this.scene, this.x, this.y, 'axe', this.direction);
+                        this.scene.physics.add.collider(this.weapon, this.scene.walls);
+                        break;
+                    case WeaponType.FIREBOMB:
+                        this.weapon = new firebombPrefab(this.scene, this.x, this.y, 'firebomb', this.direction);
+                        this.scene.physics.add.collider(this.weapon, this.scene.walls);
+                        break;
+                    case WeaponType.DAGGER:
+                        this.weapon = new daggerPrefab(this.scene, this.x, this.y, 'dagger', this.direction);
+                        this.scene.physics.add.collider(this.weapon, this.scene.walls);
+                        break;
                 }
+            }
         }
-        
+
     }
 
     AttackUp() {
@@ -276,12 +279,26 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             this.chain.y = 0;
         }
     }
-    
-    GetItemsState()
-    {
-    }
-    TakeDamage()
-    {
-        console.log("Player taking damage");
+
+    TakeDamage() {
+        if (this.takeDamageOnce) {
+            this.scene.hit.play();
+            this.body.velocity.y = -150;
+            mainCharacterPrefs.health--;
+            this.scene.ui.SetHealthUi(mainCharacterPrefs.health);
+            
+            this.takeDamageOnce = false;
+            this.takeDamageTimer = this.scene.time.addEvent
+                (
+                    {
+                        delay: 1000, //ms
+                        callback: function () {
+                            this.takeDamageOnce = true;
+                        },
+                        callbackScope: this,
+                        repeat: 0
+                    }
+                );
+        }
     }
 }

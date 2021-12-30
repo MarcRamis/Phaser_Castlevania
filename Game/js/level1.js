@@ -86,6 +86,7 @@ class level1 extends Phaser.Scene{
         // Hud
         this.ui = new uiPrefab();
         this.ui.create(this);
+        this.ui.SetHealthUi(mainCharacterPrefs.health);
     }
 
     loadPlayerAnimations() {
@@ -339,7 +340,7 @@ class level1 extends Phaser.Scene{
         this.enemies.children.iterate(enemy =>{
             this.physics.add.collider(enemy, this.walls);
             
-            this.physics.add.overlap(enemy, this.player, this.player.TakeDamage, null, this);
+            this.physics.add.overlap(enemy, this.player, this.playerTakeDamage, null, this);
             this.physics.add.overlap(enemy, this.player.chain, this.enemyTakeDamage, mainCharacterPrefs.isAttacking, this);
         });
         this.panthers.children.iterate(panther =>{
@@ -367,6 +368,7 @@ class level1 extends Phaser.Scene{
         this.lamps = this.physics.add.group();
     }
     update(){
+        
         this.player.Update();
 
         this.bats.children.iterate(bat =>{
@@ -392,5 +394,9 @@ class level1 extends Phaser.Scene{
     enemyTakeDamage(_enemy, _chain)
     {
         _enemy.TakeDamage();
+    }
+    playerTakeDamage(_enemy, _player)
+    {
+        _player.TakeDamage();
     }
 }
