@@ -180,8 +180,12 @@ class level1Water extends Phaser.Scene {
     }
     setCollisions() {
         this.physics.world.setBounds(0, 0, gamePrefs.gameWidth/5.5, gamePrefs.gameHeight);
+        
         this.map.setCollisionBetween(1,77,true,true,'Ground'); //Indicamos las colisiones con paredes/suelo/techo
         this.physics.add.collider(this.player, this.walls); // Ahora con el player
+        
+        this.map.setCollisionBetween(1,77,true,true,'Water'); //Indicamos las colisiones con el agua
+        this.physics.add.collider(this.player, this.water, function () { mainCharacterPrefs.health = 0; });
 
         this.lamps.children.iterate(lamp => {
             this.physics.add.overlap(lamp, this.player.chain, this.destroyLamp, mainCharacterPrefs.isAttacking, this);
@@ -255,10 +259,23 @@ class level1Water extends Phaser.Scene {
     }
 
     loadPools() {
+        this.weapons = this.physics.add.group();
         this.enemies = this.physics.add.group();
         this.lamps = this.physics.add.group();
     }
     update() {
         this.player.Update();
+    }
+    destroyLamp(_lamp, _chain)
+    {
+        _lamp.Destroy();
+    }
+    killPlayer(_player,_water)
+    {
+        mainCharacterPrefs.health = 0;
+    }
+    changeScene()
+    {
+        this.scene.start('level1');
     }
 }
