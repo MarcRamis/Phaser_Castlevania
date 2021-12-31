@@ -46,6 +46,7 @@ class level1 extends Phaser.Scene {
         this.load.image('Lamp', rutaMapSheet + 'Lamp.png');
         this.load.spritesheet('items', rutaImg + 'Items.png', { frameWidth: 16, frameHeight: 16 });
         this.load.spritesheet('lamp', rutaImg + 'lamp.png', { frameWidth: 10, frameHeight: 16 });
+        this.load.spritesheet('MagicCrystal', rutaImg + 'MagicCrystal.png', { frameWidth: 16, frameHeight: 16 });
 
         //---------WEAPONS----------//
         this.load.image('dagger', rutaImgWeapons + 'Dagger.png');
@@ -169,6 +170,13 @@ class level1 extends Phaser.Scene {
         this.anims.create({
             key: 'lampDestroy',
             frames: this.anims.generateFrameNumbers('lamp', { start: 2, end: 5 }),
+            frameRate: 8,
+            repeat: 0
+
+        });
+        this.anims.create({
+            key: 'magicCrystal',
+            frames: this.anims.generateFrameNumbers('MagicCrystal', { start: 0, end: 1 }),
             frameRate: 8,
             repeat: 0
 
