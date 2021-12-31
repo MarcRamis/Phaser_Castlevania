@@ -72,15 +72,16 @@ class level1 extends Phaser.Scene {
 
         // Pools
         this.loadPools();
-        
+
         // Map
         this.loadMap();
 
         //PhantomBat
-        this.phantomBat = new phantomBatPrefab(this, 2500, 50, 'phantomBat');
+        //this.phantomBat = new phantomBatPrefab(this, 2671, 49, 'phantomBat');
+        this.phantomBat = new phantomBatPrefab(this, 2671, 180, 'phantomBat');
 
         // Player
-        this.player = new playerPrefab(this, 2500, 100, 'player');
+        this.player = new playerPrefab(this, 2500, 160, 'player');
         this.player.body.setCollideWorldBounds(true);
 
         // Utility
@@ -320,10 +321,14 @@ class level1 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
     }
     setCollisions() {
+
+        // World size
         this.physics.world.setBounds(0, 0, gamePrefs.gameWidth, gamePrefs.gameHeight);
 
+        // Player with ground
         this.physics.add.collider(this.player, this.walls);
 
+        // Enemies with player & ground
         this.enemies.children.iterate(enemy => {
             this.physics.add.collider(enemy, this.walls);
 
@@ -345,31 +350,15 @@ class level1 extends Phaser.Scene {
             this.physics.add.overlap(lamp, this.player.chain, this.destroyLamp, mainCharacterPrefs.isAttacking, this);
         });
 
-        // Collision with weapons group
-        this.physics.add.overlap
-            (
-                this.enemies,
-                this.weapons,
-                this.enemyTakeDamage,
-                null,
-                this
-            );
-        this.physics.add.overlap
-            (
-                this.bats,
-                this.weapons,
-                this.enemyTakeDamage,
-                null,
-                this
-            );
-        this.physics.add.overlap
-            (
-                this.panthers,
-                this.weapons,
-                this.enemyTakeDamage,
-                null,
-                this
-            );
+        // Weapons Group with enemies
+        this.physics.add.overlap(this.enemies, this.weapons, this.enemyTakeDamage, null, this);
+        this.physics.add.overlap(this.bats, this.weapons, this.enemyTakeDamage, null, this);
+        this.physics.add.overlap(this.panthers, this.weapons, this.enemyTakeDamage, null, this);
+
+        // Phantom Bat with player & weapons
+        this.physics.add.overlap(this.phantomBat, this.player, this.playerTakeDamageFromBoss, null, this);
+        this.physics.add.overlap(this.phantomBat, this.player.chain, this.enemyBossTakeDamageFromChain, null, this);
+        this.physics.add.overlap(this.phantomBat, this.weapons, this.enemyBossTakeDamageFromWeapon, null, this);
     }
     loadPools() {
         this.weapons = this.physics.add.group();
@@ -398,6 +387,12 @@ class level1 extends Phaser.Scene {
                 gamePrefs.bossFinalEvent = true;
                 this.EventBossFinal();
             }
+            else{
+                if (gamePrefs.bossHealth < 0)
+                {
+                    // Spawn del item rojo
+                }
+            }
         }
 
     }
@@ -412,22 +407,43 @@ class level1 extends Phaser.Scene {
         _enemy.TakeDamage();
     }
     playerTakeDamage(_enemy, _player) {
-        _player.TakeDamage();
+        _player.TakeDamage(1);
     }
+    playerTakeDamageFromBoss(_enemy, _player) {
+        _player.TakeDamage(2);
+    }
+    enemyBossTakeDamageFromChain(_phantomBat, _chain) {
+
+        if (this.phantomBat.currentState == EMachineState.FIGHT) {
+
+            this.phantomBat.TakeDamage(1);
+        }
+    }
+    enemyBossTakeDamageFromWeapon(_phantomBat, _chain) {
+
+        if (this.phantomBat.currentState == EMachineState.FIGHT) {
+
+            this.phantomBat.TakeDamage(2);
+        }
+    }
+
     EventBossFinal() {
 
         // Set bounds size to the main fight
         this.physics.world.setBounds(2592, 0, gamePrefs.playerWidth, gamePrefs.gameHeight);
         this.cameras.main.setBounds(2592, 0, gamePrefs.playerWidth, gamePrefs.gameHeight);
 
+        // Kill enemies because they TP to the boss fight (for bounds size) 
+        this.enemies.clear(true, true);
+        this.panthers.clear(true, true);
+        this.bats.clear(true, true);
+
         // Start Boss Fight Music
         this.ost.stop();
         this.bossOst.loop = true;
         this.bossOst.play();
 
-        // Kill enemies because they TP to the boss fight (for bounds size) 
-        this.enemies.clear(true,true);
-        this.panthers.clear(true,true);
-        this.bats.clear(true,true);
+        // Start phantom fight
+        this.phantomBat.currentState = EMachineState.FIGHT;
     }
 }

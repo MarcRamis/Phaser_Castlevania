@@ -19,6 +19,8 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
         this.currentState = EMachineState.IDLE;
 
         this.anims.play('phantomBat-Idle');
+        this.body.setSize(16,16);
+        this.body.setOffset(24,8);
     }
 
     Update() {
@@ -51,17 +53,17 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
         this.body.setVelocity(_directionX, _directionY)
     }
 
-    TakeDamage() {
+    TakeDamage(_health) {
         if (this.takeDamageOnce) {
             this.s.hit.play();
-            gamePrefs.bossHealth -= 2;
-            // Set health on HUD
+            gamePrefs.bossHealth -= _health;
+            this.s.ui.SetEnemyHealthUi(gamePrefs.bossHealth);// Set health on HUD
             
             this.takeDamageOnce = false;
             this.takeDamageTimer = this.s.time.addEvent
             (
                 {
-                    delay: 1000, //ms
+                    delay: 500, //ms
                     callback: function () {
                         this.takeDamageOnce = true;
                     },
