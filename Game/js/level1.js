@@ -39,7 +39,9 @@ class level1 extends Phaser.Scene {
         //Bat
         this.load.spritesheet('bat', rutaImg + 'Enemy-Bat.png',
             { frameWidth: 16, frameHeight: 14 });
-
+        //PhantomBat
+        this.load.spritesheet('phantomBat', rutaImg + 'PhantomBat.png',
+            { frameWidth: 64, frameHeight: 32 });
         //---------ITEMS----------//
         this.load.image('Lamp', rutaMapSheet + 'Lamp.png');
         this.load.spritesheet('items', rutaImg + 'Items.png', { frameWidth: 16, frameHeight: 16 });
@@ -70,9 +72,12 @@ class level1 extends Phaser.Scene {
 
         // Pools
         this.loadPools();
-
+        
         // Map
         this.loadMap();
+
+        //PhantomBat
+        this.phantomBat = new phantomBatPrefab(this, 2500, 50, 'phantomBat');
 
         // Player
         this.player = new playerPrefab(this, 2500, 100, 'player');
@@ -228,6 +233,18 @@ class level1 extends Phaser.Scene {
         this.anims.create({
             key: 'batWalk-Left',
             frames: this.anims.generateFrameNumbers('bat', { start: 0, end: 2 }),
+            frameRate: 7,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'phantomBat-Idle',
+            frames: this.anims.generateFrameNumbers('phantomBat', { start: 2, end: 2 }),
+            frameRate: 7,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'phantomBat-Fly',
+            frames: this.anims.generateFrameNumbers('phantomBat', { start: 0, end: 1 }),
             frameRate: 7,
             repeat: -1
         });

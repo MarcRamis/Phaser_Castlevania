@@ -17,6 +17,8 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
         this.takeDamageOnce = true;
 
         this.currentState = EMachineState.IDLE;
+
+        this.anims.play('phantomBat-Idle');
     }
 
     Update() {
