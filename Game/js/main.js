@@ -2,7 +2,9 @@ var gamePrefs=
 {
     gameWidth:2816,
     gameHeight:208,
-    playerWidth:224
+    playerWidth:224,
+    bossFinalEvent:false,
+    bossHealth:16
 }
 
 var mainCharacterPrefs=
@@ -23,7 +25,7 @@ var config=
     width: gamePrefs.gameWidth,
     height: gamePrefs.gameHeight,
     //Scenes --> 'level1' & 'level1Water' 
-    scene:[level1Water],
+    scene:[level1],
     render:{
         pixelArt:true
     },

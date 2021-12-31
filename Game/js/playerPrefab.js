@@ -20,7 +20,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.direction = 1;
 
-        this.currentWeapon = WeaponType.DAGGER;
+        this.currentWeapon = WeaponType.NONE;
         this.takeDamageOnce = true;
 
         // Init chain
@@ -322,5 +322,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         
         this.scene.ost.stop();
         this.scene.scene.restart();
+        
+        gamePrefs.bossFinalEvent = false;
     }
 }

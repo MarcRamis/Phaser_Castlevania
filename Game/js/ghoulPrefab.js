@@ -32,7 +32,7 @@ class ghoulPrefab extends Phaser.GameObjects.Sprite
             {   
                 this.ChooseDirection(_playerpos)
                 this.Move(this.direction);
-                this.startMoving = true;
+                this.startMovfing = true;
             }
         }
     }

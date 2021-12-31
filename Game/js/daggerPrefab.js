@@ -13,7 +13,6 @@ class daggerPrefab extends Phaser.GameObjects.Sprite {
             this.body.allowGravity = false;
         }
         this.body.allowGravity = false;
-        //this.body.collideWorldBounds = true;
         this.direction = _direction;
         this.doOnce = true;
         this.isDropItem = _isDropItem;
