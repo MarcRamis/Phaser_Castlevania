@@ -320,10 +320,11 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         mainCharacterPrefs.health = 16;
         mainCharacterPrefs.isLargeAttack = false;
         mainCharacterPrefs.weapon = WeaponType.NONE;
+        
+        gamePrefs.bossFinalEvent = false;
+        gamePrefs.bossHealth = 16;
 
         this.scene.ost.stop();
         this.scene.scene.restart();
-        
-        gamePrefs.bossFinalEvent = false;
     }
 }

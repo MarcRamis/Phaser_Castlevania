@@ -21,6 +21,8 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
         this.anims.play('phantomBat-Idle');
         this.body.setSize(16,16);
         this.body.setOffset(24,8);
+
+        this.speed = 50;
     }
 
     Update() {
@@ -44,13 +46,11 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
 
     Move(_directionX,_directionY) {
 
-        if (_direction > 0) {
-            this.anims.play('ghoulWalk-Right');
-        }
-        else {
-            this.anims.play('ghoulWalk-Left');
-        }
-        this.body.setVelocity(_directionX, _directionY)
+        this.play('phantomBat-Fly',true);
+        this.body.setSize(36,16);
+        this.body.setOffset(16,6);
+
+        //this.body.setVelocity(this.speed * _directionX, this.speed * _directionY)
     }
 
     TakeDamage(_health) {

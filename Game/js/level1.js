@@ -77,9 +77,8 @@ class level1 extends Phaser.Scene {
         this.loadMap();
 
         //PhantomBat
-        //this.phantomBat = new phantomBatPrefab(this, 2671, 49, 'phantomBat');
-        this.phantomBat = new phantomBatPrefab(this, 2671, 180, 'phantomBat');
-
+        this.phantomBat = new phantomBatPrefab(this, 2671, 49, 'phantomBat');
+        
         // Player
         this.player = new playerPrefab(this, 2500, 160, 'player');
         this.player.body.setCollideWorldBounds(true);
@@ -390,6 +389,7 @@ class level1 extends Phaser.Scene {
         }
         if (gamePrefs.bossFinalEvent)
         {
+            this.phantomBat.Move(this.player.x, this.player.y);
             if (gamePrefs.bossHealth < 0)
             {
                 // Spawn del item rojo
