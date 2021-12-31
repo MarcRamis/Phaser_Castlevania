@@ -79,6 +79,7 @@ class level1 extends Phaser.Scene {
 
         //PhantomBat
         this.phantomBat = new phantomBatPrefab(this, 2671, 49, 'phantomBat');
+        this.spawnMagicCrystalOnce = false;
         
         // Player
         this.player = new playerPrefab(this, 2500, 160, 'player');
@@ -92,6 +93,10 @@ class level1 extends Phaser.Scene {
         this.ui = new uiPrefab();
         this.ui.create(this);
         this.ui.SetHealthUi(mainCharacterPrefs.health);
+
+        /*this.magicCrystal = new magicCrystalPrefab(this, 2671, 100);
+                this.physics.add.collider(this.magicCrystal, this.walls);
+                this.physics.add.overlap(this.magicCrystal, this.player, this.Reset, null, this);*/
     }
 
     loadPlayerAnimations() {
@@ -177,7 +182,7 @@ class level1 extends Phaser.Scene {
             key: 'magicCrystal',
             frames: this.anims.generateFrameNumbers('MagicCrystal', { start: 0, end: 1 }),
             frameRate: 8,
-            repeat: 0
+            repeat: -1
 
         });
     }
@@ -397,12 +402,17 @@ class level1 extends Phaser.Scene {
         }
         if (gamePrefs.bossFinalEvent)
         {
-            this.phantomBat.Move(this.player.x, this.player.y);
-            if (gamePrefs.bossHealth < 0)
+            this.phantomBat.Move(this.player.x, this.player.y + 16);
+            this.phantomBat.AttackShort();
+            if (gamePrefs.bossHealth <= 0 && !this.spawnMagicCrystalOnce)
             {
-                // Spawn del item rojo
+                this.spawnMagicCrystalOnce = true;
+                this.magicCrystal = new magicCrystalPrefab(this, 2671, 100);
+                this.physics.add.collider(this.magicCrystal, this.walls);
+                this.physics.add.overlap(this.magicCrystal, this.player, this.magicCrystal.destroyLamp, null, this);
             }
         }
+        console.log(gamePrefs.bossFinalEvent);
     }
 
     changeScene() {
@@ -453,5 +463,10 @@ class level1 extends Phaser.Scene {
 
         // Start phantom fight
         this.phantomBat.currentState = EMachineState.FIGHT;
+    }
+
+    Reset()
+    {
+        this.player.Reset();
     }
 }
