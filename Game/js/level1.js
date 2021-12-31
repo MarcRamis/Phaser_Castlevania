@@ -387,14 +387,14 @@ class level1 extends Phaser.Scene {
                 gamePrefs.bossFinalEvent = true;
                 this.EventBossFinal();
             }
-            else{
-                if (gamePrefs.bossHealth < 0)
-                {
-                    // Spawn del item rojo
-                }
+        }
+        if (gamePrefs.bossFinalEvent)
+        {
+            if (gamePrefs.bossHealth < 0)
+            {
+                // Spawn del item rojo
             }
         }
-
     }
 
     changeScene() {
