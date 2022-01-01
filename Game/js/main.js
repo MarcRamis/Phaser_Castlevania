@@ -20,7 +20,8 @@ var mainCharacterPrefs=
     isDiagonalMovementRight: false,
     isDiagonalMovementLeft: false,
     speed:100,
-    weapon: WeaponType.NONE
+    weapon: WeaponType.NONE,
+    comeFromWater: false
 }
 
 var config=

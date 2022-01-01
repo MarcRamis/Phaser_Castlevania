@@ -75,6 +75,7 @@ class level1Water extends Phaser.Scene {
         // Utility
         this.setCamera();
         this.setCollisions();
+        this.doOnceChangeLevel = false;
 
         // Hud
         this.ui = new uiPrefab();
@@ -200,7 +201,7 @@ class level1Water extends Phaser.Scene {
         this.map.setCollisionBetween(1, 77, true, true, 'Water'); //Indicamos las colisiones con el agua
         this.physics.add.collider(this.player, this.water, function () { mainCharacterPrefs.health = 0; });
 
-        this.map.setCollisionBetween(1, 500, true, true, 'Stairs'); //Indicamos las colisiones con el agua
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs'); //Indicamos las colisiones con las escaleras
         this.physics.add.overlap(this.player, this.stairs, 
             function () { if (this.stairs.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
             if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) 
@@ -213,10 +214,10 @@ class level1Water extends Phaser.Scene {
         }
     }, null, this);
 
-        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-ChangeLevel'); //Indicamos las colisiones con el agua
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-ChangeLevel'); //Indicamos las colisiones la escalera de cambio de nivel
         this.physics.add.overlap(this.player, this.stairsNextScene, 
             function () { if (this.stairsNextScene.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
-            if (this.player.cursors.up.isDown || this.player.cursors.down.isDown)
+            if (this.player.cursors.up.isDown || this.player.cursors.down.isDown || this.player.cursors.left.isDown)
             {
                 this.changeScene();
             }
@@ -314,7 +315,12 @@ class level1Water extends Phaser.Scene {
         mainCharacterPrefs.health = 0;
     }
     changeScene() {
-        this.scene.start('level1');
+        if (!this.doOnceChangeLevel) {
+            this.scene.start('level1');
+            this.ost.stop();
+            this.doOnceChangeLevel = true;
+            mainCharacterPrefs.comeFromWater = true;
+        }
     }
     enemyTakeDamage(_enemy, _chain) {
         _enemy.TakeDamage();

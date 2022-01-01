@@ -74,6 +74,10 @@ class level1 extends Phaser.Scene {
         // Pools
         this.loadPools();
 
+        //Pos Player after Water Level
+        this.plPosSpawnX;
+        this.plPosSpawnY;
+
         // Map
         this.loadMap();
 
@@ -82,20 +86,28 @@ class level1 extends Phaser.Scene {
         this.spawnMagicCrystalOnce = false;
 
         // Player
-        this.player = new playerPrefab(this, 1835, 160, 'player');
+        
+        if(mainCharacterPrefs.comeFromWater)
+        {
+            this.player = new playerPrefab(this, this.plPosSpawnX, this.plPosSpawnY - 32, 'player');
+            mainCharacterPrefs.comeFromWater = false;
+        }
+        else{
+            this.player = new playerPrefab(this, 1835, 160, 'player');
+        }
+        
         this.player.body.setCollideWorldBounds(true);
 
         // Utility
         this.setCamera();
         this.setCollisions();
+        this.doOnceChangeLevel = false;
 
         // Hud
         this.ui = new uiPrefab();
         this.ui.create(this);
         this.ui.SetHealthUi(mainCharacterPrefs.health);
 
-        //Once to change level
-        this.doOnceChangeLevel = false;
     }
 
     loadPlayerAnimations() {
@@ -277,7 +289,7 @@ class level1 extends Phaser.Scene {
         this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene', 'Level-1_TileSheet');
         this.doors = this.map.createLayer('Door', 'Level-1_TileSheet');
 
-        this.map.setCollisionBetween(1, 77, true, true, 'Ground');
+        this.map.setCollisionBetween(1, 500, true, true, 'Ground');
         this.map.setCollisionBetween(1, 500, true, true, 'Stairs-Right');
         this.map.setCollisionBetween(1, 500, true, true, 'Stairs-Left');
         this.map.setCollisionBetween(1, 500, true, true, 'Stairs-ChangeScene');
@@ -317,6 +329,9 @@ class level1 extends Phaser.Scene {
                         }
                     });
                     break;
+                case ('PlayerSpawns'):
+                    this.plPosSpawnX = layerData.objects[1].x;
+                    this.plPosSpawnY = layerData.objects[1].y;
             }
         });
     }
