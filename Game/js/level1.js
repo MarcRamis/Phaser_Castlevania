@@ -269,7 +269,8 @@ class level1 extends Phaser.Scene {
         this.hud = this.map.createLayer('HUD', 'Level-1_TileSheet');
         this.walls = this.map.createLayer('Ground', 'Level-1_TileSheet');
         this.map.createLayer('BackGround', 'Level-1_TileSheet');
-        this.stairs = this.map.createLayer('Stairs', 'Level-1_TileSheet');
+        this.stairsLeft = this.map.createLayer('Stairs-Left', 'Level-1_TileSheet');
+        this.stairsRight = this.map.createLayer('Stairs-Right', 'Level-1_TileSheet');
         this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene', 'Level-1_TileSheet');
         this.doors = this.map.createLayer('Door', 'Level-1_TileSheet');
 
