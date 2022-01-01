@@ -18,6 +18,7 @@ var mainCharacterPrefs=
     isLargeAttack:false,
     speed:100,
     mana:0,
+    stage:1,
     weapon: WeaponType.NONE
 }
 

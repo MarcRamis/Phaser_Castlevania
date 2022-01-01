@@ -175,6 +175,11 @@ class uiPrefab{
         this.stageUi.setText('STAGE  '+ (this.stage));
     }
 
+    SetStage(s){
+        this.stage = s;
+        this.stageUi.setText('STAGE  '+ (this.stage));
+
+    }
     //Time
     ReduceTime(){
         this.time--;
