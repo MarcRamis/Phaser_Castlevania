@@ -16,7 +16,9 @@ var mainCharacterPrefs=
     isAttacking:false,
     isSpecialAttacking:false,
     isLargeAttack:false,
-    isDiagonalMovement: false,
+    isStairs:false,
+    isDiagonalMovementRight: false,
+    isDiagonalMovementLeft: false,
     speed:100,
     weapon: WeaponType.NONE
 }

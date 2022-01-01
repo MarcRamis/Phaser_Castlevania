@@ -80,7 +80,7 @@ class level1 extends Phaser.Scene {
         //PhantomBat
         this.phantomBat = new phantomBatPrefab(this, 2671, 49, 'phantomBat');
         this.spawnMagicCrystalOnce = false;
-        
+
         // Player
         this.player = new playerPrefab(this, 35, 160, 'player');
         this.player.body.setCollideWorldBounds(true);
@@ -274,7 +274,9 @@ class level1 extends Phaser.Scene {
         this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene', 'Level-1_TileSheet');
         this.doors = this.map.createLayer('Door', 'Level-1_TileSheet');
 
-        this.map.setCollisionBetween(1, 77, true, true, 'Ground'); //Indicamos las colisiones con paredes/suelo/techo
+        this.map.setCollisionBetween(1, 77, true, true, 'Ground');
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-Right');
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-Left');
 
         // Leemos toda la información de las lámparas y enemigos en el mapa
         this.map.objects.forEach(layerData => {
@@ -337,6 +339,19 @@ class level1 extends Phaser.Scene {
         // Player with ground
         this.physics.add.collider(this.player, this.walls);
 
+        // Stairs right with player
+        this.physics.add.overlap(this.player, this.stairsRight,
+            function () {
+                if (this.stairsRight.getTileAtWorldXY(this.player.x + 16, this.player.y + 32)) {
+                    mainCharacterPrefs.isDiagonalMovementRight = true;
+                }
+                else {
+                    mainCharacterPrefs.isDiagonalMovementRight = false;
+                }
+            }, null, this);
+        // Stairs left with player
+        this.physics.add.collider(this.player, this.stairsLeft, function () { console.log("aaa") }, null, this);
+
         // Enemies with player & ground
         this.enemies.children.iterate(enemy => {
             this.physics.add.collider(enemy, this.walls);
@@ -396,7 +411,7 @@ class level1 extends Phaser.Scene {
                 (
                     {
                         delay: 2000, //ms
-                        callback: function() {
+                        callback: function () {
                             if (!gamePrefs.bossFinalEvent) {
                                 gamePrefs.bossFinalEvent = true;
                                 this.EventBossFinal();
@@ -406,24 +421,20 @@ class level1 extends Phaser.Scene {
                         repeat: 0
                     }
                 );
-            
+
         }
-        if (gamePrefs.bossFinalEvent)
-        {
-            if (gamePrefs.bossHealth <= 0)
-            {
-                if(!this.spawnMagicCrystalOnce)
-                {
+        if (gamePrefs.bossFinalEvent) {
+            if (gamePrefs.bossHealth <= 0) {
+                if (!this.spawnMagicCrystalOnce) {
                     this.spawnMagicCrystalOnce = true;
                     this.magicCrystal = new magicCrystalPrefab(this, 2671, 100);
                     this.physics.add.collider(this.magicCrystal, this.walls);
                     this.physics.add.overlap(this.magicCrystal, this.player, this.Reset, null, this);
                     this.phantomBat.DieEvent();
                 }
-                
+
             }
-            else
-            {
+            else {
                 this.phantomBat.Update();
             }
         }
@@ -479,8 +490,7 @@ class level1 extends Phaser.Scene {
         this.phantomBat.currentState = EMachineState.FIGHT;
     }
 
-    Reset()
-    {
+    Reset() {
         this.player.Reset();
     }
 }

@@ -39,7 +39,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
 
         if (mainCharacterPrefs.health > 0) {
             // Movement, inputs player
-            if (!mainCharacterPrefs.isDiagonalMovement) {
+            if (!mainCharacterPrefs.isDiagonalMovementRight) {
                 this.Move();
                 this.body.setAllowGravity(true);
             }
@@ -62,7 +62,6 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
 
     Move() {
-
         if (!mainCharacterPrefs.isAttacking
             && !mainCharacterPrefs.isSpecialAttacking) {
 
@@ -93,28 +92,23 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         if (!mainCharacterPrefs.isAttacking
             && !mainCharacterPrefs.isSpecialAttacking) {
 
-            if (this.cursors.right.isDown) {
+            if (this.cursors.up.isDown) {
                 this.body.setVelocity(
-                    (mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)), 
+                    (mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)),
                     -(mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)));
-                
+
                 this.flipX = false;
                 this.direction = 1;
                 this.play('walk', true);
             }
-            else if (this.cursors.left.isDown) {
+            else if (this.cursors.down.isDown) {
                 this.body.setVelocity
-                (-(mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)), 
-                (mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)));
-                
+                    (-(mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)),
+                        (mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)));
+
                 this.flipX = true;
                 this.direction = -1;
                 this.play('walk', true);
-            }
-            else if (this.cursors.down.isDown) {
-                this.body.velocity.x = 0;
-                this.body.velocity.y = 0;
-                this.setFrame(3);
             }
             else {
                 this.body.velocity.x = 0;
@@ -361,7 +355,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     Reset() {
         mainCharacterPrefs.health = 16;
         mainCharacterPrefs.isLargeAttack = false;
-        mainCharacterPrefs.isDiagonalMovement = false;
+        mainCharacterPrefs.isDiagonalMovementRight = false;
+        mainCharacterPrefs.isDiagonalMovementLeft = false;
         mainCharacterPrefs.weapon = WeaponType.NONE;
 
         if (gamePrefs.bossFinalEvent) {
