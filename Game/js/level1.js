@@ -342,15 +342,29 @@ class level1 extends Phaser.Scene {
         // Stairs right with player
         this.physics.add.overlap(this.player, this.stairsRight,
             function () {
-                if (this.stairsRight.getTileAtWorldXY(this.player.x + 16, this.player.y + 32)) {
-                    mainCharacterPrefs.isDiagonalMovementRight = true;
+                if (this.stairsRight.getTileAtWorldXY(this.player.x + 16, this.player.y + 28)) {
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) 
+                        mainCharacterPrefs.isDiagonalMovementRight = true;
+                        mainCharacterPrefs.isStairs = true;
                 }
-                else {
+                else if (!mainCharacterPrefs.isDiagonalMovementLeft){
                     mainCharacterPrefs.isDiagonalMovementRight = false;
+                    mainCharacterPrefs.isStairs = false;
                 }
             }, null, this);
         // Stairs left with player
-        this.physics.add.collider(this.player, this.stairsLeft, function () { console.log("aaa") }, null, this);
+        this.physics.add.overlap(this.player, this.stairsLeft,
+            function () {
+                if (this.stairsLeft.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) 
+                        mainCharacterPrefs.isDiagonalMovementLeft = true;
+                        mainCharacterPrefs.isStairs = true;
+                }
+                else if (!mainCharacterPrefs.isDiagonalMovementRight) {
+                    mainCharacterPrefs.isDiagonalMovementLeft = false;
+                    mainCharacterPrefs.isStairs = false;
+                }
+            }, null, this);
 
         // Enemies with player & ground
         this.enemies.children.iterate(enemy => {
