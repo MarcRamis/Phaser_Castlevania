@@ -16,7 +16,9 @@
   <image source="Sprite-Sheets/Player-Sheet.png" width="16" height="32"/>
  </tileset>
  <tileset firstgid="128" source="Sprite-Sheets/Player-Sheet.tsx"/>
- <tileset firstgid="129" source="../../../../../Tercer Año/Producciones agiles/Maps/Castelvania-Sheet.tsx"/>
+ <tileset firstgid="129" name="Castelvania-Sheet" tilewidth="16" tileheight="16" tilecount="121" columns="11">
+  <image source="Sprite-Sheets/Castelvania-Sheet.png" width="176" height="176"/>
+ </tileset>
  <layer id="13" name="HUD" width="176" height="13">
   <data encoding="csv">
 37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,

@@ -29,7 +29,7 @@ var config=
     width: gamePrefs.gameWidth,
     height: gamePrefs.gameHeight,
     //Scenes --> 'level1' & 'level1Water' 
-    scene:[level1],
+    scene:[level1, level1Water],
     render:{
         pixelArt:true
     },

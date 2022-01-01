@@ -1053,8 +1053,17 @@
          "source":"Sprite-Sheets\/Player-Sheet.tsx"
         }, 
         {
+         "columns":11,
          "firstgid":129,
-         "source":"..\/..\/..\/..\/..\/Tercer A\u00f1o\/Producciones agiles\/Maps\/Castelvania-Sheet.tsx"
+         "image":"Sprite-Sheets\/Castelvania-Sheet.png",
+         "imageheight":176,
+         "imagewidth":176,
+         "margin":0,
+         "name":"Castelvania-Sheet",
+         "spacing":0,
+         "tilecount":121,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",

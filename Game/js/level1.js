@@ -82,7 +82,7 @@ class level1 extends Phaser.Scene {
         this.spawnMagicCrystalOnce = false;
 
         // Player
-        this.player = new playerPrefab(this, 35, 160, 'player');
+        this.player = new playerPrefab(this, 1835, 160, 'player');
         this.player.body.setCollideWorldBounds(true);
 
         // Utility
@@ -277,6 +277,7 @@ class level1 extends Phaser.Scene {
         this.map.setCollisionBetween(1, 77, true, true, 'Ground');
         this.map.setCollisionBetween(1, 500, true, true, 'Stairs-Right');
         this.map.setCollisionBetween(1, 500, true, true, 'Stairs-Left');
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-ChangeScene');
 
         // Leemos toda la información de las lámparas y enemigos en el mapa
         this.map.objects.forEach(layerData => {
@@ -365,7 +366,19 @@ class level1 extends Phaser.Scene {
                     mainCharacterPrefs.isStairs = false;
                 }
             }, null, this);
-
+        // Stairs changeScene with player
+        this.physics.add.overlap(this.player, this.stairsNextScene,
+            function () {
+                if (this.stairsNextScene.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown)
+                    {
+                        this.changeScene();
+                        console.log("ChangeScene");
+                    }
+                        
+                }
+                
+            }, null, this);
         // Enemies with player & ground
         this.enemies.children.iterate(enemy => {
             this.physics.add.collider(enemy, this.walls);
