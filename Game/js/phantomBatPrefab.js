@@ -31,7 +31,7 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
         this.currentAttackLong = EMachineStateAttackLong.RIGHT;
         this.currentAttackShort = EMachineStateAttackShort.RND;
 
-        this.anims.play('phantomBat-Idle');
+        this.play('phantomBat-Idle');
         this.body.setSize(16,16);
         this.body.setOffset(24,8);
 
@@ -49,12 +49,11 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
     }
 
     Update() {
-        switch (this.currentState) {
-            case EMachineState.IDLE:
-                break;
-            case EMachineState.FIGHT:
-                break;
-        }
+        
+        this.Move(this.s.player.x, this.s.player.y + 16);
+        this.AttackShort();
+
+
     }
 
     GetPlayerDistance(_playerpos) {
@@ -167,7 +166,6 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
     }
     GoLeft()
     {
-        console.log("Left");
         if(this.x >= 2610)
         {
             this.body.setVelocityX(this.speed * -1);
@@ -179,11 +177,9 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
         if(this.y >= 145 && this.y <= 150)
         {
             this.body.setVelocityY(0);
-            console.log("Stop Go up");
         }
         else if(this.y >= 150)
         {
-            console.log("Go up");
             this.body.setVelocityY(this.speed * -1);
         }
         else
@@ -211,8 +207,6 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
         {
             this.randPosX = 2610 + (Math.random() * 170);
             this.randPosY = 49 + (Math.random() * 131);
-            console.log(this.randPosX);
-            console.log(this.randPosY);
             
             this.doRandom = false;
         }
@@ -347,5 +341,12 @@ class phantomBatPrefab extends Phaser.GameObjects.Sprite {
             );
         }
     }
-
+    DieEvent()
+    {
+        // var fire1 = this.s.add.rectangle(this.x, this.y, 1, 1);
+        // this.s.add.existing(fire1);
+        // this.s.physics.world.enable(fire1);
+        // fire1.body.allowGravity = false;
+        this.destroy();
+    }
 }

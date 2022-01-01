@@ -17,7 +17,7 @@ var mainCharacterPrefs=
     isSpecialAttacking:false,
     isLargeAttack:false,
     speed:100,
-    weapon: WeaponType.AXE
+    weapon: WeaponType.NONE
 }
 
 var config=

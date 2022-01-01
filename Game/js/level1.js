@@ -82,7 +82,7 @@ class level1 extends Phaser.Scene {
         this.spawnMagicCrystalOnce = false;
         
         // Player
-        this.player = new playerPrefab(this, 2500, 160, 'player');
+        this.player = new playerPrefab(this, 35, 160, 'player');
         this.player.body.setCollideWorldBounds(true);
 
         // Utility
@@ -93,10 +93,6 @@ class level1 extends Phaser.Scene {
         this.ui = new uiPrefab();
         this.ui.create(this);
         this.ui.SetHealthUi(mainCharacterPrefs.health);
-
-        /*this.magicCrystal = new magicCrystalPrefab(this, 2671, 100);
-                this.physics.add.collider(this.magicCrystal, this.walls);
-                this.physics.add.overlap(this.magicCrystal, this.player, this.Reset, null, this);*/
     }
 
     loadPlayerAnimations() {
@@ -395,24 +391,41 @@ class level1 extends Phaser.Scene {
 
         // Start boss fight
         if (this.player.x > 2666) {
-            if (!gamePrefs.bossFinalEvent) {
-                gamePrefs.bossFinalEvent = true;
-                this.EventBossFinal();
-            }
+            this.waitTimer = this.time.addEvent
+                (
+                    {
+                        delay: 2000, //ms
+                        callback: function() {
+                            if (!gamePrefs.bossFinalEvent) {
+                                gamePrefs.bossFinalEvent = true;
+                                this.EventBossFinal();
+                            }
+                        },
+                        callbackScope: this,
+                        repeat: 0
+                    }
+                );
+            
         }
         if (gamePrefs.bossFinalEvent)
         {
-            this.phantomBat.Move(this.player.x, this.player.y + 16);
-            this.phantomBat.AttackShort();
-            if (gamePrefs.bossHealth <= 0 && !this.spawnMagicCrystalOnce)
+            if (gamePrefs.bossHealth <= 0)
             {
-                this.spawnMagicCrystalOnce = true;
-                this.magicCrystal = new magicCrystalPrefab(this, 2671, 100);
-                this.physics.add.collider(this.magicCrystal, this.walls);
-                this.physics.add.overlap(this.magicCrystal, this.player, this.magicCrystal.destroyLamp, null, this);
+                if(!this.spawnMagicCrystalOnce)
+                {
+                    this.spawnMagicCrystalOnce = true;
+                    this.magicCrystal = new magicCrystalPrefab(this, 2671, 100);
+                    this.physics.add.collider(this.magicCrystal, this.walls);
+                    this.physics.add.overlap(this.magicCrystal, this.player, this.Reset, null, this);
+                    this.phantomBat.DieEvent();
+                }
+                
+            }
+            else
+            {
+                this.phantomBat.Update();
             }
         }
-        console.log(gamePrefs.bossFinalEvent);
     }
 
     changeScene() {

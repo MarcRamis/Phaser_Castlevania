@@ -324,9 +324,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         if(gamePrefs.bossFinalEvent)
         {
             this.scene.bossOst.stop();
-            gamePrefs.bossFinalEvent = false;
-            gamePrefs.bossHealth = 16;
         }
+        gamePrefs.bossFinalEvent = false;
+        gamePrefs.bossHealth = 16;
         this.scene.ost.stop();
         this.scene.scene.restart();
     }
