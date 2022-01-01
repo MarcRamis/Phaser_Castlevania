@@ -13,6 +13,8 @@ class littleHeartPrefab extends Phaser.GameObjects.Sprite
     }
     playerCollided()
     {
+        mainCharacterPrefs.mana += 1;
+        this.s.ui.SetHearts(mainCharacterPrefs.mana);
         this.destroy();
         this.s.takeItem.play();
     }

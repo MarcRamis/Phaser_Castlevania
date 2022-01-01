@@ -47,9 +47,10 @@ class axePrefab extends Phaser.GameObjects.Sprite {
     playerCollided() {
 
         if (this.isDropItem) {
-
-            this.destroy();
             this.s.player.currentWeapon = WeaponType.AXE;
+
+            this.s.ui.SetWeaponImage(WeaponType.AXE);
+            this.destroy();
         }
     }
 }

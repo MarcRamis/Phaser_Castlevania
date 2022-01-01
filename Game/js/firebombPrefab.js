@@ -44,6 +44,8 @@ class firebombPrefab extends Phaser.GameObjects.Sprite {
 
             this.destroy();
             this.s.player.currentWeapon = WeaponType.FIREBOMB;
+            this.s.ui.SetWeaponImage(WeaponType.FIREBOMB);
+
         }
     }
 }

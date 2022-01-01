@@ -14,6 +14,8 @@ class heartPrefab extends Phaser.GameObjects.Sprite
 
     playerCollided()
     {
+        mainCharacterPrefs.mana += 5;
+        this.s.ui.SetHearts(mainCharacterPrefs.mana);
         this.destroy();
         this.s.takeItem.play();
     }
