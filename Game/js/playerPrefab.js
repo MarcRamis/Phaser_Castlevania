@@ -20,7 +20,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         this.body.collideWorldBounds = true;
         this.direction = 1;
 
-        this.currentWeapon = WeaponType.DAGGER;
+        this.currentWeapon = mainCharacterPrefs.weapon;
         this.takeDamageOnce = true;
 
         // Init chain
@@ -284,11 +284,11 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
         }
     }
 
-    TakeDamage() {
+    TakeDamage(_healthDmg) {
         if (this.takeDamageOnce) {
             this.scene.hit.play();
             this.body.velocity.y = -150;
-            mainCharacterPrefs.health--;
+            mainCharacterPrefs.health -= _healthDmg;
             this.scene.ui.SetHealthUi(mainCharacterPrefs.health);
 
             this.takeDamageOnce = false;
@@ -319,7 +319,14 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     {
         mainCharacterPrefs.health = 16;
         mainCharacterPrefs.isLargeAttack = false;
-        
+        mainCharacterPrefs.weapon = WeaponType.NONE;
+
+        if(gamePrefs.bossFinalEvent)
+        {
+            this.scene.bossOst.stop();
+        }
+        gamePrefs.bossFinalEvent = false;
+        gamePrefs.bossHealth = 16;
         this.scene.ost.stop();
         this.scene.scene.restart();
     }
