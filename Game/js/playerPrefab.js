@@ -370,6 +370,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
     Reset() {
         mainCharacterPrefs.health = 16;
+        mainCharacterPrefs.mana = 0;
+        mainCharacterPrefs.score = 0;
         mainCharacterPrefs.isLargeAttack = false;
         mainCharacterPrefs.isStairs = false;
         mainCharacterPrefs.isDiagonalMovementRight = false;

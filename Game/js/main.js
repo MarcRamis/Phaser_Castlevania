@@ -23,7 +23,8 @@ var mainCharacterPrefs=
     mana:0,
     stage:1,
     score:0,
-    weapon: WeaponType.NONE
+    timer:300,
+    weapon: WeaponType.NONE,
     comeFromWater: false
 }
 
@@ -32,7 +33,6 @@ var config=
     type: Phaser.AUTO,
     width: gamePrefs.gameWidth,
     height: gamePrefs.gameHeight,
-    //Scenes --> 'level1' & 'level1Water' 
     scene:[level1, level1Water],
     render:{
         pixelArt:true
@@ -46,8 +46,7 @@ var config=
     physics:{
         default:'arcade',
         arcade:{
-            gravity:{y:1000},
-            debug:true
+            gravity:{y:1000}
         }
     }
 }
