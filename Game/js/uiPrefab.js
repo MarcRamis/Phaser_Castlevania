@@ -171,7 +171,7 @@ class uiPrefab{
         if(this.totalScore >= 999999){
             this.totalScore = 999999;
         }
-        this.scoreText.setText('SCORE-'+ (this.totalScore));
+        this.scoreText.setText('SCORE - '+ (this.totalScore));
 
 
     }

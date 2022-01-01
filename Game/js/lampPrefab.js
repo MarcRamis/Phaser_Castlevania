@@ -62,6 +62,11 @@ class lampPrefab extends Phaser.GameObjects.Sprite {
                 this.s.physics.add.collider(this.item, this.s.walls);
                 this.s.physics.add.overlap(this.item, this.s.player, this.collideWithPlayer, null, this);
                 break;
+            case "MoneyBag":
+                this.item = new moneyBagPrefab(this.s, _posX, _posY);
+                this.s.physics.add.collider(this.item, this.s.walls);
+                this.s.physics.add.overlap(this.item, this.s.player, this.collideWithPlayer, null, this);
+                break;
             case "Axe":
                 this.item = new axePrefab(this.scene, this.x, this.y, 'axe', this.direction, true);
                 this.s.physics.add.collider(this.item, this.s.walls);
@@ -89,7 +94,10 @@ class lampPrefab extends Phaser.GameObjects.Sprite {
     {
         var randNum = Math.random() * 100;
 
-        if (randNum < 40) {
+        if (randNum < 10) {
+        }
+        else if (randNum < 40) {
+            this.createDropItem("MoneyBag", _posX, _posY);
         }
         else if (randNum < 60) {
             this.createDropItem("LittleHeart", _posX, _posY);
@@ -97,13 +105,13 @@ class lampPrefab extends Phaser.GameObjects.Sprite {
         else if (randNum < 80) {
             this.createDropItem("Heart", _posX, _posY);
         }
-        else if (randNum < 85){
+        else if (randNum < 85) {
             this.createDropItem("Axe", _posX, _posY);
         }
-        else if (randNum < 90){
+        else if (randNum < 90) {
             this.createDropItem("Dagger", _posX, _posY);
         }
-        else if (randNum < 95){
+        else if (randNum < 95) {
             this.createDropItem("Firebomb", _posX, _posY);
         }
         else {

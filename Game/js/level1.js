@@ -161,6 +161,12 @@ class level1 extends Phaser.Scene {
             repeat: -1
         })
         this.anims.create({
+            key: 'MoneyBag',
+            frames: this.anims.generateFrameNumbers('items', { frames: [3] }),
+            frameRate: 0,
+            repeat: -1
+        })
+        this.anims.create({
             key: 'lampIdle',
             frames: this.anims.generateFrameNumbers('lamp', { start: 0, end: 1 }),
             frameRate: 10,
