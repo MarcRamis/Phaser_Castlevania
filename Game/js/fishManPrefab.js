@@ -170,7 +170,7 @@ class fishMan extends Phaser.GameObjects.Sprite
     }
     playerTakeDamage(_enemyShooting, _player)
     {
-        _player.TakeDamage();
+        _player.TakeDamage(2);
         _enemyShooting.destroy();
     }
     destroyShootingOnWall(_enemyShooting,_walls)

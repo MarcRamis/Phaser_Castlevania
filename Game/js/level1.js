@@ -93,6 +93,9 @@ class level1 extends Phaser.Scene {
         this.ui = new uiPrefab();
         this.ui.create(this);
         this.ui.SetHealthUi(mainCharacterPrefs.health);
+
+        //Once to change level
+        this.doOnceChangeLevel = false;
     }
 
     loadPlayerAnimations() {
@@ -344,11 +347,11 @@ class level1 extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.stairsRight,
             function () {
                 if (this.stairsRight.getTileAtWorldXY(this.player.x + 16, this.player.y + 28)) {
-                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) 
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown)
                         mainCharacterPrefs.isDiagonalMovementRight = true;
-                        mainCharacterPrefs.isStairs = true;
+                    mainCharacterPrefs.isStairs = true;
                 }
-                else if (!mainCharacterPrefs.isDiagonalMovementLeft){
+                else if (!mainCharacterPrefs.isDiagonalMovementLeft) {
                     mainCharacterPrefs.isDiagonalMovementRight = false;
                     mainCharacterPrefs.isStairs = false;
                 }
@@ -357,9 +360,9 @@ class level1 extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.stairsLeft,
             function () {
                 if (this.stairsLeft.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
-                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) 
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown)
                         mainCharacterPrefs.isDiagonalMovementLeft = true;
-                        mainCharacterPrefs.isStairs = true;
+                    mainCharacterPrefs.isStairs = true;
                 }
                 else if (!mainCharacterPrefs.isDiagonalMovementRight) {
                     mainCharacterPrefs.isDiagonalMovementLeft = false;
@@ -370,14 +373,12 @@ class level1 extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.stairsNextScene,
             function () {
                 if (this.stairsNextScene.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
-                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown)
-                    {
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) {
                         this.changeScene();
-                        console.log("ChangeScene");
                     }
-                        
+
                 }
-                
+
             }, null, this);
         // Enemies with player & ground
         this.enemies.children.iterate(enemy => {
@@ -468,7 +469,11 @@ class level1 extends Phaser.Scene {
     }
 
     changeScene() {
-        this.scene.start('level1Water');
+        if (!this.doOnceChangeLevel) {
+            this.scene.start('level1Water');
+            this.ost.stop();
+            this.doOnceChangeLevel = true;
+        }
     }
     destroyLamp(_lamp, _chain) {
         _lamp.Destroy();

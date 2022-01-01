@@ -320,6 +320,6 @@ class level1Water extends Phaser.Scene {
         _enemy.TakeDamage();
     }
     playerTakeDamage(_enemy, _player) {
-        _player.TakeDamage();
+        _player.TakeDamage(1);
     }
 }
