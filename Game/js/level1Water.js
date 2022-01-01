@@ -200,6 +200,29 @@ class level1Water extends Phaser.Scene {
         this.map.setCollisionBetween(1, 77, true, true, 'Water'); //Indicamos las colisiones con el agua
         this.physics.add.collider(this.player, this.water, function () { mainCharacterPrefs.health = 0; });
 
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs'); //Indicamos las colisiones con el agua
+        this.physics.add.overlap(this.player, this.stairs, 
+            function () { if (this.stairs.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
+            if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) 
+                mainCharacterPrefs.isDiagonalMovementLeft = true;
+                mainCharacterPrefs.isStairs = true;
+        }
+        else if (!mainCharacterPrefs.isDiagonalMovementRight) {
+            mainCharacterPrefs.isDiagonalMovementLeft = false;
+            mainCharacterPrefs.isStairs = false;
+        }
+    }, null, this);
+
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-ChangeLevel'); //Indicamos las colisiones con el agua
+        this.physics.add.overlap(this.player, this.stairsNextScene, 
+            function () { if (this.stairsNextScene.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
+            if (this.player.cursors.up.isDown || this.player.cursors.down.isDown)
+            {
+                this.changeScene();
+            }
+        }
+    }, null, this);
+
         this.lamps.children.iterate(lamp => {
             this.physics.add.overlap(lamp, this.player.chain, this.destroyLamp, mainCharacterPrefs.isAttacking, this);
         });
