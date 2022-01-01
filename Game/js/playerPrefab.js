@@ -153,7 +153,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             && this.currentWeapon != WeaponType.NONE) {
 
             if (this.cursors.shift.isDown
-                && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 12)) {
+                && Phaser.Input.Keyboard.DownDuration(this.cursors.shift, 12) && mainCharacterPrefs.mana >= 1) {
                 mainCharacterPrefs.isSpecialAttacking = true;
                 this._time.delayedCall(300, this.SpecialAttackUp, null, this);
 
@@ -177,6 +177,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
                         this.weapon.body.allowGravity = false;
                         break;
                 }
+                mainCharacterPrefs.mana-=1;
+                this.scene.ui.SetHearts(mainCharacterPrefs.mana);
             }
         }
 

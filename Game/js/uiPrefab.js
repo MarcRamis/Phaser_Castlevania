@@ -46,7 +46,6 @@ class uiPrefab{
         this.playerHealth.fixedToCamera = true;
         this.playerHealth.setScrollFactor(0);
         
-        this.SetHealthUi(16);
 
         //--ENEMY HEALTH
         this.enemyHealth = scene.add.text(2, 20, 'ENEMY ', 
@@ -84,7 +83,7 @@ class uiPrefab{
         this.stageUi.setScrollFactor(0);
 
         //--HEARTS
-        this.hearts = 4;
+        this.hearts = 0;
         var heartsImage = this.s.add.sprite(174,17,'uiHeart');
         heartsImage.setScrollFactor(0);
 
@@ -96,8 +95,8 @@ class uiPrefab{
         this.heartsText.setScrollFactor(0);
 
         //--P
-        this.P = 2;
-        var pImage = this.s.add.sprite(174,25,'uiP');
+        this.P = 0;
+        var pImage = this.s.add.sprite(174,26,'uiP');
         pImage.setScrollFactor(0);
         this.pText = scene.add.text(180, 20, '- ' +(this.P) , 
         {fontFamily: 'Arial', 
@@ -109,20 +108,38 @@ class uiPrefab{
 
 
         //--WEAPON ->TESTING
-        var weaponImage = this.s.add.sprite(128,22,'weaponUi');
+        var weaponImage = this.s.add.sprite(128,22,'weaponUi').setScrollFactor(0);
         weaponImage.setScrollFactor(0);
-
         
         // this.SetHealthUi(5);
         // this.SetEnemyHealthUi(14);
     }
 
+    SetWeaponImage(w) {
+        switch (w) {
+            case WeaponType.AXE:
+                this.s.add.sprite(128,22,'weaponUi').setScrollFactor(0);
+                this.s.add.sprite(128, 23, 'axe').setScrollFactor(0);
+                break;
+            case WeaponType.FIREBOMB:
+                this.s.add.sprite(128,22,'weaponUi').setScrollFactor(0);
+                this.s.add.sprite(128, 22, 'firebomb').setScrollFactor(0);
+                break;
+            case WeaponType.DAGGER:
+                this.s.add.sprite(128,22,'weaponUi').setScrollFactor(0);
+                this.s.add.sprite(128, 22, 'dagger').setScrollFactor(0);
+                break;
+        }
+    }
     //Hearts
     SetHearts(h){
         this.hearts = h;
+        this.heartsText.setText('- '+ (h));
+
     }
     AddHearts(h){
         this.hearts+=h;
+        this.heartsText.setText('- '+ (h));
     }
     ReduceHearts(h){
         this.hearts -=h;
@@ -158,10 +175,18 @@ class uiPrefab{
         this.stageUi.setText('STAGE  '+ (this.stage));
     }
 
+    SetStage(s){
+        this.stage = s;
+        this.stageUi.setText('STAGE  '+ (this.stage));
+
+    }
     //Time
     ReduceTime(){
         this.time--;
         this.timeUi.setText('TIME  '+ (this.time));
+        if(this.time<=0){
+            this.s.player.Reset();
+        }
 
     }
 

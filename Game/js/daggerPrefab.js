@@ -56,6 +56,9 @@ class daggerPrefab extends Phaser.GameObjects.Sprite {
 
             this.destroy();
             this.s.player.currentWeapon = WeaponType.DAGGER;
+
+            this.s.ui.SetWeaponImage(WeaponType.DAGGER);
+
         }
     }
 }
