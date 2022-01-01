@@ -74,25 +74,40 @@ class level1 extends Phaser.Scene {
         // Pools
         this.loadPools();
 
+        //Pos Player after Water Level
+        this.plPosSpawnX;
+        this.plPosSpawnY;
+
         // Map
         this.loadMap();
 
         //PhantomBat
         this.phantomBat = new phantomBatPrefab(this, 2671, 49, 'phantomBat');
         this.spawnMagicCrystalOnce = false;
-        
+
         // Player
-        this.player = new playerPrefab(this, 35, 160, 'player');
+        
+        if(mainCharacterPrefs.comeFromWater)
+        {
+            this.player = new playerPrefab(this, this.plPosSpawnX, this.plPosSpawnY - 32, 'player');
+            mainCharacterPrefs.comeFromWater = false;
+        }
+        else{
+            this.player = new playerPrefab(this, 35, 160, 'player');
+        }
+        
         this.player.body.setCollideWorldBounds(true);
 
         // Utility
         this.setCamera();
         this.setCollisions();
+        this.doOnceChangeLevel = false;
 
         // Hud
         this.ui = new uiPrefab();
         this.ui.create(this);
         this.ui.SetHealthUi(mainCharacterPrefs.health);
+
     }
 
     loadPlayerAnimations() {
@@ -275,11 +290,15 @@ class level1 extends Phaser.Scene {
         this.hud = this.map.createLayer('HUD', 'Level-1_TileSheet');
         this.walls = this.map.createLayer('Ground', 'Level-1_TileSheet');
         this.map.createLayer('BackGround', 'Level-1_TileSheet');
-        this.stairs = this.map.createLayer('Stairs', 'Level-1_TileSheet');
+        this.stairsLeft = this.map.createLayer('Stairs-Left', 'Level-1_TileSheet');
+        this.stairsRight = this.map.createLayer('Stairs-Right', 'Level-1_TileSheet');
         this.stairsNextScene = this.map.createLayer('Stairs-ChangeScene', 'Level-1_TileSheet');
         this.doors = this.map.createLayer('Door', 'Level-1_TileSheet');
 
-        this.map.setCollisionBetween(1, 77, true, true, 'Ground'); //Indicamos las colisiones con paredes/suelo/techo
+        this.map.setCollisionBetween(1, 500, true, true, 'Ground');
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-Right');
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-Left');
+        this.map.setCollisionBetween(1, 500, true, true, 'Stairs-ChangeScene');
 
         // Leemos toda la información de las lámparas y enemigos en el mapa
         this.map.objects.forEach(layerData => {
@@ -316,6 +335,9 @@ class level1 extends Phaser.Scene {
                         }
                     });
                     break;
+                case ('PlayerSpawns'):
+                    this.plPosSpawnX = layerData.objects[1].x;
+                    this.plPosSpawnY = layerData.objects[1].y;
             }
         });
     }
@@ -342,6 +364,43 @@ class level1 extends Phaser.Scene {
         // Player with ground
         this.physics.add.collider(this.player, this.walls);
 
+        // Stairs right with player
+        this.physics.add.overlap(this.player, this.stairsRight,
+            function () {
+                if (this.stairsRight.getTileAtWorldXY(this.player.x + 16, this.player.y + 28)) {
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown)
+                        mainCharacterPrefs.isDiagonalMovementRight = true;
+                    mainCharacterPrefs.isStairs = true;
+                }
+                else if (!mainCharacterPrefs.isDiagonalMovementLeft) {
+                    mainCharacterPrefs.isDiagonalMovementRight = false;
+                    mainCharacterPrefs.isStairs = false;
+                }
+            }, null, this);
+        // Stairs left with player
+        this.physics.add.overlap(this.player, this.stairsLeft,
+            function () {
+                if (this.stairsLeft.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown)
+                        mainCharacterPrefs.isDiagonalMovementLeft = true;
+                    mainCharacterPrefs.isStairs = true;
+                }
+                else if (!mainCharacterPrefs.isDiagonalMovementRight) {
+                    mainCharacterPrefs.isDiagonalMovementLeft = false;
+                    mainCharacterPrefs.isStairs = false;
+                }
+            }, null, this);
+        // Stairs changeScene with player
+        this.physics.add.overlap(this.player, this.stairsNextScene,
+            function () {
+                if (this.stairsNextScene.getTileAtWorldXY(this.player.x, this.player.y + 28)) {
+                    if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) {
+                        this.changeScene();
+                    }
+
+                }
+
+            }, null, this);
         // Enemies with player & ground
         this.enemies.children.iterate(enemy => {
             this.physics.add.collider(enemy, this.walls);
@@ -401,7 +460,7 @@ class level1 extends Phaser.Scene {
                 (
                     {
                         delay: 2000, //ms
-                        callback: function() {
+                        callback: function () {
                             if (!gamePrefs.bossFinalEvent) {
                                 gamePrefs.bossFinalEvent = true;
                                 this.EventBossFinal();
@@ -411,31 +470,31 @@ class level1 extends Phaser.Scene {
                         repeat: 0
                     }
                 );
-            
+
         }
-        if (gamePrefs.bossFinalEvent)
-        {
-            if (gamePrefs.bossHealth <= 0)
-            {
-                if(!this.spawnMagicCrystalOnce)
-                {
+        if (gamePrefs.bossFinalEvent) {
+            if (gamePrefs.bossHealth <= 0) {
+                if (!this.spawnMagicCrystalOnce) {
                     this.spawnMagicCrystalOnce = true;
                     this.magicCrystal = new magicCrystalPrefab(this, 2671, 100);
                     this.physics.add.collider(this.magicCrystal, this.walls);
                     this.physics.add.overlap(this.magicCrystal, this.player, this.Reset, null, this);
                     this.phantomBat.DieEvent();
                 }
-                
+
             }
-            else
-            {
+            else {
                 this.phantomBat.Update();
             }
         }
     }
 
     changeScene() {
-        this.scene.start('level1Water');
+        if (!this.doOnceChangeLevel) {
+            this.scene.start('level1Water');
+            this.ost.stop();
+            this.doOnceChangeLevel = true;
+        }
     }
     destroyLamp(_lamp, _chain) {
         _lamp.Destroy();
@@ -484,8 +543,7 @@ class level1 extends Phaser.Scene {
         this.phantomBat.currentState = EMachineState.FIGHT;
     }
 
-    Reset()
-    {
+    Reset() {
         this.player.Reset();
     }
 }

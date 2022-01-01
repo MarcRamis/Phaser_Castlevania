@@ -16,11 +16,15 @@ var mainCharacterPrefs=
     isAttacking:false,
     isSpecialAttacking:false,
     isLargeAttack:false,
+    isStairs:false,
+    isDiagonalMovementRight: false,
+    isDiagonalMovementLeft: false,
     speed:100,
     mana:0,
     stage:1,
     score:0,
     weapon: WeaponType.NONE
+    comeFromWater: false
 }
 
 var config=
@@ -29,7 +33,7 @@ var config=
     width: gamePrefs.gameWidth,
     height: gamePrefs.gameHeight,
     //Scenes --> 'level1' & 'level1Water' 
-    scene:[level1],
+    scene:[level1, level1Water],
     render:{
         pixelArt:true
     },

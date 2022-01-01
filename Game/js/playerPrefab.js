@@ -39,7 +39,15 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
 
         if (mainCharacterPrefs.health > 0) {
             // Movement, inputs player
-            this.Move();
+            if (!mainCharacterPrefs.isStairs) {
+                this.Move();
+                this.body.setAllowGravity(true);
+            }
+            else {
+                this.MoveStairs();
+                this.body.setAllowGravity(false);
+            }
+
             this.Jump();
             this.Attack();
             this.SpecialAttack();
@@ -54,10 +62,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
 
     Move() {
-
         if (!mainCharacterPrefs.isAttacking
             && !mainCharacterPrefs.isSpecialAttacking) {
-
             if (this.cursors.right.isDown) {
                 this.body.velocity.x = mainCharacterPrefs.speed;
                 this.flipX = false;
@@ -76,6 +82,51 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
             }
             else {
                 this.body.velocity.x = 0;
+                this.setFrame(0);
+            }
+        }
+    }
+    MoveStairs() {
+
+        if (!mainCharacterPrefs.isAttacking
+            && !mainCharacterPrefs.isSpecialAttacking) {
+
+            if (this.cursors.right.isDown) {
+                if (mainCharacterPrefs.isDiagonalMovementRight) {
+                    this.body.setVelocity(
+                        (mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)),
+                        -(mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)));
+                }
+                if (mainCharacterPrefs.isDiagonalMovementLeft) {
+                    this.body.setVelocity(
+                        (mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)),
+                        (mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)));
+                }
+
+                this.flipX = false;
+                this.direction = 1;
+                this.play('walk', true);
+            }
+            else if (this.cursors.left.isDown) {
+
+                if (mainCharacterPrefs.isDiagonalMovementRight) {
+                    this.body.setVelocity
+                        (-(mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)),
+                            (mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)));
+                }
+                if (mainCharacterPrefs.isDiagonalMovementLeft) {
+                    this.body.setVelocity
+                        (-(mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)),
+                            -(mainCharacterPrefs.speed * Math.cos(45 * Math.PI / 180)));
+                }
+
+                this.flipX = true;
+                this.direction = -1;
+                this.play('walk', true);
+            }
+            else {
+                this.body.velocity.x = 0;
+                this.body.velocity.y = 0;
                 this.setFrame(0);
             }
         }
@@ -317,14 +368,15 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     enemyTakeDamage(_enemy, _weapon) {
         _enemy.children.TakeDamage();
     }
-    Reset()
-    {
+    Reset() {
         mainCharacterPrefs.health = 16;
         mainCharacterPrefs.isLargeAttack = false;
+        mainCharacterPrefs.isStairs = false;
+        mainCharacterPrefs.isDiagonalMovementRight = false;
+        mainCharacterPrefs.isDiagonalMovementLeft = false;
         mainCharacterPrefs.weapon = WeaponType.NONE;
 
-        if(gamePrefs.bossFinalEvent)
-        {
+        if (gamePrefs.bossFinalEvent) {
             this.scene.bossOst.stop();
         }
         gamePrefs.bossFinalEvent = false;
