@@ -397,9 +397,7 @@ class level1 extends Phaser.Scene {
                     if (this.player.cursors.up.isDown || this.player.cursors.down.isDown) {
                         this.changeScene();
                     }
-
                 }
-
             }, null, this);
         // Enemies with player & ground
         this.enemies.children.iterate(enemy => {
@@ -487,6 +485,8 @@ class level1 extends Phaser.Scene {
                 this.phantomBat.Update();
             }
         }
+
+        console.log(mainCharacterPrefs.weapon);
     }
 
     changeScene() {

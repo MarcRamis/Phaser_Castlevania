@@ -9,10 +9,8 @@ class daggerPrefab extends Phaser.GameObjects.Sprite {
             this.body.allowGravity = true;
         }
         else {
-
             this.body.allowGravity = false;
         }
-        this.body.allowGravity = false;
         this.direction = _direction;
         this.doOnce = true;
         this.isDropItem = _isDropItem;
@@ -56,6 +54,7 @@ class daggerPrefab extends Phaser.GameObjects.Sprite {
 
             this.destroy();
             this.s.player.currentWeapon = WeaponType.DAGGER;
+            mainCharacterPrefs.weapon = WeaponType.DAGGER;
 
             this.s.ui.SetWeaponImage(WeaponType.DAGGER);
 

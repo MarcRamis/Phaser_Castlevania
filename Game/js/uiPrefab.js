@@ -21,14 +21,12 @@ class uiPrefab {
         this.startingEnemyY = this.startingPlayerY + 9;
         this.xSeparation = 4;
 
-
-
         this.totalScore = 0;
         this.playerHealth = 0;
         this.enemyHealth = 0;
 
         //--SCORE
-        this.scoreText = scene.add.text(2, 2, 'SCORE - 000000',
+        this.scoreText = scene.add.text(2, 2, 'SCORE - ' + mainCharacterPrefs.score,
             {
                 fontFamily: 'Arial',
                 fontSize: '9px',
