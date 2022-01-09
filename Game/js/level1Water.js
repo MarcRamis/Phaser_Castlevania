@@ -81,6 +81,9 @@ class level1Water extends Phaser.Scene {
         this.ui = new uiPrefab();
         this.ui.create(this);
         this.ui.SetHealthUi(mainCharacterPrefs.health);
+
+        mainCharacterPrefs.stage = 2;
+        this.ui.SetStage(mainCharacterPrefs.stage);
     }
 
     loadPlayerAnimations() {

@@ -76,7 +76,7 @@ class uiPrefab {
         });
 
         //--STAGE
-        this.stage = 1;
+        this.stage = mainCharacterPrefs.stage;
         this.stageUi = scene.add.text(170, 2, 'STAGE  0' + (this.stage),
             {
                 fontFamily: 'Arial',
@@ -188,7 +188,6 @@ class uiPrefab {
     SetStage(s) {
         this.stage = s;
         this.stageUi.setText('STAGE  ' + (this.stage));
-
     }
     //Time
     ReduceTime() {

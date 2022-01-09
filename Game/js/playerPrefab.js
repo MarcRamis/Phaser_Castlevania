@@ -370,6 +370,7 @@ class playerPrefab extends Phaser.GameObjects.Sprite {
     }
     Reset() {
         mainCharacterPrefs.health = 16;
+        mainCharacterPrefs.stage = 1;
         mainCharacterPrefs.mana = 0;
         mainCharacterPrefs.score = 0;
         mainCharacterPrefs.timer = 300;

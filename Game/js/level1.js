@@ -486,7 +486,7 @@ class level1 extends Phaser.Scene {
             }
         }
 
-        console.log(mainCharacterPrefs.weapon);
+        this.ChangeStage();
     }
 
     changeScene() {
@@ -545,5 +545,19 @@ class level1 extends Phaser.Scene {
 
     Reset() {
         this.player.Reset();
+    }
+
+    ChangeStage(){
+        if (this.player.x < 1530)
+        {
+            mainCharacterPrefs.stage = 1;
+        }
+        else if (this.player.x < 2030){
+            mainCharacterPrefs.stage = 2;
+        }
+        else{
+            mainCharacterPrefs.stage = 3;
+        }
+        this.ui.SetStage(mainCharacterPrefs.stage);
     }
 }
