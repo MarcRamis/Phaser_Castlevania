@@ -16,12 +16,20 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
         this.alreadyJumped = false;
         this.canMove = false;
         this.takeDamageOnce = true;
+        this.directionDecided = false;
+        this.velocity = 40;
     }
 
     preUpdate(time,delta)
     {
         this.DetectFloor(this.playerDirection);
-     
+        if(this.body.velocity.x == 0 && this.canMove)
+        {
+            this.Move(this.playerDirection * -1);
+            console.log("Entro");
+            this.playerDirection *= -1;
+        }
+
         super.preUpdate(time, delta);
     }
     
@@ -32,15 +40,18 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
 
     GetPlayerPos(_playerPos)
     {
-        //console.log(_playerPos);
-        if(_playerPos.x - this.x < 0)
+        if(!this.directionDecided)
         {
-            this.SetPlayerDirection(-1);
+            if(_playerPos.x < this.x)
+            {
+                this.SetPlayerDirection(-1);
+            }
+            else
+            {
+                this.SetPlayerDirection(1);
+            }
         }
-        else
-        {
-            this.SetPlayerDirection(1);
-        }
+        
 
         this.GetPlayerDistance(_playerPos);
 
@@ -48,7 +59,7 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
 
     GetPlayerDistance(_playerpos)
     {
-        if(Phaser.Math.Distance.Between(_playerpos.x, _playerpos.y, this.x, this.y) < (230) / 3.5 && (_playerpos.y < this.y + 25 && _playerpos.y > this.y - 25) )
+        if(Phaser.Math.Distance.Between(_playerpos.x, _playerpos.y, this.x, this.y) < (230) / 3.5 && (_playerpos.y + 16 < this.y + 25 && _playerpos.y + 16 > this.y - 25) )
         {
             this.Jump(this.playerDirection);
         }
@@ -85,7 +96,7 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
 
     DetectFloor(_playerDirection)
     {
-        if(this.canMove && this.alreadyJumped && this.body.onFloor())
+        if(this.canMove && this.alreadyJumped && this.body.onFloor() && !this.directionDecided)
         {
             this.Move(_playerDirection);
         }
@@ -103,7 +114,8 @@ class pantherPrefab extends Phaser.GameObjects.Sprite
             this.anims.play('pantherWalk-Left') && this.animName !="pantherWalk-Left";
             this.animName ="pantherWalk-Left";
         }
-        this.body.setVelocityX(25 * _playerDirection);
+        this.body.setVelocityX(this.velocity * _playerDirection);
+        this.directionDecided = true;
     }
     
     TakeDamage()

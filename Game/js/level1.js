@@ -449,7 +449,7 @@ class level1 extends Phaser.Scene {
             enemy.GetPlayerDistance(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
         this.panthers.children.iterate(panther => {
-            panther.GetPlayerDistance(new Phaser.Math.Vector2(this.player.x, this.player.y));
+            panther.GetPlayerPos(new Phaser.Math.Vector2(this.player.x, this.player.y));
         });
 
         // Start boss fight
